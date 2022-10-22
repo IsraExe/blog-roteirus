@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Create = () => {
+const Update = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('Yoshi');
@@ -27,7 +27,7 @@ const Create = () => {
 
     return (
         <div className="create">
-            <h2> Add a new blog </h2>
+            <h2> Update a blog </h2>
             <form onSubmit={handleSubmit}>
                 <label>Blog title:</label>
                 <input 
@@ -57,4 +57,4 @@ const Create = () => {
     );
 }
 
-export default Create;
+export default Update;

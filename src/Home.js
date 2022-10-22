@@ -14,7 +14,7 @@ const Home = () => {
                 isPendging && <div>Loading...</div>
             }
             {
-                blogs && <BlogList blogs = {blogs} title="All blogs"/> // if blogs is null, it will neve read the second argument. But if it is not null, it will show the component
+                blogs && <BlogList blogs = {blogs} title="All blogs"/> // if blogs is null, it will never read the second argument. But if it is not null, it will show the component
             }
         </div>
      );

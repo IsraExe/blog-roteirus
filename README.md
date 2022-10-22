@@ -1,4 +1,9 @@
-# Getting Started with Create React App
-
-This project is in development. It is supposed to be a simple blog with react. 
-
+# Instruções para rodar o proejto
+Abra o terminal e digite:
+```
+npx json-server --watch data/db.json --port 8000
+```
+Agora abra outro terminal e digite:
+```
+npm start
+``` 
