@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Update = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('Yoshi');
     const [isPendging, setIsPending] = useState(false);
-    const history = useHistory()
+    // const navigation = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault() 
@@ -20,8 +20,6 @@ const Update = () => {
         body: JSON.stringify(blog)
         })
         setIsPending(false)
-        // history.go(-1)
-        history.push('/')
         console.log('New blog added successfully')
     };
 

@@ -1,17 +1,19 @@
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useFetch from './useFetch';
 
 const BlogDetails = () => {
+    const navigate = useNavigate()
+       
     const { id } = useParams();
 
     const { data: blog, isPendging, error } = useFetch(`http://localhost:8000/blogs/${id}`);
-    const history = useHistory();
+    
 
     const handleDelete = async () => {
         await fetch('http://localhost:8000/blogs/' + blog.id, {
             method: 'DELETE'
         });
-        history.push('/');
+        navigate('/')
     };
 
     const handleUpdate = async () => {
@@ -23,7 +25,7 @@ const BlogDetails = () => {
             body: JSON.stringify(blog),
         });
 
-        // window.location.reload();
+        window.location.reload();
     };
    
     return (
@@ -35,8 +37,8 @@ const BlogDetails = () => {
                     <h2>{blog.title}</h2>
                     <p>Written by {blog.author}</p>
                     <div>{blog.body}</div> 
-                    <button onClick={handleDelete}>Delete</button>
-                    <button onClick={handleUpdate}>Update</button>
+                    <button onClick={ handleDelete }>Delete</button>
+                    <button onClick={ handleUpdate } >Update</button>
                 </article>
             ) }
         </div>
