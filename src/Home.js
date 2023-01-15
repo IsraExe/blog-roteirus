@@ -2,7 +2,7 @@ import BlogList from './BlogList';
 import useFetch from './useFetch';
 
 const Home = () => {
-    const { data: blogs, isPendging, error } = useFetch('http://localhost:8000/blogs')
+    const { data: blogs, isPending, error } = useFetch('http://localhost:8000/blogs')
 
 
     return ( 
@@ -11,7 +11,7 @@ const Home = () => {
                 error && <div>{error}</div>
             }
             {
-                isPendging && <div>Loading...</div>
+                isPending && <div>Loading...</div>
             }
             {
                 blogs && <BlogList blogs = {blogs} title="All blogs"/> // if blogs is null, it will never read the second argument. But if it is not null, it will show the component

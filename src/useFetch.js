@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 const useFetch = (url) => {
     const [data, setData] = useState(null)
-    const [isPendging, setIsPending] = useState(true)
+    const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState(null)
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const useFetch = (url) => {
         fetchData()
     }, [url])
 
-    return {data, isPendging, error}
+    return {data, isPending, error}
 }
 
 export default useFetch;

@@ -3,11 +3,11 @@ import useFetch from './useFetch';
 
 const BlogDetails = () => {
     const navigate = useNavigate()
-       
+
     const { id } = useParams();
 
-    const { data: blog, isPendging, error } = useFetch(`http://localhost:8000/blogs/${id}`);
-    
+    const { data: blog, isPending, error } = useFetch(`http://localhost:8000/blogs/${id}`);
+
 
     const handleDelete = async () => {
         await fetch('http://localhost:8000/blogs/' + blog.id, {
@@ -16,31 +16,25 @@ const BlogDetails = () => {
         navigate('/')
     };
 
-    const handleUpdate = async () => {
-        blog.body = 'AsSaaSSaaSSAAA';
+    const handleUpdate = () => {
 
-        await fetch('http://localhost:8000/blogs/' + blog.id, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(blog),
-        });
+        navigate(`/update/${id}`)
 
-        window.location.reload();
     };
-   
+
     return (
         <div className="blog-details">
-            { isPendging && <div>Loading...</div> }
-            { error && <div>{error}</div> }
-            { blog && (
+            {isPending && <div>Loading...</div>}
+            {error && <div>{error}</div>}
+            {blog && (
                 <article>
                     <h2>{blog.title}</h2>
                     <p>Written by {blog.author}</p>
-                    <div>{blog.body}</div> 
-                    <button onClick={ handleDelete }>Delete</button>
-                    <button onClick={ handleUpdate } >Update</button>
+                    <div>{blog.body}</div>
+                    <button onClick={handleDelete}>Delete</button>
+                    <button onClick={handleUpdate} >Update</button>
                 </article>
-            ) }
+            )}
         </div>
     );
 };
