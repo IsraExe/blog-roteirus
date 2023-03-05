@@ -1,13 +1,13 @@
-import Navbar from './Navbar';
-import Home from './Home';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Create from './Create'
-import Update from './Update'
-import BlogDetails from './BlogDetails';
-import NotFound from './NotFound';
+import Create from './pages/Create';
+import Update from './pages/Update';
+import BlogDetails from './pages/BlogDetails';
+import NotFound from './pages/NotFound';
 import PrivateRoutes from './helpers/PrivateRoutes';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div className="App">

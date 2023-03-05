@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import useFetch from './useFetch';
+import useFetch from '../hooks/useFetch';
 
 const Update = () => {
     const [title, setTitle] = useState(null);
@@ -27,8 +27,6 @@ const Update = () => {
         e.preventDefault();
 
         const blog = { title, body, author };
-
-        console.log(blog);
 
         await fetch('http://localhost:8000/blogs/' + data.id, {
             method: 'PUT',

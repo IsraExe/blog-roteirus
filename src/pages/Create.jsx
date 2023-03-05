@@ -6,23 +6,23 @@ const Create = () => {
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('Yoshi');
     const [isPending, setIsPending] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        const blog = { title, body, author }
+        e.preventDefault();
+        const blog = { title, body, author };
 
-        setIsPending(true)
+        setIsPending(true);
 
         await fetch('http://localhost:8000/blogs', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(blog)
         })
-        setIsPending(false)
-        navigate('/')
+        setIsPending(false);
+        navigate('/');
 
-        console.log('New blog added successfully')
+        console.log('New blog added successfully');
     };
 
     return (

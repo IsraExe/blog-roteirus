@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 
-const PrivateRouteS = () => {
+const PrivateRoutes = () => {
 
     const auth = { 'token': 'token_dinamico' };
 
@@ -10,4 +10,4 @@ const PrivateRouteS = () => {
     )
 }
 
-export default PrivateRouteS;
+export default PrivateRoutes;

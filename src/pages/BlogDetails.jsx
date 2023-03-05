@@ -1,24 +1,23 @@
 import { useParams, useNavigate } from "react-router-dom";
-import useFetch from './useFetch';
+import useFetch from '../hooks/useFetch';
 
 const BlogDetails = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
     const { data: blog, isPending, error } = useFetch(`http://localhost:8000/blogs/${id}`);
 
-
     const handleDelete = async () => {
         await fetch('http://localhost:8000/blogs/' + blog.id, {
             method: 'DELETE'
         });
-        navigate('/')
+        navigate('/');
     };
 
     const handleUpdate = () => {
 
-        navigate(`/update/${id}`)
+        navigate(`/update/${id}`);
 
     };
 
