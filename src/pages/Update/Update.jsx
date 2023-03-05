@@ -42,7 +42,7 @@ const Update = () => {
 
     if (!isPending) {
       setTitle(data.title);
-      setContent(data.body);
+      setContent(data.content);
       setAuthor(data.author);
     }
 

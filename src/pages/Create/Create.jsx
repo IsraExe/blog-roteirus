@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import './create.css'
 
 const Create = () => {
   const [title, setTitle] = useState('');

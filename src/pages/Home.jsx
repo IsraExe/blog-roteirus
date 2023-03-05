@@ -1,4 +1,4 @@
-import BlogList from '../components/BlogList';
+import BlogList from '../components/BlogList/BlogList';
 import useFetch from '../hooks/useFetch';
 
 const Home = () => {
