@@ -2,7 +2,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Create from './pages/Create';
-import Update from './pages/Update';
+import Update from './pages/Update/Update';
 import BlogDetails from './pages/BlogDetails';
 import NotFound from './pages/NotFound';
 import PrivateRoutes from './helpers/PrivateRoutes';
