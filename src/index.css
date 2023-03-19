@@ -11,6 +11,27 @@
 :root {
   --primary-color: #810808;
   --secondary-color: #b21313;
+
+  --radius-border-pattern: 15px;
+}
+
+button {
+  background: var(--primary-color);
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: ease-in 0.1s;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:active {
+  opacity: 0.9;
 }
 
 .content {
@@ -18,4 +39,5 @@
   margin: 40px auto;
   padding: 20px;
 }
+
 

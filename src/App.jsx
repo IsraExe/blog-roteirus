@@ -5,6 +5,7 @@ import Create from './pages/Create/Create';
 import Update from './pages/Update/Update';
 import BlogDetails from './pages/BlogDetails';
 import NotFound from './pages/NotFound';
+import Preview from './pages/Preview/Preview';
 import PrivateRoutes from './helpers/PrivateRoutes';
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
             <Route element={<PrivateRoutes />}>
               <Route path="/create" element={<Create />} />
               <Route path="/update/:id" element={<Update />} />
+              <Route path="/preview" element={<Preview />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

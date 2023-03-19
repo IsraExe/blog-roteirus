@@ -27,7 +27,7 @@
     display: block;
 }
 
-.update button {
+.update_button_update {
     background: var(--primary-color);
     color: #fff;
     border: 0;

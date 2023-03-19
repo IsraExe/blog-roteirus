@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import Modal from '../../components/Modal/Modal';
 import './update.css';
+import { ReactComponent as EditArticle } from '../../assets/icons/editArticle.svg';
 
 const modules = {
 
@@ -32,11 +34,19 @@ const Update = () => {
   const [title, setTitle] = useState(null);
   const [content, setContent] = useState(null);
   const [author, setAuthor] = useState(null);
+  const [open, setOpen] = useState(false);
+  const previewRef = useRef(null);
   const navigate = useNavigate();
 
   const { id } = useParams();
 
   const { data, isPending } = useFetch(`http://localhost:8000/blogs/${id}`);
+
+  useEffect(() => {
+
+    if (previewRef.current) previewRef.current.innerHTML = content;
+
+  }, [content, open]);
 
   useEffect(() => {
 
@@ -48,6 +58,7 @@ const Update = () => {
 
   }, [isPending, data]);
 
+  const closeModal = () => setOpen(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +67,9 @@ const Update = () => {
 
     await fetch('http://localhost:8000/blogs/' + data.id, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(blog),
     });
 
@@ -64,33 +77,53 @@ const Update = () => {
 
   };
 
+  const showModal = () => {
+    console.log('Abrir modal!')
+    setOpen(true);
+  }
+
+  const handlePreview = () => { 
+    window.open('/blogs/preview', '_blank');    
+  };
+
   return (
     <div>
-      {isPending ? <div>Loading...</div> : <div className="update">
+      {isPending ? <div>Loading...</div> : <div className='update'>
         <h2> Update a blog </h2>
         <form onSubmit={handleSubmit}>
           <label>Blog title </label>
           <input
             value={data.title}
-            type="text"
+            type='text'
             required
             onChange={(e) => setTitle(e.target.value)}
           />
+
           <label>Blog body</label>
-          <div style={{ height: '30em'}}>
-            <ReactQuill defaultValue={data.content} modules={modules} theme="snow" onChange={setContent} style={{height: '90%'}}/>
+          <div style={{ height: '30em' }}>
+            <ReactQuill defaultValue={data.content} modules={modules} theme='snow' onChange={setContent} style={{ height: '90%' }} />
           </div>
-          
+
+          <button type='button' onClick={handlePreview}>Preview</button>
+
+          <div ref={previewRef} />
+
+          { open && (
+              <Modal handleSubmit={handleSubmit} closeModal={closeModal} icon={<EditArticle />}/>
+            )
+          }
+
           <label>Blog Author:</label>
           <select
             defaultValue={data.author}
             onChange={(e) => setAuthor(e.target.value)}
           >
-            <option value="Mario">Mario</option>
-            <option value="Yoshi">Yoshi</option>
+            <option value='Mario'>Mario</option>
+            <option value='Yoshi'>Yoshi</option>
           </select>
-          {!isPending && <button >Update blog</button>}
-          {isPending && <button disabled >Update blog...</button>}
+
+          <button className='update_button_update' type='button' onClick={showModal}>Update blog</button>
+
         </form>
       </div>}
 
