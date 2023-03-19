@@ -59,6 +59,11 @@ const Update = () => {
   }, [isPending, data]);
 
   const closeModal = () => setOpen(false);
+  const showModal = () => setOpen(true);
+  
+  const handlePreview = () => { 
+    window.open('/blogs/preview', '_blank');    
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,14 +82,7 @@ const Update = () => {
 
   };
 
-  const showModal = () => {
-    console.log('Abrir modal!')
-    setOpen(true);
-  }
 
-  const handlePreview = () => { 
-    window.open('/blogs/preview', '_blank');    
-  };
 
   return (
     <div>
