@@ -62,7 +62,8 @@ const Update = () => {
   const showModal = () => setOpen(true);
   
   const handlePreview = () => { 
-    window.open('/blogs/preview', '_blank');    
+    sessionStorage.setItem('content', content);
+    window.open('/preview', '_blank');
   };
 
   const handleSubmit = async (e) => {
@@ -81,8 +82,6 @@ const Update = () => {
     navigate('/blogs/' + data.id);
 
   };
-
-
 
   return (
     <div>
@@ -104,8 +103,6 @@ const Update = () => {
 
           <button type='button' onClick={handlePreview}>Preview</button>
 
-          <div ref={previewRef} />
-
           { open && (
               <Modal handleSubmit={handleSubmit} closeModal={closeModal} icon={<EditArticle />}/>
             )
@@ -120,7 +117,7 @@ const Update = () => {
             <option value='Yoshi'>Yoshi</option>
           </select>
 
-          <button className='update_button_update' type='button' onClick={showModal}>Update blog</button>
+          <button className='update_button_update' type='button' onClick={showModal}>Update bSlog</button>
 
         </form>
       </div>}

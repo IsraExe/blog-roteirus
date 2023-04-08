@@ -6,13 +6,16 @@
   font-family: "Quicksand";
   color: #333;
   box-sizing: border-box;
+  border: none;
 }
 
 :root {
   --primary-color: #810808;
+  --outline-color: #bbb4b4;
   --secondary-color: #b21313;
 
   --radius-border-pattern: 15px;
+  --radius-border-pattern-fields: 5px;
 }
 
 button {
@@ -40,4 +43,34 @@ button:active {
   padding: 20px;
 }
 
+label {
+  color: #7c1c1c;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 10px 0;
+  text-align: left;
+  display: block;
+}
 
+input {
+  width: 100%;
+  border-radius: var(--radius-border-pattern-fields);
+  border: 1px solid rgb(207, 207, 201);
+  padding: 6px 10px;
+  font-size: 16px;
+
+}
+
+input:focus,
+select:focus {
+  outline-color: var(--outline-color);
+}
+
+select {
+  width: 100%;
+  border-radius: var(--radius-border-pattern-fields);
+  border: 1px solid rgb(207, 207, 201);
+  padding: 6px 10px;
+  display: block;
+  font-size: 16px;
+}

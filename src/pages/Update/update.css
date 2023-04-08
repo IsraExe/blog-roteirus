@@ -6,32 +6,12 @@
     text-align: center;
 }
 
-.update label {
-    text-align: left;
-    display: block;
-}
-
 .update h2 {
     font-size: 20px;
     color: var(--primary-color);
     margin-bottom: 30px;
 }
 
-.update input,
-.update select {
-    width: 100%;
-    padding: 6px 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    display: block;
-}
-
 .update_button_update {
-    background: var(--primary-color);
-    color: #fff;
-    border: 0;
-    padding: 8px;
-    border-radius: 8px;
-    cursor: pointer;
+    margin-top: 10px;
 }
