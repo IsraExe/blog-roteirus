@@ -1,5 +1,10 @@
 # Instruções para rodar o projeto
-Abra o terminal e digite:
+Inicie um terminal com:
+```
+npm i
+```
+
+Depois digite:
 ```
 npm start
 ```
