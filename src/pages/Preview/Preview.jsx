@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import 'react-quill/dist/quill.snow.css';
 
 const Preview = () => {
     
@@ -9,9 +10,9 @@ const Preview = () => {
     }, [containerRef])
 
     return(
-        <div ref={containerRef}>
-            
-        </div>
+        
+        <div ref={containerRef} />
+        
     );
 
 }

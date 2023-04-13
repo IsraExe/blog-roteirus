@@ -1,53 +1,24 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import Modal from '../../components/Modal/Modal';
-import './update.css';
 import { ReactComponent as EditArticle } from '../../assets/icons/editArticle.svg';
-
-const modules = {
-
-  toolbar: [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-    [{ 'direction': 'rtl' }],                         // text direction
-
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-    ['link', 'image', 'video'],
-
-  ],
-
-}
+import ReactQuillEditor from '../../components/ReactQuillEditor/ReactQuillEditor';
+import './update.css';
 
 const Update = () => {
   const [title, setTitle] = useState(null);
   const [content, setContent] = useState(null);
   const [author, setAuthor] = useState(null);
   const [open, setOpen] = useState(false);
-  const previewRef = useRef(null);
   const navigate = useNavigate();
 
   const { id } = useParams();
 
   const { data, isPending } = useFetch(`http://localhost:8000/blogs/${id}`);
 
-  useEffect(() => {
-
-    if (previewRef.current) previewRef.current.innerHTML = content;
-
-  }, [content, open]);
-
+  const getContent = (data) => setContent(data);
+  
   useEffect(() => {
 
     if (!isPending) {
@@ -90,15 +61,16 @@ const Update = () => {
         <form onSubmit={handleSubmit}>
           <label>Blog title </label>
           <input
-            value={data.title}
+            defaultValue={data.title}
             type='text'
             required
             onChange={(e) => setTitle(e.target.value)}
           />
 
           <label>Blog body</label>
+
           <div style={{ height: '30em' }}>
-            <ReactQuill defaultValue={data.content} modules={modules} theme='snow' onChange={setContent} style={{ height: '90%' }} />
+            <ReactQuillEditor data={data} getContent={getContent}/>
           </div>
 
           <button type='button' onClick={handlePreview}>Preview</button>
@@ -117,7 +89,7 @@ const Update = () => {
             <option value='Yoshi'>Yoshi</option>
           </select>
 
-          <button className='update_button_update' type='button' onClick={showModal}>Update bSlog</button>
+          <button className='update_button_update' type='button' onClick={showModal}>Update blog</button>
 
         </form>
       </div>}

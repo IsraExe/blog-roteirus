@@ -1,13 +1,26 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './create.css'
+import ReactQuillEditor from '../../components/ReactQuillEditor/ReactQuillEditor';
+import { ReactComponent as EditArticle } from '../../assets/icons/editArticle.svg';
+import Modal from '../../components/Modal/Modal';
+import './create.css';
 
 const Create = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('Yoshi');
+  const [author, setAuthor] = useState('');
+  const [open, setOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
+
+  const getContent = (data) => setContent(data);
+
+  const handlePreview = () => {
+    sessionStorage.setItem('content', content);
+    window.open('/preview', '_blank');
+  };
+
+  const closeModal = () => setOpen(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +30,9 @@ const Create = () => {
 
     await fetch('http://localhost:8000/blogs', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(blog)
     })
     setIsPending(false);
@@ -30,29 +45,35 @@ const Create = () => {
     <div className="create">
       <h2> Add a new blog </h2>
       <form onSubmit={handleSubmit}>
-        <label>Blog title:</label>
+        <label>Blog title </label>
         <input
-          type="text"
+          type='text'
           required
-          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+
         <label>Blog body</label>
-        <textarea
-          required
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
+
+        <div style={{ height: '30em' }}>
+          <ReactQuillEditor getContent={getContent} />
+        </div>
+
+        <button type='button' onClick={handlePreview}>Preview</button>
+
+        {open && (
+          <Modal handleSubmit={handleSubmit} closeModal={closeModal} icon={<EditArticle />} />
+        )
+        }
+
         <label>Blog Author:</label>
         <select
-          value={author}
           onChange={(e) => setAuthor(e.target.value)}
         >
-          <option value="Mario">Mario</option>
-          <option value="Yoshi">Yoshi</option>
+          <option value="" selected disabled>Please select an option</option>
+          <option value='Mario'>Mario</option>
+          <option value='Yoshi'>Yoshi</option>
         </select>
-        {!isPending && <button >Add blog</button>}
-        {isPending && <button disabled >Adding blog...</button>}
+        <button className="create_button_add"> {isPending ? 'Adding blog...' : 'Add blog'}</button>
       </form>
     </div>
   );

@@ -20,7 +20,7 @@
     },
     {
       "title": "A revoada",
-      "content": "Teste",
+      "content": "<p class=\"ql-align-right\">Teste</p>",
       "author": "Mario",
       "id": 4
     },
@@ -38,7 +38,7 @@
     },
     {
       "title": "Teste",
-      "content": "teste",
+      "content": "<p>bnvbnvnbvnvbnbnvbnvnbv</p>",
       "author": "Yoshi",
       "id": 7
     },
@@ -50,9 +50,33 @@
     },
     {
       "title": "Nova mudança",
-      "content": "<p>Agora tudo está funcionando como deveria</p>",
+      "content": "<p>nbvnbvnbvnbvvb</p>",
       "author": "Yoshi",
       "id": 9
+    },
+    {
+      "title": "Editando com novo layout",
+      "content": "<p>Está funcionando?</p>",
+      "author": "Yoshi",
+      "id": 10
+    },
+    {
+      "title": "Testing",
+      "content": "<p>fdsfsfdsf</p>",
+      "author": "Yoshi",
+      "id": 11
+    },
+    {
+      "title": "fsfds",
+      "content": "<p>fdsfdsfds</p>",
+      "author": "Yoshi",
+      "id": 12
+    },
+    {
+      "title": "nvb",
+      "content": "<p>ggfh</p>",
+      "author": "",
+      "id": 13
     }
   ]
 }
