@@ -10,10 +10,9 @@ generator client {
 model user {
     id_user Int @id @default(autoincrement())
     nm_user String @db.VarChar(255)
-    desc_user String @db.VarChar(255)
     avatar Bytes?
     email String @db.VarChar(255) @unique
-    password String @db.VarChar(255)
+    password String
     role role?
     post post? 
 }
