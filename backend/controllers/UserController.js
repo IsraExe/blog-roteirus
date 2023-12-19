@@ -1,7 +1,8 @@
 import prisma from '../prisma/prisma.js';
 import prismaClient from '@prisma/client';
-const { PrismaClientKnownRequestError } = prismaClient;
 import { cryptPassword } from '../helpers/passHash.js';
+
+const { PrismaClientKnownRequestError } = prismaClient;
 
 const create = async (req, res) => {
 
@@ -27,8 +28,11 @@ const create = async (req, res) => {
         return res.status(200).send({ message: newUser });
 
     } catch (error) {
+        console.log(error);
+
+        if (error.code === 'P2002') return res.status(400).send({ message: 'Duplicated Email' });
         if (error instanceof PrismaClientKnownRequestError) return res.status(400).send({ message: error.message });
-       console.log(error)
+        console.log(error)
         return res.status(500).send({ message: error.message })
     }
 

@@ -11,9 +11,9 @@ const cryptPassword = async (password) => {
 };
 
 const decryptPassword = async (password, passwordHash) => {
-    const test = await bcrypt.compare(password, passwordHash)
+    const passwordOk = await bcrypt.compare(password, passwordHash);
 
-    return test;
+    return passwordOk;
 };
 
 export { cryptPassword, decryptPassword }

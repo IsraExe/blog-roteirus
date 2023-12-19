@@ -13,3 +13,10 @@ Agora abra outro terminal e digite:
 ```
 npx json-server --watch data/db.json --port 8000
 ``` 
+
+# Tecnologias Usadas
+
+Node Js
+React
+SCSS
+Material UI
