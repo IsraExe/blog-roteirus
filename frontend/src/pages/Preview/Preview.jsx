@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import 'react-quill/dist/quill.snow.css';
 
 const Preview = () => {
     

@@ -1,35 +1,84 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
 model user {
-    id_user Int @id @default(autoincrement())
-    nm_user String @db.VarChar(255)
-    avatar Bytes?
-    email String @db.VarChar(255) @unique
-    password String
-    role role?
-    post post? 
+  id_user        Int          @id @default(autoincrement())
+  nm_user        String
+  de_email       String       @unique
+  de_password    String
+  de_profile_pic String?
+  de_bio         String?
+  id_role        Int
+  role           role         @relation(fields: [id_role], references: [id_role])
+  posts          post[]
+  comments       comment[]
+  likes          like[]
 }
 
 model role {
-    id_role Int @id @default(autoincrement())
-    nm_role String @db.VarChar(255)
-    id_user Int @unique
-    user user @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+  id_role Int          @id @default(autoincrement())
+  nm_role String       @unique
+  users   user[]      
 }
 
 model post {
-    id_post Int @id @default(autoincrement())
-    title String @db.VarChar(255)
-    content String
-    created_at DateTime @default(now()) @db.Timestamp(6)
-    updated_at DateTime @default(now()) @db.Timestamp(6)
-    id_user Int @unique
-    user user @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+  id_post     Int       @id @default(autoincrement())
+  nm_title    String
+  de_content  String
+  dt_created  DateTime  @default(now())
+  dt_updated  DateTime  @default(now())
+  id_user     Int
+  user        user      @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+  de_status   Int       @default(0)
+  id_category Int?
+  category    category? @relation("CategoryPosts", fields: [id_category], references: [id_category])
+  tags        tag[]     @relation("TagPosts")
+  comments    comment[]
+  media       media[]
+  likes       like[]
+}
+
+model category {
+  id_category Int    @id @default(autoincrement())
+  nm_name     String @unique
+  posts       post[] @relation("CategoryPosts")
+}
+
+model tag {
+  id_tag  Int    @id @default(autoincrement())
+  nm_name String @unique
+  posts   post[] @relation("TagPosts")
+}
+
+model comment {
+  id_comment Int      @id @default(autoincrement())
+  de_content String
+  dt_created DateTime @default(now())
+  id_user    Int
+  user       user     @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+  id_post    Int
+  post       post     @relation(fields: [id_post], references: [id_post], onDelete: Cascade)
+}
+
+model media {
+  id_media Int    @id @default(autoincrement())
+  de_url   String
+  id_post  Int?
+  post     post?  @relation(fields: [id_post], references: [id_post])
+}
+
+model like {
+  id_like Int  @id @default(autoincrement())
+  id_user Int
+  user    user @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+  id_post Int
+  post    post @relation(fields: [id_post], references: [id_post], onDelete: Cascade)
+
+  @@unique([id_user, id_post])
 }
