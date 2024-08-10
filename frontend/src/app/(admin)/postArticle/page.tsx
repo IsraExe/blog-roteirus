@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import ReactQuillEditor from '@/components/Editor';
 import Navbar from '@/components/Navbar';
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Typography, Box } from '@mui/material';
+import { TextField, Button, FormControl, Typography, Box } from '@mui/material';
+import dynamic from 'next/dynamic';
+
+const ReactQuillEditor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
 const Create = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
   const [isPending, setIsPending] = useState(false);
 
   const getContent = (data: any) => setContent(data);
@@ -22,15 +23,17 @@ const Create = () => {
     e.preventDefault();
     const blog = { title, content };
 
+    console.log(blog)
+
     setIsPending(true);
 
-    await fetch('http://localhost:3001/blogs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(blog)
-    })
+    // await fetch('http://localhost:3001/blogs', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(blog)
+    // })
     setIsPending(false);
 
     console.log('New blog added successfully');
@@ -38,8 +41,8 @@ const Create = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <Navbar />
-      <Box sx={{ minWidth: '70%', backgroundColor: '#181717', borderRadius: '5px', padding: 2, marginTop: '60px', boxShadow: '0 0 10px 0 rgba(0,0,0,0.2)' }}>
+      <Navbar title='Novo Post' />
+      <Box sx={{ minWidth: '70%', borderRadius: '5px', padding: 2, marginTop: '60px', boxShadow: '0 0 10px 0 rgba(0,0,0,0.2)' }}>
         <form onSubmit={handleSubmit}>
           <FormControl fullWidth margin='normal'>
             <TextField

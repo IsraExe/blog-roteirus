@@ -14,10 +14,9 @@ import MovieIcon from '@mui/icons-material/Movie';
 import Copyright from '@/components/Footer';
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
+import fetchData from '@/utils/fetchData';
 
 import styles from './page.module.css';
-
-import fetchData from '@/utils/fetchData';
 
 const signUpSchema = z.object({
   name: z.string().min(1, "O campo nome completo é obrigatório!").max(50, "O campo nome completo deve ter no maximo 50 caracteres."),
@@ -45,15 +44,11 @@ export default function SignUp() {
 
   const router = useRouter();
 
-  setValue('idRole', 2)
+  setValue('idRole', 1);
 
   const handleSignUp = async (data: TSignUpSchema) => {
 
-
-
     const { response } = await fetchData({ method: 'POST', pathname: '/user/create', data });
-
-    console.log(response)
 
     if (response.ok) return router.push('/signIn?showModal=true');
 
@@ -73,7 +68,7 @@ export default function SignUp() {
         }}
       >
         <MovieIcon sx={{ color: '#570404', fontSize: '90px' }} />
-        <Typography component='h1' variant='h4' color="white">
+        <Typography component='h1' variant='h4'>
           Roteirus - Cadastre-se
         </Typography>
         <Typography component='p' sx={{ color: 'red' }}>
@@ -130,8 +125,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-
-
       </Box>
       <Copyright />
     </Box>

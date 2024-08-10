@@ -11,4 +11,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
       </AuthNavigation>
     </ThemeMuiRegistry>
   )
+  
 }

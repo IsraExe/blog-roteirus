@@ -3,12 +3,16 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import Link from 'next/link';
 
-const Navbar = () => {
+type NavbarProps = {
+  title: string
+};
+
+const Navbar = ({ title }: NavbarProps) => {
   return (
     <AppBar position='fixed'>
       <Toolbar>
         <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-          Blog
+          {title}
         </Typography>
         <Box>
           <Button color='inherit' component={Link} href='/'>
