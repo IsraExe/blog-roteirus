@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { Button, Link, Grid, Box, Typography } from '@mui/material';
-
 import MovieIcon from '@mui/icons-material/Movie';
 
 import Copyright from '@/components/Footer';

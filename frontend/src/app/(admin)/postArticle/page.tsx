@@ -1,16 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import Navbar from '@/components/Navbar';
-import { TextField, Button, FormControl, Typography, Box } from '@mui/material';
 import dynamic from 'next/dynamic';
+import { TextField, Button, FormControl, Typography, Box } from '@mui/material';
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import Navbar from '@/components/Navbar';
+import Modal from '@/components/Modal';
 
 const ReactQuillEditor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
 const Create = () => {
+  const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [isPending, setIsPending] = useState(false);
 
   const getContent = (data: any) => setContent(data);
 
@@ -23,9 +25,7 @@ const Create = () => {
     e.preventDefault();
     const blog = { title, content };
 
-    console.log(blog)
-
-    setIsPending(true);
+    console.log(content)
 
     // await fetch('http://localhost:3001/blogs', {
     //   method: 'POST',
@@ -34,7 +34,6 @@ const Create = () => {
     //   },
     //   body: JSON.stringify(blog)
     // })
-    setIsPending(false);
 
     console.log('New blog added successfully');
   };
@@ -66,15 +65,24 @@ const Create = () => {
             </Button>
           </Box>
           <Button
-            type='submit'
+            type='button'
+            onClick={() => setOpen(true)}
             variant='contained'
             color='primary'
-            disabled={isPending}
           >
-            {isPending ? 'Adding blog...' : 'Add blog'}
+           Criar Post
           </Button>
         </form>
       </Box>
+
+      <Modal.Root open={open}>
+        <Modal.Info icon={() => <AddTaskIcon />} title='This is a preview' information='Preview'  />
+        <Box style={{ gap: 2, display: 'flex' }}>
+          <Modal.Button text='Cancelar' onClick={() => setOpen(false)} />
+          <Modal.Button text='Postar' onClick={handleSubmit} />
+        </Box>
+      </Modal.Root>
+
     </Box>
   );
 }
