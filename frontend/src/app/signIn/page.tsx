@@ -34,7 +34,7 @@ export default function SignIn() {
   const [signInError, setSignInError] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
-  const redirectFromSignUp = searchParams.get('showModal');
+  const redirectFromSignUp = searchParams?.get('showModal');
 
   const notify = () => toast('Usuário cadastrado com sucesso!');
   const router = useRouter();
@@ -44,7 +44,7 @@ export default function SignIn() {
     if (Boolean(redirectFromSignUp)) {
       notify();
 
-      router.replace(pathname, undefined);
+      router.replace(pathname as string, undefined);
     };
   }, [router, pathname, redirectFromSignUp]);
 
@@ -84,7 +84,7 @@ export default function SignIn() {
         }}
       >
         <MovieIcon sx={{ color: '#570404', fontSize: '90px' }} />
-        <Typography component='h1' variant='h4' color="white">
+        <Typography component='h1' variant='h4' color="text">
           Roteirus - Login
         </Typography>
         <Typography component='p' sx={{ color: 'red' }}>

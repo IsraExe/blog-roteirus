@@ -27,7 +27,8 @@ const signUpSchema = z.object({
     .regex(/.*[a-z].*/, 'A senha deve conter pelo menos uma letra minúscula!')
     .regex(/.*[A-Z].*/, 'A senha deve conter pelo menos uma letra maiúscula!')
     .regex(/.*\d.*/, 'A senha deve conter pelo menos um número!'),
-  confirmPassword: z.string().min(1, "O campo confirmar senha é obrigatório!")
+  confirmPassword: z.string().min(1, "O campo confirmar senha é obrigatório!"),
+  idRole: z.number(),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'A senha de confirmação não pode ser diferente!',
   path: ['confirmPassword'],
@@ -38,15 +39,21 @@ type TSignUpSchema = z.infer<typeof signUpSchema>;
 export default function SignUp() {
   const [signUpError, setSignUpError] = useState<string | null>(null);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<TSignUpSchema>({
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
   });
 
   const router = useRouter();
 
+  setValue('idRole', 2)
+
   const handleSignUp = async (data: TSignUpSchema) => {
 
+
+
     const { response } = await fetchData({ method: 'POST', pathname: '/user/create', data });
+
+    console.log(response)
 
     if (response.ok) return router.push('/signIn?showModal=true');
 

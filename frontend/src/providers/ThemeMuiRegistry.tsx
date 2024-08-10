@@ -28,8 +28,8 @@ const theme = createTheme({
     },
 
     text: {
-      primary: '#ffffff',
-      secondary: '#ffffff'
+      primary: '#242424',
+      secondary: '#363636'
     }
   },
 

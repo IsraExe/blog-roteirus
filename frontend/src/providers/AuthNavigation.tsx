@@ -13,13 +13,16 @@ export default function AuthNavigation({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   useEffect(() => {
+    if (PUBLIC_URLS.includes(pathname as string)) return setLoading(false);
+
     (async () => {
       const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
 
-      if (response.status !== 200 && !PUBLIC_URLS.includes(pathname)) return router.push('/signIn');
+      if (response.status !== 200) return router.push('/signIn');
 
       setLoading(false);
     })();
+    
   }, [pathname, router]);
 
   return (

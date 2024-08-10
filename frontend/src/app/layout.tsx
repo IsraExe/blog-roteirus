@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang='pt-br'>
-      <body style={{ backgroundColor: '#0f0f0f'}}>
+      <body style={{ backgroundColor: '#e7e6e6'}}>
         <Providers>
           <CssBaseline />
           {children}
