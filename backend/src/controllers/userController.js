@@ -75,9 +75,9 @@ const login = async (req, res, next) => {
     if (!user) return next(unauthorizedError('User and/or password invalid'));
 
     const isValidPassword = await bcrypt.compare(password, user.de_password);
-    if (!isValidPassword) return next(unauthorizedError('User and/or password invalid'));
+    if (!isValidPassword) return next(unauthorizedError('User and/or password invalid'));   
 
-    const { token } = createTokens(user.id);
+    const { token } = createTokens(user.id_user);
 
     const { password: removePassFromUserInfo, ...userDetails } = user;
 

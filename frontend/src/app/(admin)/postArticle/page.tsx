@@ -25,15 +25,15 @@ const Create = () => {
     e.preventDefault();
     const blog = { title, content };
 
-    console.log(content)
 
-    // await fetch('http://localhost:3001/blogs', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(blog)
-    // })
+    await fetch('http://localhost:3001/post/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(blog)
+    })
 
     console.log('New blog added successfully');
   };
@@ -70,13 +70,13 @@ const Create = () => {
             variant='contained'
             color='primary'
           >
-           Criar Post
+            Criar Post
           </Button>
         </form>
       </Box>
 
       <Modal.Root open={open}>
-        <Modal.Info icon={() => <AddTaskIcon />} title='This is a preview' information='Preview'  />
+        <Modal.Info icon={() => <AddTaskIcon />} title='This is a preview' information='Preview' />
         <Box style={{ gap: 2, display: 'flex' }}>
           <Modal.Button text='Cancelar' onClick={() => setOpen(false)} />
           <Modal.Button text='Postar' onClick={handleSubmit} />
