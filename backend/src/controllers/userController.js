@@ -1,18 +1,16 @@
 import bcrypt from 'bcrypt';
-import { createUser, updateUser, viewUsers, deleteUser } from '../repositories/userRepository.js';
+import prisma from '../utils/prisma.js';
 import verifyReqFields from '../utils/verifyReqFields.js';
-import { PrismaClient } from '@prisma/client'
 import { badRequestError, unauthorizedError } from '../utils/errorException.js';
+import { createUser, updateUser, viewUsers, deleteUser } from '../repositories/userRepository.js';
 import cookiesOptions from '../helpers/cookiesOptions.js';
 import createTokens from '../helpers/createTokens.js';
-
-const prisma = new PrismaClient();
 
 const create = async (req, res, next) => {
 
     const { name, email, password, idRole } = req.body;
 
-    verifyReqFields({requiredFields: ['name', 'email', 'password', 'idRole'], fields: req.body});
+    verifyReqFields({ requiredFields: ['name', 'email', 'password', 'idRole'], fields: req.body });
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
