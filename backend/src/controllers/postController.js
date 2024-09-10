@@ -1,13 +1,48 @@
+import generateImageLink from '../helpers/generateImageLink.js';
 import { createPost } from '../repositories/postRepository.js';
 
 const create = async (req, res) => {
-
     const { title, content } = req.body;
     const { id } = req.metadata;
 
-    await createPost({ title, content, id });
+    const extractImages = async (content) => {
+        if (!content) {
+            console.error('No content provided');
+            return '';
+        };
 
-    return res.status(200).send({ message: 'Created!' })
+        const regex = /src="data:image\/(png|jpe?g|gif);base64,([^"]*)"/gi;
+        const matches = [];
+        let match;
+
+        while ((match = regex.exec(content)) !== null) {
+            matches.push({ match: match[0], extractedValue: match[2] });
+        }
+
+        if (matches.length === 0) return content;
+
+        const imageLinks = await Promise.all(matches.map(async ({ extractedValue }) => {
+            const imageBuffer = Buffer.from(extractedValue, 'base64');
+            const link = await generateImageLink(imageBuffer);
+            console.log('Generated link:', link);
+            return link;
+        }));
+
+        let updatedContent = content;
+        matches.forEach((match, index) => {
+            const srcUrl = `src="${imageLinks[index]}"`;
+            updatedContent = updatedContent.replace(match.match, srcUrl);
+        });
+
+        return updatedContent;
+    };
+
+    const updatedContent = await extractImages(content);
+    console.log('Updated content with image links:', updatedContent);
+
+    await createPost({ title, content: updatedContent, id });
+    
+    return res.status(200).send({ message: 'Created!' });
 
 };
 
