@@ -1,7 +1,13 @@
 import generateImageLink from '../helpers/generateImageLink.js';
-import { createPost } from '../repositories/postRepository.js';
+import { createPost, showPosts } from '../repositories/postRepository.js';
 
-const create = async (req, res) => {
+export const showAll = async (req, res) => {
+    const allPosts = await showPosts();
+
+    return res.status(200).send({ message: allPosts });
+};
+
+export const create = async (req, res) => {
     const { title, content } = req.body;
     const { id } = req.metadata;
 
@@ -38,12 +44,9 @@ const create = async (req, res) => {
     };
 
     const updatedContent = await extractImages(content);
-    console.log('Updated content with image links:', updatedContent);
 
     await createPost({ title, content: updatedContent, id });
-    
+
     return res.status(200).send({ message: 'Created!' });
 
 };
-
-export { create };

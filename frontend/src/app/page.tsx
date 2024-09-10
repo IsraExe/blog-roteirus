@@ -1,28 +1,50 @@
 'use client'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import fetchData from '@/utils/fetchData';
-import { CircularProgress } from '@mui/material';
+import Link from 'next/link';
+
+type TBlog = {
+    id_post: number;
+    nm_title: string;
+    de_content: string;
+}
 
 export default function Home() {
+  const [blogs, setBlogs] = useState<TBlog[]>([]);
 
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
+      const { response } = await fetchData({ method: 'GET', pathname: '/post/showAll' });
 
-      if (response.status !== 200) return router.push('/signIn');
-      
-      router.push('/home');
+      const { message } = await response.json();
+
+      setBlogs(message)
 
     })();
   }, [router]);
 
+  const truncateText = ({ text, length }: any) => {
+    if (text.length <= length) return text;
+    return `${text.substring(0, length)}...`;
+  };
+
   return (
 
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-      <CircularProgress size={100} />
+      <div className="blog-list">
+        {/* <h2>{title}</h2> */}
+        {blogs?.map((blog) => (
+          <div className="blog-preview" key={blog.id_post}>
+            <Link href={`/blogs/${blog.id_post}`}>
+              <h2>{blog.nm_title}</h2>
+              <p>Written by {truncateText({text: blog.de_content, length: 100})}</p>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
 
   )
