@@ -1,8 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import fetchData from '@/utils/fetchData';
 import Link from 'next/link';
+import fetchData from '@/utils/fetchData';
 
 type TBlog = {
     id_post: number;

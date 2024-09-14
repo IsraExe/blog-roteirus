@@ -15,7 +15,6 @@ const fetchData = async ({ pathname, method, data }: FetchDataProps) => {
     method: method,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `${localStorage.getItem('token')}`
     },
     body: JSON.stringify(data),
     credentials: 'include'

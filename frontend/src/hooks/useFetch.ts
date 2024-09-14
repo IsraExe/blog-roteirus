@@ -10,8 +10,8 @@ type UseFetchProps = {
 };
 
 interface FetchResponse<T> {
-  pulledData: T;
-  loading: boolean;
+  responseData: T;
+  isLoading: boolean;
 }
 
 export default function useFetch<T>({ pathname, data, method }: UseFetchProps): FetchResponse<T> {
@@ -69,5 +69,5 @@ export default function useFetch<T>({ pathname, data, method }: UseFetchProps): 
 
   if (error) throw new Error(error);
 
-  return { pulledData, loading };
+  return { responseData: pulledData, isLoading: loading };
 };

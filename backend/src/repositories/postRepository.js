@@ -1,10 +1,23 @@
 import prisma from '../utils/prisma.js';
 
 export const showPosts = async () => {
+
     const allPosts = await prisma.post.findMany();
 
     return allPosts;
+
 };
+
+export const showOne = async (id) => {
+
+    const post = await prisma.post.findUnique({
+        where: {
+            id_post: Number(id)
+        }
+    });
+
+    return post;
+}
 
 export const createPost = async ({ title, content, id }) => {
     
@@ -17,5 +30,15 @@ export const createPost = async ({ title, content, id }) => {
     });
 
     return newPost;
+
+};
+
+export const excludePost = async (id) => {
+
+    await prisma.post.delete({
+        where: {
+            id_post: id
+        }
+    })
 
 };

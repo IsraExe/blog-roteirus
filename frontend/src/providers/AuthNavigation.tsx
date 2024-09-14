@@ -13,7 +13,7 @@ export default function AuthNavigation({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   useEffect(() => {
-    if (PUBLIC_URLS.includes(pathname as string)) return setLoading(false);
+    if (PUBLIC_URLS.static.includes(pathname as string) || PUBLIC_URLS.dynamic.some(url => pathname.startsWith(url as string))) return setLoading(false);
 
     (async () => {
       const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
@@ -27,12 +27,13 @@ export default function AuthNavigation({ children }: { children: React.ReactNode
 
   return (
     <>
-      {loading && (
+    {children}
+      {/* {loading && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
           <CircularProgress size={100} />
         </div>
       )}
-      {(!loading) && children}
+      {(!loading) && children} */}
     </>
   )
 }
