@@ -7,10 +7,8 @@ const auth = async (req, res, next) => {
     const { token } = req.cookies;
     
     if (!token) return next(badRequestError('No token provided!'));
-
-    const tokenRecieved = token;
     
-    await checkAuth(tokenRecieved);
+    await checkAuth(token);
 
     return res.status(200).send({ message: 'User is authenticated!' });
 

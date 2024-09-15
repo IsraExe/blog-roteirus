@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import prisma from '../utils/prisma.js';
+import prisma from '../lib/prisma.js';
 import verifyReqFields from '../utils/verifyReqFields.js';
 import { badRequestError, unauthorizedError } from '../utils/errorException.js';
 import { createUser, updateUser, viewUsers, deleteUser } from '../repositories/userRepository.js';

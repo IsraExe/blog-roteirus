@@ -1,8 +1,10 @@
-import generateImageLink from '../helpers/generateImageLink.js';
-import { createPost, excludePost, showPosts, showOne } from '../repositories/postRepository.js';
+import { addPost, deletePost, showAllPosts, showOnePost } from '../services/postService.js';
+import { badRequestError } from '../utils/errorException.js';
 
 export const showAll = async (req, res) => {
-    const allPosts = await showPosts();
+    const allPosts = await showAllPosts();
+
+    //TODO: PAGINATION
 
     return res.status(200).send({ message: allPosts });
 };
@@ -10,59 +12,26 @@ export const showAll = async (req, res) => {
 export const getOne = async (req, res) => {
     const { id } = req.params;
 
-    const post = await showOne(id);
+    const post = await showOnePost(id);
 
     return res.status(200).send({ data: post })
 };
 
-export const create = async (req, res) => {
-    const { title, content } = req.body;
+export const create = async (req, res, next) => {
     const { id } = req.metadata;
+    const { title, content } = req.body;
 
-    const extractImages = async (content) => {
-        if (!content) {
-            console.error('No content provided');
-            return '';
-        };
+    if (!content) next(badRequestError('The content must be filled'))
 
-        const regex = /src="data:image\/(png|jpe?g|gif);base64,([^"]*)"/gi;
-        const matches = [];
-        let match;
-
-        while ((match = regex.exec(content)) !== null) {
-            matches.push({ match: match[0], extractedValue: match[2] });
-        }
-
-        if (matches.length === 0) return content;
-
-        const imageLinks = await Promise.all(matches.map(async ({ extractedValue }) => {
-            const imageBuffer = Buffer.from(extractedValue, 'base64');
-            const link = await generateImageLink(imageBuffer);
-            console.log('Generated link:', link);
-            return link;
-        }));
-
-        let updatedContent = content;
-        matches.forEach((match, index) => {
-            const srcUrl = `src="${imageLinks[index]}"`;
-            updatedContent = updatedContent.replace(match.match, srcUrl);
-        });
-
-        return updatedContent;
-    };
-
-    const updatedContent = await extractImages(content);
-
-    await createPost({ title, content: updatedContent, id });
+    await addPost({ id, title, content });
 
     return res.status(200).send({ message: 'Created!' });
-
 };
 
 export const exclude = (req, res) => {
     const { id } = req.query; 
     
-    excludePost(id);
+    deletePost(id);
 
     return res.status(204).send();
 };

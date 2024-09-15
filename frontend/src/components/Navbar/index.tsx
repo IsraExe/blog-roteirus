@@ -1,6 +1,5 @@
 'use client';
 
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import Link from 'next/link';
 
 type NavbarProps = {
@@ -9,21 +8,21 @@ type NavbarProps = {
 
 const Navbar = ({ title }: NavbarProps) => {
   return (
-    <AppBar position='fixed'>
-      <Toolbar>
-        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+    <nav className='fixed top-0 left-0 w-full bg-gray-800 text-white'>
+      <div className='container mx-auto px-4 py-2 flex items-center justify-between'>
+        <div className='text-lg font-bold'>
           {title}
-        </Typography>
-        <Box>
-          <Button color='inherit' component={Link} href='/'>
+        </div>
+        <div className='space-x-4'>
+          <Link href='/'>
             Home
-          </Button>
-          <Button color='inherit' component={Link} href='/create'>
+          </Link>
+          <Link href='/create'>
             Create
-          </Button>
-        </Box>
-      </Toolbar>
-    </AppBar>
+          </Link>
+        </div>
+      </div>
+    </nav>
   );
 };
 

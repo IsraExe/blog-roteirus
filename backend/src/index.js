@@ -14,7 +14,7 @@ import postRoutes from './routes/postRoutes.js';
 
 import { SERVER_PORT, CORS_OPTIONS } from './config/constants.js';
 
-import './scripts/cleanupLogs.js';
+import './scripts/clearLogs.js';
 
 const app = express();
 

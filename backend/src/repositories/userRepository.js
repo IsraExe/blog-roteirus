@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient();
+import prisma from '../lib/prisma.js';
 
 export const createUser = async (name, email, password, roleId) => {
 
@@ -17,10 +15,12 @@ export const createUser = async (name, email, password, roleId) => {
     });
 
     return user;
+    
 };
 
 
 export const updateUser = async (id, name, email, password) => {
+
     await prisma.user.update({
         where: {
             id
@@ -31,18 +31,23 @@ export const updateUser = async (id, name, email, password) => {
             password
         },
     });
+
 };
 
 export const viewUsers = async () => {
+
     const users = await prisma.user.findMany();
   
     return users;
+
 };
 
 export const deleteUser = async (id) => {
+
     await prisma.user.delete({
         where: {
             id
         },
     });
+
 };
