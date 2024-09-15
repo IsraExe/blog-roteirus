@@ -1,7 +1,7 @@
 'use client'
+import { useEffect, useRef } from 'react';
 import Loading from '@/app/loading';
 import useFetch from '@/hooks/useFetch';
-import { useEffect, useRef } from 'react';
 
 type TPost = {
   data: {
@@ -32,7 +32,6 @@ const Post = ({ params }: { params: { id: string } }) => {
     <div>
       <h1>Post inteiro</h1>
       <div>
-        <h2>Post details:</h2>
         <p>ID: {id}</p>
         <div ref={refDiv} />
       </div>

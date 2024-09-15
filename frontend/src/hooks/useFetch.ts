@@ -12,7 +12,7 @@ type UseFetchProps = {
 interface FetchResponse<T> {
   responseData: T;
   isLoading: boolean;
-}
+};
 
 export default function useFetch<T>({ pathname, data, method }: UseFetchProps): FetchResponse<T> {
   const [pulledData, setPulledData] = useState<T>({} as T);

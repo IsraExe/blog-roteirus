@@ -12,8 +12,14 @@ export default function AuthNavigation({ children }: { children: React.ReactNode
 
   const pathname = usePathname();
 
+  if (PUBLIC_URLS.static.includes(pathname as string) || PUBLIC_URLS.dynamic.some(url => pathname.startsWith(url as string))) {
+    return (
+      <>
+        {children}
+      </>)
+  };
+
   useEffect(() => {
-    if (PUBLIC_URLS.static.includes(pathname as string) || PUBLIC_URLS.dynamic.some(url => pathname.startsWith(url as string))) return setLoading(false);
 
     (async () => {
       const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
@@ -22,18 +28,17 @@ export default function AuthNavigation({ children }: { children: React.ReactNode
 
       setLoading(false);
     })();
-    
+
   }, [pathname, router]);
 
   return (
     <>
-    {children}
-      {/* {loading && (
+      {loading && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
           <CircularProgress size={100} />
         </div>
       )}
-      {(!loading) && children} */}
+      {(!loading) && children}
     </>
   )
 }

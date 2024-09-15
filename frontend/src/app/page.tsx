@@ -8,7 +8,7 @@ type TBlog = {
     id_post: number;
     nm_title: string;
     de_content: string;
-}
+};
 
 export default function Home() {
   const [blogs, setBlogs] = useState<TBlog[]>([]);
@@ -38,7 +38,7 @@ export default function Home() {
         {/* <h2>{title}</h2> */}
         {blogs?.map((blog) => (
           <div className="blog-preview" key={blog.id_post}>
-            <Link href={`/blogs/${blog.id_post}`}>
+            <Link href={`/post/${blog.id_post}`}>
               <h2>{blog.nm_title}</h2>
               <p>Written by {truncateText({text: blog.de_content, length: 100})}</p>
             </Link>
