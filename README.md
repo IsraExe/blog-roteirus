@@ -19,5 +19,6 @@
 ## Tecnologias Utilizadas
 - **Node js**
 - **Next js** 
+- **Tailwind** 
 - **Prisma**
 - **SQLite**
