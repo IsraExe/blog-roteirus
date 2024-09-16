@@ -20,18 +20,18 @@ const modules = {
 
   ],
 
-}
+};
 
-const ReactQuillEditor = ({ data = '', getContent }: any) => {
-  const [content, setContent] = useState(data.content);
+const ReactQuillEditor = ({ defaultValue, getContent }: any) => {
+  const [content, setContent] = useState('');
 
   useEffect(() => getContent(content), [getContent, content]);
 
   return (
     <div style={{ height: '30em' }}>
-      <ReactQuill defaultValue={content} modules={modules} theme='snow' onChange={setContent} style={{ height: '90%' }} />
+      <ReactQuill defaultValue={defaultValue} modules={modules} theme='snow' onChange={setContent} style={{ height: '90%' }} />
     </div>
   )
-}
+};
 
 export default ReactQuillEditor;

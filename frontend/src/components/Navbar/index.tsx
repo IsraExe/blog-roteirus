@@ -8,16 +8,16 @@ type NavbarProps = {
 
 const Navbar = ({ title }: NavbarProps) => {
   return (
-    <nav className='fixed top-0 left-0 w-full bg-gray-800 text-white'>
-      <div className='container mx-auto px-4 py-2 flex items-center justify-between'>
+    <nav className='fixed top-0 left-0 w-full bg-gray-800 text-white h-16'>
+      <div className='flex justify-end items-center h-full pr-5'>
         <div className='text-lg font-bold'>
           {title}
         </div>
         <div className='space-x-4'>
-          <Link href='/'>
+          <Link href='/' className='text-white'>
             Home
           </Link>
-          <Link href='/create'>
+          <Link href='/createArticle' className='text-white'>
             Create
           </Link>
         </div>

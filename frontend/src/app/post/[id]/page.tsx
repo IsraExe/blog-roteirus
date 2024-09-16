@@ -42,6 +42,7 @@ const Post = ({ params }: { params: { id: string } }) => {
                       <a href='#' rel='author' className='text-xl font-bold text-gray-900 dark:text-white'>Autor</a>
                       <p className='text-base text-gray-500 dark:text-gray-400'>Full Stack Developer, internacionalist</p>
                       <p className='text-base text-gray-500 dark:text-gray-400'><time title='February 8th, 2022'>sep. 15, 2024</time></p>
+                      
                     </div>
                   </div>
                 </address>
@@ -51,6 +52,8 @@ const Post = ({ params }: { params: { id: string } }) => {
               <div>
                 <div ref={refDiv} />
               </div>
+
+              <a href={`/editArticle/${id}`}>Editar </a>
             </article>
           </div>
         </main>

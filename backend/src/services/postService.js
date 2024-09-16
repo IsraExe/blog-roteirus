@@ -1,6 +1,6 @@
 import { ImgurClient } from 'imgur';
 import errorException from '../utils/errorException.js';
-import { createPost, excludePost, showPosts, showOne } from '../repositories/postRepository.js';
+import { createPost, excludePost, showPosts, showOne, editPost } from '../repositories/postRepository.js';
 
 const SECRET = process.env.SECRET_IMGUR;
 const CLIENTID = process.env.CLIENTID_IMGUR;
@@ -25,6 +25,16 @@ export const addPost = async ({ id, title, content }) => {
     const finalContent = replaceImagesWithLinks(updatedContent, imageLinks);
 
     await createPost({ title, content: finalContent, id });
+
+};
+
+export const updatePost = async ({ id, title, content }) => {
+
+    const { updatedContent, extractedImages } = await extractImages(content);
+    const imageLinks = await generateImageLinks(extractedImages);
+    const finalContent = replaceImagesWithLinks(updatedContent, imageLinks);
+
+    await editPost({ title, content: finalContent, id });
 
 };
 

@@ -33,6 +33,22 @@ export const createPost = async ({ title, content, id }) => {
 
 };
 
+export const editPost = async ({ title, content, id }) => {
+    
+    const newPost = await prisma.post.update({
+        where: {
+            id_post: Number(id) 
+        },
+        data: {
+            nm_title: title,
+            de_content: content,
+        }
+    });
+
+    return newPost;
+
+};
+
 export const excludePost = async (id) => {
 
     await prisma.post.delete({

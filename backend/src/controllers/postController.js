@@ -1,4 +1,4 @@
-import { addPost, deletePost, showAllPosts, showOnePost } from '../services/postService.js';
+import { addPost, deletePost, showAllPosts, showOnePost, updatePost } from '../services/postService.js';
 import { badRequestError } from '../utils/errorException.js';
 
 export const showAll = async (req, res) => {
@@ -24,6 +24,16 @@ export const create = async (req, res, next) => {
     if (!content) next(badRequestError('The content must be filled'))
 
     await addPost({ id, title, content });
+
+    return res.status(200).send({ message: 'Created!' });
+};
+
+export const edit = async (req, res, next) => {
+    const { title, content, id } = req.body;
+
+    if (!content) next(badRequestError('The content must be filled'))
+
+    await updatePost({ id, title, content });
 
     return res.status(200).send({ message: 'Created!' });
 };

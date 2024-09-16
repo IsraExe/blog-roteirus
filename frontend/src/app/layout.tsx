@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Providers } from './providers';
+import Navbar from '@/components/Navbar';
 import './global.css';
 
 export const metadata: Metadata = {
@@ -10,9 +11,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang='pt-br'>
-      <body style={{ backgroundColor: '#e7e6e6'}}>
+      <body>
         <Providers>
-          {children}
+          <Navbar title='' />
+          <div className='min-h-[calc(100vh-40px)] bg-gray-900'>
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

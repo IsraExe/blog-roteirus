@@ -5,9 +5,9 @@ import Link from 'next/link';
 import fetchData from '@/utils/fetchData';
 
 type TBlog = {
-    id_post: number;
-    nm_title: string;
-    de_content: string;
+  id_post: number;
+  nm_title: string;
+  de_content: string;
 };
 
 export default function Home() {
@@ -18,35 +18,32 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const { response } = await fetchData({ method: 'GET', pathname: '/post/showAll' });
-
       const { message } = await response.json();
-
-      setBlogs(message)
-
+      setBlogs(message);
     })();
   }, [router]);
 
-  const truncateText = ({ text, length }: any) => {
+  const truncateText = ({ text, length }: { text: string; length: number }) => {
     if (text.length <= length) return text;
     return `${text.substring(0, length)}...`;
   };
 
   return (
-
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-      <div className="blog-list">
-        {/* <h2>{title}</h2> */}
+    <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 mt-16'>
+      <div className='w-full max-w-3xl space-y-4'>
         {blogs?.map((blog) => (
-          <div className="blog-preview" key={blog.id_post}>
-            <Link href={`/post/${blog.id_post}`}>
-              <h2>{blog.nm_title}</h2>
-              <p>Written by {truncateText({text: blog.de_content, length: 100})}</p>
+          <div
+            className='bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow duration-300'
+            key={blog.id_post}
+          >
+            <Link href={`/post/${blog.id_post}`} className='text-blue-600 hover:underline'>
+              <h2 className='text-2xl font-bold mb-2'>{blog.nm_title}</h2>
+              <p className='text-gray-700'>{truncateText({ text: blog.de_content, length: 100 })}</p>
+
             </Link>
           </div>
         ))}
       </div>
     </div>
-
   )
-
 };
