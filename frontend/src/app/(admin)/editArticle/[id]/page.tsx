@@ -6,6 +6,7 @@ import Modal from '@/components/Modal';
 import useFetch from '@/hooks/useFetch';
 import Loading from '@/app/loading';
 import fetchData from '@/utils/fetchData';
+import { BiEditAlt } from "react-icons/bi";
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
@@ -83,14 +84,14 @@ const Create = ({ params }: { params: { id: string } }) => {
               onClick={() => setOpen(true)}
               className='inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
             >
-              Criar Post
+              Atualizar Post
             </button>
           </div>
         </form>
       </div>
 
       <Modal.Root open={open}>
-        <Modal.Info icon={() => <svg className='w-6 h-6 text-green-600' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M12 8v4l2 2M12 4v.01M19.07 6.93a10.012 10.012 0 00-1.35-1.35M16 10h.01M7 10H6.99M4.93 6.93A10.012 10.012 0 002.68 8.28M10 16h.01M14 16h.01M16 18h.01M19.07 17.07a10.012 10.012 0 00-1.35 1.35M19 12h.01M3 12h.01M6 16h.01M7 8V8M16 4v.01M4.93 17.07A10.012 10.012 0 002.68 15.72M20 12h.01M8 12h.01M12 16h.01M4 4v.01M19 4v.01M12 20v.01M16 20v.01'></path></svg>} title='This is a preview' information='Preview' />
+        <Modal.Info icon={() => <BiEditAlt />} title='Atualizar o post' information='Deseja mesmo atualizar?' />
         <div className='flex gap-4 mt-4'>
           <Modal.Button text='Cancelar' onClick={() => setOpen(false)} />
           <Modal.Button text='Postar' onClick={handleSubmit} />

@@ -1,4 +1,3 @@
-import { Box, Typography, DialogTitle } from '@mui/material';
 import { ElementType } from 'react';
 
 type ModalInfoProps = {
@@ -9,18 +8,18 @@ type ModalInfoProps = {
 
 export const ModalInfo = ({ title, information, icon: Icon }: ModalInfoProps) => {
   return (
-    <Box textAlign='center'>
-      <Box>
-        <Icon sx={{ fontSize: 40, color: 'green.600' }} />
-      </Box>
-      <Box>
-        <DialogTitle>
+    <div className="text-center">
+      <div>
+        <Icon className="text-green-600" style={{ fontSize: 40 }} />
+      </div>
+      <div>
+        <h2 className="text-xl font-semibold">
           {title}
-        </DialogTitle>
-        <Typography variant='body2' color='text.secondary' mb={2}>
+        </h2>
+        <p className="text-gray-500 mb-4">
           {information}
-        </Typography>
-      </Box>
-    </Box>
+        </p>
+      </div>
+    </div>
   );
 };

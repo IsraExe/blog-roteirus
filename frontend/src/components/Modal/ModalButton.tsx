@@ -1,29 +1,20 @@
-import { Button, CircularProgress, ButtonProps } from '@mui/material';
-import { SxProps, Theme } from '@mui/material/styles';
 
-interface ModalButtonProps extends ButtonProps {
+interface ModalButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   loading?: boolean;
 };
 
 export function ModalButton({ text, loading, ...props }: ModalButtonProps) {
-  const buttonStyles: SxProps<Theme> = {
-    width: '100%',
-    borderRadius: '8px',
-    px: 3,
-    py: 2,
-    textTransform: 'none',
-    fontWeight: 'bold',
-  };
 
   return (
-    <Button
+    <button
       type='button'
-      sx={buttonStyles}
+      className={`w-full rounded-lg px-3 py-2 font-bold flex justify-center items-center 
+        ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 text-white'}`}
       {...props}
-      startIcon={loading ? <CircularProgress size={24} /> : null}
     >
       {loading ? 'Carregando...' : text}
-    </Button>
+    </button>
   );
-}
+
+};
