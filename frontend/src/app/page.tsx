@@ -23,11 +23,17 @@ export default function Home() {
     })();
   }, [router]);
 
-  const truncateText = ({ text, length }: { text: string; length: number }) => {
-    if (text.length <= length) return text;
-    return `${text.substring(0, length)}...`;
+  const stripHtmlTags = (html: string) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
   };
 
+  const truncateText = ({ text, length }: { text: string; length: number }) => {
+    const plainText = stripHtmlTags(text);
+    if (plainText.length <= length) return plainText;
+    return `${plainText.substring(0, length)}...`;
+  };
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 mt-16'>
       <div className='w-full max-w-3xl space-y-4'>

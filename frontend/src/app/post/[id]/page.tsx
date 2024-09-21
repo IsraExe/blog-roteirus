@@ -37,7 +37,7 @@ const Post = ({ params }: { params: { id: string } }) => {
               <header className='mb-4 lg:mb-6 not-format'>
                 <address className='flex items-center mb-6 not-italic'>
                   <div className='inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white' >
-                    <img className='mr-4 w-16 h-16 rounded-full' src='' alt='autor' />
+                    {/* <img className='mr-4 w-16 h-16 rounded-full' src='' alt='autor' /> */}
                     <div>
                       <a href='#' rel='author' className='text-xl font-bold text-gray-900 dark:text-white'>Autor</a>
                       <p className='text-base text-gray-500 dark:text-gray-400'>Full Stack Developer, internacionalist</p>
