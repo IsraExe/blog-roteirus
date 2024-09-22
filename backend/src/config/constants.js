@@ -14,3 +14,7 @@ export const DB_ERROR_CODE = {
 };
 
 export const EVERY_DAY_CRON = '0 0 * * *';
+
+export const SECRET = process.env.SECRET_IMGUR;
+export const CLIENTID = process.env.CLIENTID_IMGUR;
+export const REFRESHTOKEN = process.env.REFRESH_TOKEN_IMGUR;

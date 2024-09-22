@@ -19,11 +19,11 @@ export const getOne = async (req, res) => {
 
 export const create = async (req, res, next) => {
     const { id } = req.metadata;
-    const { title, content } = req.body;
-
+    const { title, content, coverImage } = req.body;
+    
     if (!content) next(badRequestError('The content must be filled'))
 
-    await addPost({ id, title, content });
+    await addPost({ id, title, content, coverImage });
 
     return res.status(200).send({ message: 'Created!' });
 };

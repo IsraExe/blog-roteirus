@@ -5,7 +5,15 @@ CREATE TABLE "user" (
     "de_email" TEXT NOT NULL,
     "de_password" TEXT NOT NULL,
     "de_profile_pic" TEXT,
-    "de_bio" TEXT
+    "de_bio" TEXT,
+    "id_role" INTEGER NOT NULL,
+    CONSTRAINT "user_id_role_fkey" FOREIGN KEY ("id_role") REFERENCES "role" ("id_role") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "role" (
+    "id_role" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nm_role" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -16,26 +24,11 @@ CREATE TABLE "post" (
     "dt_created" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "dt_updated" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "id_user" INTEGER NOT NULL,
-    "nm_status" INTEGER NOT NULL DEFAULT 0,
+    "de_status" INTEGER NOT NULL DEFAULT 0,
     "id_category" INTEGER,
+    "coverImage" TEXT,
     CONSTRAINT "post_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "user" ("id_user") ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT "post_id_category_fkey" FOREIGN KEY ("id_category") REFERENCES "category" ("id_category") ON DELETE SET NULL ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "role" (
-    "id_role" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "nm_role" TEXT NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "user_roles" (
-    "id_user" INTEGER NOT NULL,
-    "id_role" INTEGER NOT NULL,
-
-    PRIMARY KEY ("id_user", "id_role"),
-    CONSTRAINT "user_roles_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "user" ("id_user") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "user_roles_id_role_fkey" FOREIGN KEY ("id_role") REFERENCES "role" ("id_role") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -91,9 +84,6 @@ CREATE UNIQUE INDEX "user_de_email_key" ON "user"("de_email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "role_nm_role_key" ON "role"("nm_role");
-
--- CreateIndex
-CREATE UNIQUE INDEX "user_roles_id_user_id_role_key" ON "user_roles"("id_user", "id_role");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "category_nm_name_key" ON "category"("nm_name");

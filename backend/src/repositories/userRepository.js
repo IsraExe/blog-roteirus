@@ -7,7 +7,7 @@ export const createUser = async (name, email, password, roleId) => {
             nm_user: name,
             de_email: email,
             de_password: password,
-            id_role: roleId
+            id_role: roleId, 
         },
         include: {
             role: true

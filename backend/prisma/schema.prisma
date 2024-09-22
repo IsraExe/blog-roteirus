@@ -8,23 +8,23 @@ datasource db {
 }
 
 model user {
-  id_user        Int          @id @default(autoincrement())
+  id_user        Int       @id @default(autoincrement())
   nm_user        String
-  de_email       String       @unique
+  de_email       String    @unique
   de_password    String
   de_profile_pic String?
   de_bio         String?
   id_role        Int
-  role           role         @relation(fields: [id_role], references: [id_role])
+  role           role      @relation(fields: [id_role], references: [id_role])
   posts          post[]
   comments       comment[]
   likes          like[]
 }
 
 model role {
-  id_role Int          @id @default(autoincrement())
-  nm_role String       @unique
-  users   user[]      
+  id_role Int    @id @default(autoincrement())
+  nm_role String @unique
+  users   user[]
 }
 
 model post {
@@ -42,6 +42,8 @@ model post {
   comments    comment[]
   media       media[]
   likes       like[]
+
+  cover_image  String
 }
 
 model category {

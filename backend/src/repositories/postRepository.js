@@ -19,13 +19,14 @@ export const showOne = async (id) => {
     return post;
 }
 
-export const createPost = async ({ title, content, id }) => {
+export const createPost = async ({ title, content, id, coverImage }) => {
     
     const newPost = await prisma.post.create({
         data: {
             nm_title: title,
             de_content: content,
-            id_user: id
+            id_user: id,
+            coverImage
         }
     });
 

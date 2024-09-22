@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Resizer from 'react-image-file-resizer';
 
-const DragImage = () => {
+const DragImage = ({ getCoverImage }: {getCoverImage: (data: string) => void}) => {
   const [image, setImage] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +14,10 @@ const DragImage = () => {
         'PNG', // output type
         100, // quality
         0, // rotation
-        (uri) => setImage(uri as string),
+        (uri) => {
+          setImage(uri as string)
+          getCoverImage(uri as string)
+        },
         'base64' // output type
       );
     }

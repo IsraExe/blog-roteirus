@@ -14,7 +14,7 @@ const ReactQuillEditor = dynamic(() => import('@/components/Editor'), { ssr: fal
 const postSchema = z.object({
   title: z.string().min(1, 'O campo título é obrigatório!').max(50, 'O campo título deve ter no maximo 50 caracteres.'),
   content: z.string().min(1, 'O campo conteúdo é obrigatório!'),
-  image: z.string().optional()
+  coverImage: z.string().optional()
 });
 
 type TPost = z.infer<typeof postSchema>;
@@ -24,9 +24,11 @@ const Create = () => {
 
   const { register, handleSubmit, setValue, getValues } = useForm<TPost>({
     resolver: zodResolver(postSchema),
-  })
+  });
 
-  const getContent = (data: any) => setValue('content', data);
+  const getContent = (data: string) => setValue('content', data);
+
+  const getCoverImage = (data: string) => setValue('coverImage', data);
   
   const handlePreview = () => {
     const content = getValues('content')
@@ -41,6 +43,7 @@ const Create = () => {
     if (!response.ok) console.log('Error on post creation');
 
     console.log('New blog added successfully');
+
   };
 
   return (
@@ -58,7 +61,7 @@ const Create = () => {
               required
             />
           </div>
-          <DragImage />
+          <DragImage getCoverImage={getCoverImage} />
           <div className='flex flex-col'>
             <label htmlFor='content' className='text-lg font-medium text-gray-700'>Blog body</label>
             <div className='mt-1 border border-gray-300 rounded-md'>
@@ -94,6 +97,6 @@ const Create = () => {
       
     </div>
   );
-}
+};
 
 export default Create;
