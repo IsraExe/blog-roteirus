@@ -44,11 +44,8 @@ export default function Home() {
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 mt-16'>
       <div className='w-full max-w-3xl space-y-4'>
         {blogs?.map((blog) => (
-          <Link href={`/post/${blog.id_post}`} className='text-blue-600 hover:underline p-4'>
-            <div
-              className='bg-white shadow-lg rounded-lg p-2 hover:shadow-xl transition-shadow duration-300'
-              key={blog.id_post}
-            >
+          <Link key={blog.id_post} href={`/post/${blog.id_post}`} className='text-blue-600 hover:underline p-4'>
+            <div className='bg-white shadow-lg rounded-lg p-2 hover:shadow-xl transition-shadow duration-300'>
               <div className='flex'>
                 <picture className='mr-5'>
                   <Image src={blog.cover_image || ''} alt='Logo' className='rounded-md' width={200} height={200} />
