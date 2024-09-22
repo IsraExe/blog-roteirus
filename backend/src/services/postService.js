@@ -64,7 +64,7 @@ const generateImageLinks  = async (imageBuffers) => {
     const client = new ImgurClient({
         clientId: CLIENTID,
         clientSecret: SECRET,
-        // refreshToken: REFRESHTOKEN,
+        refreshToken: REFRESHTOKEN,
     });
 
     console.log(imageBuffers);
