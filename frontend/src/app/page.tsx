@@ -48,7 +48,7 @@ export default function Home() {
             <div className='bg-white shadow-lg rounded-lg p-2 hover:shadow-xl transition-shadow duration-300'>
               <div className='flex'>
                 <picture className='mr-5'>
-                  <Image src={blog.cover_image || ''} alt='Logo' className='rounded-md' width={200} height={200} />
+                  <Image src={blog.cover_image} alt='Logo' className='rounded-md' width={200} height={200} />
                 </picture>
                 <div>
                   <h2 className='text-2xl font-bold mb-2'>{blog.nm_title}</h2>
