@@ -15,43 +15,38 @@ export default function AuthNavigation({ children }: AuthNavigationProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isPublicUrl = PUBLIC_URLS.static.includes(pathname as string) ||
-    PUBLIC_URLS.dynamic.some(url => pathname.startsWith(url as string));
+  const isPublicUrl = PUBLIC_URLS.static.includes(pathname as string) || PUBLIC_URLS.dynamic.some(url => pathname.startsWith(url as string));
+
+  console.log(isPublicUrl)
 
   useEffect(() => {
     if (isPublicUrl) {
-      setLoading(false);
+      setLoading(true);
       return;
-    }
+    };
 
     const checkAuth = async () => {
-      try {
+
         const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
-        if (response.status !== 200) {
-          router.push('/signIn');
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('Authentication check failed:', error);
-        router.push('/signIn');
-      }
+        if (response.status !== 200) router.push('/signIn');
+        else setLoading(false);
+
     };
 
     checkAuth();
   }, [pathname, router, isPublicUrl]);
 
   if (isPublicUrl) {
-    return <>{children}</>;
-  }
+    return <>{children}</>
+  };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <CircularProgress className="w-24 h-24" />
+      <div className='flex items-center justify-center h-screen'>
+        <CircularProgress className='w-24 h-24' />
       </div>
-    );
-  }
+    )
+  };
 
-  return <>{children}</>;
-}
+  return <>{children}</>
+};
