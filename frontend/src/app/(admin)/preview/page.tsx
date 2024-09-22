@@ -9,12 +9,17 @@ const Preview = () => {
   useEffect(() => {
     if (containerRef.current) {
       const content = sessionStorage.getItem('content');
+
+      console.log(content)
+
       if (content) containerRef.current.innerHTML = content;
     }
   }, []);
 
   return (
-    <div ref={containerRef} />
+    <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 mt-16'>
+      <div className='mt-16' ref={containerRef} />
+    </div>
   );
 };
 

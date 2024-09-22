@@ -34,6 +34,7 @@ export default function Home() {
     if (plainText.length <= length) return plainText;
     return `${plainText.substring(0, length)}...`;
   };
+  
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 mt-16'>
       <div className='w-full max-w-3xl space-y-4'>

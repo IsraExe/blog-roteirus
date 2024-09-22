@@ -31,6 +31,8 @@ app.use('/user', userRoutes);
 app.use('/role', roleRoutes);
 app.use('/post', postRoutes);
 
+app.options('*', cors(CORS_OPTIONS));
+
 app.use((req, res) => res.status(404).send({ error: 'Not found route' }));
 
 app.use(errorHandler);

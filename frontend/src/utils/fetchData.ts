@@ -12,7 +12,7 @@ type FetchDataProps = {
 const fetchData = async ({ pathname, method, data }: FetchDataProps) => {
 
   const options: FetchOptions = {
-    method: method,
+    method,
     headers: {
       'Content-Type': 'application/json',
     },
