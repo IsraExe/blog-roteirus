@@ -67,6 +67,8 @@ const generateImageLinks  = async (imageBuffers) => {
         // refreshToken: REFRESHTOKEN,
     });
 
+    console.log(imageBuffers);
+
     const imageLinks = await Promise.all(imageBuffers.map(async (imageBuffer) => {
         const response = await client.upload({
             image: imageBuffer.toString('base64'),
