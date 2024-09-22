@@ -26,7 +26,7 @@ export const createPost = async ({ title, content, id, coverImage }) => {
             nm_title: title,
             de_content: content,
             id_user: id,
-            coverImage
+            cover_image: coverImage
         }
     });
 
@@ -34,7 +34,7 @@ export const createPost = async ({ title, content, id, coverImage }) => {
 
 };
 
-export const editPost = async ({ title, content, id }) => {
+export const editPost = async ({ title, content, id, coverImage }) => {
     
     const newPost = await prisma.post.update({
         where: {
@@ -43,6 +43,7 @@ export const editPost = async ({ title, content, id }) => {
         data: {
             nm_title: title,
             de_content: content,
+            cover_image: coverImage
         }
     });
 

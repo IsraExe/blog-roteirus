@@ -29,11 +29,11 @@ export const create = async (req, res, next) => {
 };
 
 export const edit = async (req, res, next) => {
-    const { title, content, id } = req.body;
+    const { title, content, id, coverImage } = req.body;
 
     if (!content) next(badRequestError('The content must be filled'))
 
-    await updatePost({ id, title, content });
+    await updatePost({ id, title, content, coverImage });
 
     return res.status(200).send({ message: 'Created!' });
 };

@@ -8,7 +8,7 @@ type TPost = {
     de_content: string;
     nm_title: string;
     id_post: number;
-  }
+  };
 };
 
 const Post = ({ params }: { params: { id: string } }) => {

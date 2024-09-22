@@ -18,10 +18,8 @@ export const showOnePost = async (id) => {
 export const addPost = async ({ id, title, content, coverImage }) => {
 
     const regex = /data:image\/(png|jpe?g|gif);base64,([^"]*)/gi;
-
-    const teste = regex.exec(coverImage);
-
-    const coverImageAsLink = await generateImageLinks([teste[2]]);
+    const base64Image = regex.exec(coverImage);
+    const coverImageAsLink = await generateImageLinks([base64Image[2]]);
 
     const { updatedContent, extractedImages } = await extractImages(content);
     const imageLinks = await generateImageLinks(extractedImages);
@@ -31,13 +29,17 @@ export const addPost = async ({ id, title, content, coverImage }) => {
 
 };
 
-export const updatePost = async ({ id, title, content }) => {
+export const updatePost = async ({ id, title, content, coverImage }) => {
+
+    const regex = /data:image\/(png|jpe?g|gif);base64,([^"]*)/gi;
+    const base64Image = regex.exec(coverImage);
+    const coverImageAsLink = await generateImageLinks([base64Image[2]]);
 
     const { updatedContent, extractedImages } = await extractImages(content);
     const imageLinks = await generateImageLinks(extractedImages);
     const finalContent = replaceImagesWithLinks(updatedContent, imageLinks);
 
-    await editPost({ title, content: finalContent, id });
+    await editPost({ title, content: finalContent, id, coverImage: coverImageAsLink[0] });
 
 };
 

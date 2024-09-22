@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Resizer from 'react-image-file-resizer';
 
-const DragImage = ({ getCoverImage }: {getCoverImage: (data: string) => void}) => {
-  const [image, setImage] = useState<string | null>(null);
+const DragImage = ({ getCoverImage, defaultImage }: {getCoverImage: (data: string) => void, defaultImage?: string}) => {
+  const [image, setImage] = useState<string | undefined>(defaultImage);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
