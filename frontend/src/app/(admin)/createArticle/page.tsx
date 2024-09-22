@@ -7,6 +7,7 @@ import DragImage from '@/components/DragImage';
 import z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import fetchData from '@/utils/fetchData';
 
 const ReactQuillEditor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
@@ -35,16 +36,9 @@ const Create = () => {
 
   const handlePost = async (data: TPost) => {
 
-    console.log(data)
+    const { response } = await fetchData({ pathname: '/post/create', method: 'POST', data });
 
-    const response = await fetch('http://localhost:3001/post/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    });
+    if (!response.ok) console.log('Error on post creation');
 
     console.log('New blog added successfully');
   };

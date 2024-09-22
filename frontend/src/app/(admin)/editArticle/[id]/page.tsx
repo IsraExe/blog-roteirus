@@ -41,10 +41,9 @@ const Create = ({ params }: { params: { id: string } }) => {
 
     const { response } = await fetchData({ pathname: '/post/edit', method: 'POST', data: blog })
 
-    //TODO: If ok, returns home and shows a toast
-    // else shows a toast error
+    if (!response.ok) console.log('Error on post creation');
 
-    console.log('New blog added successfully');
+    console.log('Blog updatedsuccessfully');
   };
 
   if (isLoading) return <Loading />
