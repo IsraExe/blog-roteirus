@@ -10,7 +10,7 @@ const Preview = () => {
     if (containerRef.current) {
       const content = sessionStorage.getItem('content');
 
-      console.log(content)
+      console.log(content);
 
       if (content) containerRef.current.innerHTML = content;
     }

@@ -1,16 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Modal from '@/components/Modal';
 import useFetch from '@/hooks/useFetch';
 import Loading from '@/app/loading';
 import fetchData from '@/utils/fetchData';
-import { BiEditAlt } from "react-icons/bi";
+import { BiEditAlt } from 'react-icons/bi';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import DragImage from '@/components/DragImage';
+import CardPost from '@/components/CardPost';
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
@@ -35,19 +36,22 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, getValues } = useForm<TPost2>({
+  const { register, handleSubmit, setValue, watch } = useForm<TPost2>({
     resolver: zodResolver(postSchema),
   });
 
-  const getContent = (data: string) => setValue('content', data);
+  const getContent = useCallback((data: string) => setValue('content', data), [setValue]);
   const getCoverImage = (data: string) => setValue('coverImage', data);
 
   const { responseData, isLoading } = useFetch<TPost>({ pathname: `/post/getOne/${id}`, method: 'GET' });
 
   const { data } = responseData;
 
+  const coverImage = watch('coverImage'); 
+  const title = watch('title');
+  const content = watch('content');
+
   const handlePreview = () => {
-    const content = getValues('content');
     sessionStorage.setItem('content', content);
     window.open('/preview', '_blank');
   };
@@ -59,14 +63,14 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
       id: Number(id),
     };
 
-    const { response } = await fetchData({ pathname: '/post/edit', method: 'POST', data: updatedData})
+    const { response } = await fetchData({ pathname: '/post/edit', method: 'POST', data: updatedData});
 
     if (!response.ok) console.log('Error on post creation');
 
     console.log('Blog updatedsuccessfully');
   };
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading />;
 
   return (
     <div className='flex flex-col items-center justify-center bg-gray-100 p-4 h-screen'>
@@ -108,6 +112,9 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
             </button>
           </div>
         </form>
+
+        <CardPost title={title} content={content} coverImage={coverImage} />
+
       </div>
 
       <Modal.Root open={open}>

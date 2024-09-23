@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useState } from 'react';
 import Resizer from 'react-image-file-resizer';
 
@@ -15,8 +16,8 @@ const DragImage = ({ getCoverImage, defaultImage }: {getCoverImage: (data: strin
         100, // quality
         0, // rotation
         (uri) => {
-          setImage(uri as string)
-          getCoverImage(uri as string)
+          setImage(uri as string);
+          getCoverImage(uri as string);
         },
         'base64' // output type
       );
@@ -32,7 +33,7 @@ const DragImage = ({ getCoverImage, defaultImage }: {getCoverImage: (data: strin
       >
         <div className='flex flex-col items-center space-y-2'>
           {!image && <p>Upload your image here</p>}
-          {image && <img src={image} alt='Uploaded' className='w-full h-auto rounded-md' />}
+          {image && <Image src={image} alt='Uploaded' className='w-full h-auto rounded-md' />}
         </div>
         <input
           id='file_upload'

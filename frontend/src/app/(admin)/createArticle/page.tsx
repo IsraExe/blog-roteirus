@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Modal from '@/components/Modal';
-import DragImage from '@/components/DragImage';
 import z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import fetchData from '@/utils/fetchData';
+import Modal from '@/components/Modal';
+import DragImage from '@/components/DragImage';
+import CardPost from '@/components/CardPost';
 
 const ReactQuillEditor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
@@ -17,37 +18,36 @@ const postSchema = z.object({
   coverImage: z.string().optional()
 });
 
-type TPost = z.infer<typeof postSchema>;
+type TPost = z.infer<typeof postSchema>
 
-const Create = () => {
+const CreateArticle = () => {
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, getValues } = useForm<TPost>({
+  const { register, handleSubmit, setValue, watch } = useForm<TPost>({
     resolver: zodResolver(postSchema),
   });
 
-  const getContent = (data: string) => setValue('content', data);
+  const getContent = useCallback((data: string) => setValue('content', data), [setValue]);
 
   const getCoverImage = (data: string) => setValue('coverImage', data);
-  
+
+  const coverImage = watch('coverImage'); 
+  const title = watch('title');
+  const content = watch('content');
+
   const handlePreview = () => {
-    const content = getValues('content')
     sessionStorage.setItem('content', content);
     window.open('/preview', '_blank');
   };
 
   const handlePost = async (data: TPost) => {
-
     const { response } = await fetchData({ pathname: '/post/create', method: 'POST', data });
-
     if (!response.ok) console.log('Error on post creation');
-
     console.log('New blog added successfully');
-
   };
 
   return (
-    <div className='flex flex-col items-center justify-center bg-gray-100 p-4 h-screen'>
+    <div className='flex flex-col items-center justify-center bg-gray-100 p-4 min-h-screen'>
       <div className='w-full max-w-3xl bg-white p-6 rounded-lg shadow-lg mt-16'>
         <form onSubmit={handleSubmit(handlePost)} className='space-y-4'>
           <div className='flex flex-col'>
@@ -85,6 +85,9 @@ const Create = () => {
             </button>
           </div>
         </form>
+
+        <CardPost title={title} content={content} coverImage={coverImage} />
+
       </div>
 
       <Modal.Root open={open}>
@@ -94,9 +97,9 @@ const Create = () => {
           <Modal.Button text='Postar' onClick={handleSubmit(handlePost)} />
         </div>
       </Modal.Root>
-      
+
     </div>
   );
 };
 
-export default Create;
+export default CreateArticle;

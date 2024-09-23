@@ -18,14 +18,14 @@ import fetchData from '@/utils/fetchData';
 import styles from './page.module.css';
 
 const signUpSchema = z.object({
-  name: z.string().min(1, "O campo nome completo é obrigatório!").max(50, "O campo nome completo deve ter no maximo 50 caracteres."),
-  email: z.string().min(1, "O campo email é obrigatório!").email('Email inválido!').max(50, "O campo email deve ter no maximo 50 caracteres."),
-  password: z.string().min(1, "O campo senha é obrigatório!").max(64, "O campo senha deve ter no maximo 64 caracteres.")
+  name: z.string().min(1, 'O campo nome completo é obrigatório!').max(50, 'O campo nome completo deve ter no maximo 50 caracteres.'),
+  email: z.string().min(1, 'O campo email é obrigatório!').email('Email inválido!').max(50, 'O campo email deve ter no maximo 50 caracteres.'),
+  password: z.string().min(1, 'O campo senha é obrigatório!').max(64, 'O campo senha deve ter no maximo 64 caracteres.')
     .regex(/[\W_]/, 'A senha deve conter pelo menos um caractere especial!')
     .regex(/.*[a-z].*/, 'A senha deve conter pelo menos uma letra minúscula!')
     .regex(/.*[A-Z].*/, 'A senha deve conter pelo menos uma letra maiúscula!')
     .regex(/.*\d.*/, 'A senha deve conter pelo menos um número!'),
-  confirmPassword: z.string().min(1, "O campo confirmar senha é obrigatório!"),
+  confirmPassword: z.string().min(1, 'O campo confirmar senha é obrigatório!'),
   idRole: z.number(),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'A senha de confirmação não pode ser diferente!',

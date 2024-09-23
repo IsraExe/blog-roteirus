@@ -1,16 +1,11 @@
-import { Container, Typography, Link } from '@mui/material';
-import styles from './footer.module.css';
-
 export default function Footer() {
-
   const currentYear = new Date().getFullYear();
 
   return (
-    <Container className={styles['footer-container']}>
-      <Typography variant='body2' color='text.secondary' align='center'>
-        Copyright © <Link color='inherit' href='#'> Roteirus </Link> {currentYear}.
-      </Typography>
-    </Container>
+    <div className="container mx-auto py-4">
+      <p className="text-center text-sm text-gray-600">
+        Copyright © <a href="#" className="text-blue-500 hover:underline">Roteirus</a> {currentYear}.
+      </p>
+    </div>
   );
-  
 };
