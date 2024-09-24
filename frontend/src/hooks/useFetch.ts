@@ -49,7 +49,7 @@ export default function useFetch<T>({ pathname, data, method }: UseFetchProps): 
           setError(`HTTP error! status: ${response.status}`);
           setLoading(false);
           return;
-        }
+        };
 
         setPulledData(dataFetched);
         setLoading(false);
@@ -59,9 +59,9 @@ export default function useFetch<T>({ pathname, data, method }: UseFetchProps): 
           setError(err.message);
         } else {
           setError('An unknown error occurred');
-        }
+        };
         setLoading(false);
-      }
+      };
     })();
 
     return () => controller.abort();

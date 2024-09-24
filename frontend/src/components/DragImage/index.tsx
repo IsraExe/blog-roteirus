@@ -2,7 +2,12 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Resizer from 'react-image-file-resizer';
 
-const DragImage = ({ getCoverImage, defaultImage }: {getCoverImage: (data: string) => void, defaultImage?: string}) => {
+type DragImageProps = {
+  getCoverImage: (data: string) => void;
+  defaultImage?: string;
+};
+
+const DragImage = ({ getCoverImage, defaultImage }: DragImageProps) => {
   const [image, setImage] = useState<string | undefined>(defaultImage);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

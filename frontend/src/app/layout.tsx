@@ -5,7 +5,7 @@ import './global.css';
 
 export const metadata: Metadata = {
   title: 'Roteirus',
-  description: 'Your info guider',
+  description: 'Reviews de filmes e séries! Escreva a sua!',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -14,11 +14,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <Providers>
           <Navbar title='' />
-          <div className='min-h-[calc(100vh-40px)] bg-gray-900'>
-            {children}
-          </div>
+          {children}
         </Providers>
       </body>
     </html>
   );
-}
+};
