@@ -4,32 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
-* {
-  margin: 0;
-  font-family: "Quicksand";
-  color: #333;
-  box-sizing: border-box;
-  border: none;
-}
-
-:root {
-  --primary-color: #810808;
-  --border-color-fields: rgb(207, 207, 201);
-  --outline-color: #bbb4b4;
-  --secondary-color: #b21313;
-
-  --radius-border-pattern: 15px;
-  --radius-border-pattern-fields: 5px;
-}
-
-.content {
-  max-width: 75em;
-  margin: 2.5em auto;
-  padding: 20px;
-  display: flex;
-  min-height: calc(100vh - 10em);  /* 10em refers to navbar and margin height */
-}
-
 /* Quill Styles */
 
 .ql-align-right {

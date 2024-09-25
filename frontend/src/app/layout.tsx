@@ -14,7 +14,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang='pt-br'>
       <body>
         <Providers>
-          <Navbar title='' />
+          <Navbar />
           {children}
           <Footer />
         </Providers>

@@ -22,10 +22,11 @@ export default function AuthNavigation({ children }: AuthNavigationProps) {
 
     const checkAuth = async () => {
       const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
-      if (response.status !== 200) router.push('/signIn');
-      else setLoading(false);
+      if (response.status !== 200) {
+        router.push('/login');
+        setLoading(false);
+      } else setLoading(false);
     };
-
     checkAuth();
   }, [pathname, router, isPublicUrl]);
 

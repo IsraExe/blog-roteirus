@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import fetchData from '@/utils/fetchData';
 
-import Copyright from '@/components/Footer';
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
 
@@ -63,7 +62,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center bg-gray-100 min-h-[calc(100vh-40px)]'>
+    <div className='flex flex-col items-center justify-center bg-gray-100 min-h-[calc(100vh-52px)]'>
       <div className='text-center mb-8'>
         <h1 className='text-4xl font-bold text-gray-900'>Roteirus - Login</h1>
         {signInError && <p className='text-red-600 mt-2'>{signInError}</p>}
@@ -114,7 +113,6 @@ export default function SignIn() {
           </a>
         </div>
       </form>
-      <Copyright />
       <ToastContainer />
     </div>
   );
