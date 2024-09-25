@@ -23,7 +23,7 @@ const getMenuList = (pathname: string) => {
       label: 'Meu perfil',
       active: pathname.includes('/meu-perfil'),
     },
-  ]
+  ];
 };
 
 const Navbar = ({ title }: NavbarProps) => {

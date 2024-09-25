@@ -16,7 +16,7 @@ export default function Home() {
 
   const { responseData: blogs, isLoading } = useFetch<TBlog>({ pathname: '/post/showAll', method: 'GET' });
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <div>Loading...</div>;
 
   const allBlogs = blogs.data;
   

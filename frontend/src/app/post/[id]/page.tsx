@@ -52,7 +52,7 @@ const Post = ({ params }: { params: { id: string } }) => {
                       {data.user.nm_user}
                     </a>
                     <p className='text-base text-gray-500 dark:text-gray-400'>
-                      {data.user.de_bio || "Bio not available."}
+                      {data.user.de_bio || 'Bio not available.'}
                     </p>
                     <p className='text-base text-gray-500 dark:text-gray-400'>
                       <time title='February 8th, 2022'> set. 15, 2024 </time>

@@ -8,9 +8,9 @@ const MyProfile = () => {
 
   const { responseData, isLoading } = useFetch<any>({ pathname: '/user/getUser', method: 'GET' });
 
-  console.log(responseData)
+  console.log(responseData);
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading />;
 
   return (
 
@@ -43,7 +43,7 @@ const MyProfile = () => {
         </address>
       </header>
     </div>
-  )
+  );
 };
 
 export default MyProfile;
