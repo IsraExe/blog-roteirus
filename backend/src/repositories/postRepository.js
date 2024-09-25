@@ -15,13 +15,12 @@ export const showOne = async (id) => {
             id_post: Number(id)
         },
         include: {
-            user: true, // Assuming the relationship is defined as 'user' in your Prisma schema
+            user: true,
         }
     });
 
-    console.log(post)
-
     return post;
+    
 };
 
 export const createPost = async ({ title, content, id, coverImage }) => {

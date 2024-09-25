@@ -1,5 +1,20 @@
 import prisma from '../lib/prisma.js';
 
+export const findUserById = async (id) => {
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id_user: Number(id),  
+        },
+        include: {
+            role: true,
+            posts: true
+        }
+    });
+
+    return user;
+};
+
 export const createUser = async (name, email, password, roleId) => {
 
     const user = await prisma.user.create({
@@ -17,7 +32,6 @@ export const createUser = async (name, email, password, roleId) => {
     return user;
     
 };
-
 
 export const updateUser = async (id, name, email, password) => {
 

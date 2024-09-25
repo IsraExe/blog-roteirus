@@ -6,4 +6,4 @@ const router = express.Router();
 
 router.post('/create', auth, create);
 
-export default router;
+export { router as roleRoutes };

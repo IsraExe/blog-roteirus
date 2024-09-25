@@ -1,45 +1,38 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import fetchData from '@/utils/fetchData';
 import Head from 'next/head';
 import CardPost from '@/components/CardPost';
+import useFetch from '@/hooks/useFetch';
 
 type TBlog = {
-  id_post: number;
-  nm_title: string;
-  de_content: string;
-  cover_image: string;
+  data: {
+    id_post: number;
+    nm_title: string;
+    de_content: string;
+    cover_image: string;
+  }[];
 };
 
 export default function Home() {
-  const [blogs, setBlogs] = useState<TBlog[]>([]);
 
-  const router = useRouter();
+  const { responseData: blogs, isLoading } = useFetch<TBlog>({ pathname: '/post/showAll', method: 'GET' });
 
-  useEffect(() => {
-    (async () => {
-      const { response } = await fetchData({ method: 'GET', pathname: '/post/showAll' });
-      const { message } = await response.json();
+  if (isLoading) return <div>Loading...</div>
 
-      console.log(message);
-
-      setBlogs(message);
-    })();
-  }, [router]);
-
+  const allBlogs = blogs.data;
+  
   return (
     <>
+
       <Head>
         <title>Roteirus</title>
-        <meta name="Roteirus" content="The blog to post your view point." />
-        <script type="application/ld+json">
+        <meta name='Roteirus' content='The blog to post your view point.' />
+        <script type='application/ld+json'>
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Blog',
             'name': 'Roteirus',
             'url': 'https://roteirus.com.br/',
-            'blogPost': blogs.map(blog => ({
+            'blogPost': allBlogs.map((blog: any) => ({
               '@type': 'BlogPosting',
               'headline': blog.nm_title,
               'image': blog.cover_image,
@@ -49,9 +42,10 @@ export default function Home() {
           })}
         </script>
       </Head>
-      <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 mt-16'>
+
+      <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-20'>
         <div className='w-full max-w-3xl space-y-4'>
-          {blogs?.map((blog) => (
+          {allBlogs.map((blog: any) => (
             <CardPost
               key={blog.id_post}
               id={blog.id_post}
@@ -62,6 +56,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+
     </>
   );
 };

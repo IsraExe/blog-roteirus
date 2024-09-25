@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Providers } from './providers';
 import Navbar from '@/components/Navbar';
 import './global.css';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Roteirus',
@@ -15,8 +16,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Providers>
           <Navbar title='' />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
-  );
+  )
 };

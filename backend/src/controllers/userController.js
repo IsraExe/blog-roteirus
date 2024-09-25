@@ -2,11 +2,29 @@ import bcrypt from 'bcrypt';
 import prisma from '../lib/prisma.js';
 import verifyReqFields from '../utils/verifyReqFields.js';
 import { badRequestError, unauthorizedError } from '../utils/errorException.js';
-import { createUser, updateUser, viewUsers, deleteUser } from '../repositories/userRepository.js';
+import { createUser, updateUser, viewUsers, deleteUser, findUserById } from '../repositories/userRepository.js';
 import cookiesOptions from '../helpers/cookiesOptions.js';
 import createTokens from '../helpers/createTokens.js';
 
-const create = async (req, res, next) => {
+export const read = async (req, res, next) => {
+    
+    const users = await viewUsers();
+
+    return res.status(200).send({ message: users });
+
+};
+
+export const getUser = async (req, res, next) => {
+
+    const { id } = req.metadata;
+
+    const user = await findUserById(id);
+
+    return res.status(200).send({ data: user });
+
+};
+
+export const create = async (req, res, next) => {
 
     const { name, email, password, idRole } = req.body;
 
@@ -20,7 +38,7 @@ const create = async (req, res, next) => {
 
 };
 
-const update = async (req, res, next) => {
+export const update = async (req, res, next) => {
 
     const { id } = req.metadata;
     const { name, email, password } = req.body;
@@ -35,15 +53,7 @@ const update = async (req, res, next) => {
 
 };
 
-const read = async (req, res, next) => {
-    
-    const users = await viewUsers();
-
-    return res.status(200).send({ message: users });
-
-};
-
-const exclude = async (req, res, next) => {
+export const exclude = async (req, res, next) => {
 
     const { id } = req.metadata;
 
@@ -58,7 +68,7 @@ const exclude = async (req, res, next) => {
 
 };
 
-const login = async (req, res, next) => {
+export const login = async (req, res, next) => {
 
     const { email, password } = req.body;
 
@@ -85,7 +95,7 @@ const login = async (req, res, next) => {
 
 };
 
-const logout = async (req, res, next) => {
+export const logout = async (req, res, next) => {
 
     const host = req.hostname;
     const domain = host === 'localhost' ? host : host.slice(host.indexOf('.'), host.length);
@@ -95,5 +105,3 @@ const logout = async (req, res, next) => {
     return res.status(200).send({ message: 'Cookies cleared. Logout successfully' });
 
 };
-
-export { create, update, read, exclude, login, logout };

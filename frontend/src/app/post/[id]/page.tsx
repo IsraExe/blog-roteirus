@@ -66,9 +66,7 @@ const Post = ({ params }: { params: { id: string } }) => {
               </h1>
             </header>
 
-            <div>
-              <div ref={refDiv} />
-            </div>
+            <div ref={refDiv} />
 
             <a href={`/editArticle/${id}`}> Editar </a>
           </article>

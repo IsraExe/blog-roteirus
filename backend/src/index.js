@@ -7,10 +7,10 @@ import logger from './middlewares/logger.js';
 import errorHandler from './middlewares/errorHandler.js';
 import limiter from './middlewares/limiter.js';
 
-import userRoutes from './routes/userRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import roleRoutes from './routes/roleRoutes.js';
-import postRoutes from './routes/postRoutes.js';
+import { userRoutes } from './routes/userRoutes.js';
+import { authRoutes } from './routes/authRoutes.js';
+import { roleRoutes } from './routes/roleRoutes.js';
+import { postRoutes } from './routes/postRoutes.js';
 
 import { SERVER_PORT, CORS_OPTIONS } from './config/constants.js';
 

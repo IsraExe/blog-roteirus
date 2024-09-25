@@ -10,4 +10,4 @@ router.post('/create', auth, create);
 router.post('/edit', edit);
 router.delete('/exclude/:id', auth, exclude)
 
-export default router;
+export { router as postRoutes };

@@ -6,7 +6,7 @@ export const showAll = async (req, res) => {
 
     //TODO: PAGINATION
 
-    return res.status(200).send({ message: allPosts });
+    return res.status(200).send({ data: allPosts });
 };
 
 export const getOne = async (req, res) => {
