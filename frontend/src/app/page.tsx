@@ -43,8 +43,8 @@ export default function Home() {
         </script>
       </Head>
 
-      <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-20'>
-        <div className='w-full max-w-3xl space-y-4'>
+      <div className='flex flex-col items-center justify-center'>
+        <div className='w-full max-w-4xl space-y-4'>
           {allBlogs.map((blog: any) => (
             <CardPost
               key={blog.id_post}
