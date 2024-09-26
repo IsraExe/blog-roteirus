@@ -2,6 +2,7 @@
 import Head from 'next/head';
 import CardPost from '@/components/CardPost';
 import useFetch from '@/hooks/useFetch';
+import Loading from './loading';
 
 type TBlog = {
   data: {
@@ -16,13 +17,12 @@ export default function Home() {
 
   const { responseData: blogs, isLoading } = useFetch<TBlog>({ pathname: '/post/showAll', method: 'GET' });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   const allBlogs = blogs.data;
   
   return (
     <>
-
       <Head>
         <title>Roteirus</title>
         <meta name='Roteirus' content='The blog to post your view point.' />
@@ -56,7 +56,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
     </>
   );
 };

@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { CircularProgress } from '@mui/material';
@@ -18,15 +16,15 @@ export default function AuthNavigation({ children }: AuthNavigationProps) {
   const isPublicUrl = PUBLIC_URLS.static.includes(pathname as string) || PUBLIC_URLS.dynamic.some(url => pathname.startsWith(url as string));
 
   useEffect(() => {
-    if (isPublicUrl) return setLoading(true);
-
     const checkAuth = async () => {
+      if (isPublicUrl) return;
+
       const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
-      if (response.status !== 200) {
-        router.push('/login');
-        setLoading(false);
-      } else setLoading(false);
+
+      if (response.status !== 200) router.push('/login');
+      if (response.status === 200) setLoading(false);
     };
+
     checkAuth();
   }, [pathname, router, isPublicUrl]);
 

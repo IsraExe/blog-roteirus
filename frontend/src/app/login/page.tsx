@@ -62,7 +62,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center bg-gray-100 min-h-[calc(100vh-52px)]'>
+    <div className='flex flex-col items-center justify-center bg-gray-100 h-full'>
       <div className='text-center mb-8'>
         <h1 className='text-4xl font-bold text-gray-900'>Roteirus - Login</h1>
         {signInError && <p className='text-red-600 mt-2'>{signInError}</p>}

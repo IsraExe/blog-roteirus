@@ -2,14 +2,14 @@
 
 import { useCallback, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Modal from '@/components/Modal';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import useFetch from '@/hooks/useFetch';
-import Loading from '@/app/loading';
 import fetchData from '@/utils/fetchData';
 import { BiEditAlt } from 'react-icons/bi';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import Loading from '@/app/loading';
+import Modal from '@/components/Modal';
 import DragImage from '@/components/DragImage';
 import CardPost from '@/components/CardPost';
 
@@ -63,11 +63,11 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
       id: Number(id),
     };
 
-    const { response } = await fetchData({ pathname: '/post/edit', method: 'POST', data: updatedData});
+    const { response } = await fetchData({ pathname: '/post/edit', method: 'POST', data: updatedData });
 
     if (!response.ok) console.log('Error on post creation');
 
-    console.log('Blog updatedsuccessfully');
+    console.log('Blog updated successfully');
   };
 
   if (isLoading) return <Loading />;
@@ -124,6 +124,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
           <Modal.Button text='Postar' onClick={handleSubmit(handleEdit)} />
         </div>
       </Modal.Root>
+      
     </div>
   );
 };

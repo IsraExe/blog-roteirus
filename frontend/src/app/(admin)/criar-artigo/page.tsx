@@ -47,7 +47,7 @@ const CreateArticle = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center bg-gray-100 p-4 min-h-screen'>
+    <div className='flex flex-col items-center justify-center bg-gray-100 p-4'>
       <div className='w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg'>
         <form onSubmit={handleSubmit(handlePost)} className='space-y-4'>
           <div className='flex flex-col'>

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Providers } from './providers';
 import Navbar from '@/components/Navbar';
-import './global.css';
 import Footer from '@/components/Footer';
+import './global.css';
 
 export const metadata: Metadata = {
   title: 'Roteirus',
@@ -12,17 +12,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang='pt-br'>
-      <body className='min-h-screen'>
+      <body className='overflow-y-hidden min-h-screen'>
         <Providers>
-          <div className='flex flex-col min-h-screen bg-gray-100 pt-16'>
-            <Navbar />
-            <div className='flex-grow'>
+          <Navbar />
+          <div className='flex flex-col h-screen'>
+            <div className='overflow-y-auto bg-gray-100 pt-16 h-screen flex flex-col justify-between'>
               {children}
+              <Footer />
             </div>
-            <Footer />
-            {/* <main className="flex-grow">{children}</main> */}
           </div>
-
         </Providers>
       </body>
     </html>
