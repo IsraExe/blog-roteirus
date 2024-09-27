@@ -38,7 +38,7 @@ const DragImage = ({ getCoverImage, defaultImage }: DragImageProps) => {
       >
         <div className='flex flex-col items-center space-y-2'>
           {!image && <p>Upload your image here</p>}
-          {image && <Image src={image} alt='Uploaded' className='w-full h-auto rounded-md' />}
+          {image && <Image src={image} alt='Uploaded' className='w-full h-auto rounded-md' width={200} height={200} />}
         </div>
         <input
           id='file_upload'

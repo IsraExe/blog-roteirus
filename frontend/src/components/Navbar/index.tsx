@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -30,7 +31,9 @@ const Navbar = () => {
     <nav className='fixed top-0 left-0 w-full mx-auto bg-gray-800 text-white h-16'>
       <div className='flex items-center mx-auto h-full max-w-4xl'>
         <div className='text-lg font-bold'>
-          Logo do blog
+          <Link href='/'>
+            <Image src='/logo_positive.png' alt='logo' width={50} height={50} />
+          </Link>
         </div>
         <div className='flex-1 justify-end h-full self-end flex gap-2'>
           {menuList.map((menu) => (

@@ -31,9 +31,9 @@ const Post = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <main className='pt-20 lg:pb-24 bg-white antialiased'>
-        <div className='flex justify-between px-4 mx-auto max-w-screen-xl '>
-          <article className='mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert'>
+      <main className='lg:pb-24 antialiased'>
+        <div className='flex justify-between mt-2'>
+          <article className='mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert'>
             <header className='mb-4 lg:mb-6 not-format'>
 
               <address className='flex items-center mb-6 not-italic'>
@@ -68,7 +68,7 @@ const Post = ({ params }: { params: { id: string } }) => {
 
             <div ref={refDiv} />
 
-            <a href={`/editArticle/${id}`}> Editar </a>
+            <a href={`/editar-artigo/${id}`}> Editar </a>
           </article>
         </div>
       </main>

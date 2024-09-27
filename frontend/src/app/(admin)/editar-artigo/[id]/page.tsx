@@ -36,9 +36,11 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch } = useForm<TPost2>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<TPost2>({
     resolver: zodResolver(postSchema),
   });
+
+  console.log(errors);
 
   const getContent = useCallback((data: string) => setValue('content', data), [setValue]);
   const getCoverImage = (data: string) => setValue('coverImage', data);
@@ -73,8 +75,8 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className='flex flex-col items-center justify-center bg-gray-100 p-4 h-screen'>
-      <div className='w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg mt-16'>
+    <div className='flex flex-col items-center justify-center bg-gray-100 p-4'>
+      <div className='w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg'>
         <form onSubmit={handleSubmit(handleEdit)} className='space-y-4'>
           <div className='flex flex-col'>
             <label htmlFor='title' className='text-lg font-medium text-gray-700'>Título</label>

@@ -8,7 +8,7 @@ type CardPostProps = {
   coverImage: string | undefined;
 };
 
-const CardPost = ({id, title, content, coverImage }: CardPostProps) => {
+const CardPost = ({ id, title, content, coverImage }: CardPostProps) => {
 
   const stripHtmlTags = (html: string) => {
     const div = document.createElement('div');
@@ -23,12 +23,18 @@ const CardPost = ({id, title, content, coverImage }: CardPostProps) => {
   };
 
   return (
-    <article>
-      <Link href={id ? `/post/${id}` : '#'} className='text-blue-600 hover:underline p-4'>
+    <article className='mb-2'>
+      <Link href={id ? `/post/${id}` : '#'} className='text-blue-600 hover:underline'>
         <div className='bg-white shadow-lg rounded-lg p-2 hover:shadow-xl transition-shadow duration-300'>
           <div className='flex'>
             <picture className='mr-5'>
-              <Image src={coverImage || ''} alt={`Cover image for ${title}`} className='rounded-md' width={200} height={200} />
+              <Image
+                src={coverImage || ''}
+                alt={`Cover image for ${title}`}
+                className='rounded-md object-cover max-w-[300px] max-h-[200px] sm:max-w-[200px] sm:max-h-[150px]'
+                width={300}
+                height={200}
+              />
             </picture>
             <div>
               <h2 className='text-2xl font-bold mb-2'>{title}</h2>
@@ -39,6 +45,7 @@ const CardPost = ({id, title, content, coverImage }: CardPostProps) => {
       </Link>
     </article>
   );
+
 };
 
 export default CardPost;
