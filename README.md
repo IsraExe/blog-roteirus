@@ -21,4 +21,4 @@
 - **Next js** 
 - **Tailwind** 
 - **Prisma**
-- **SQLite**
+- **PostgreSQL**

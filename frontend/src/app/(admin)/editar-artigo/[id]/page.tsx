@@ -12,6 +12,8 @@ import Loading from '@/app/loading';
 import Modal from '@/components/Modal';
 import DragImage from '@/components/DragImage';
 import CardPost from '@/components/CardPost';
+import Label from '@/components/Label';
+import FieldError from '@/components/FieldError';
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
@@ -49,7 +51,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
 
   const { data } = responseData;
 
-  const coverImage = watch('coverImage'); 
+  const coverImage = watch('coverImage');
   const title = watch('title');
   const content = watch('content');
 
@@ -79,7 +81,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
       <div className='w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg'>
         <form onSubmit={handleSubmit(handleEdit)} className='space-y-4'>
           <div className='flex flex-col'>
-            <label htmlFor='title' className='text-lg font-medium text-gray-700'>Título</label>
+            <Label text='Título' htmlFor='title' />
             <input
               {...register('title')}
               id='title'
@@ -89,13 +91,16 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
               required
               defaultValue={data.nm_title}
             />
+            {errors.title && <FieldError message={errors.title.message!} />}
           </div>
           <DragImage getCoverImage={getCoverImage} defaultImage={data.cover_image} />
+          {errors.content && <FieldError message={errors.content.message!} />}
           <div className='flex flex-col'>
-            <label htmlFor='content' className='text-lg font-medium text-gray-700'>Conteúdo</label>
+            <Label text='Conteúdo' htmlFor='content' />
             <div className='mt-1 border border-gray-300 rounded-md'>
               <Editor getContent={getContent} defaultValue={data.de_content} />
             </div>
+            {errors.content && <FieldError message={errors.content.message!} />}
           </div>
           <div className='flex gap-4 mt-4'>
             <button
@@ -126,7 +131,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
           <Modal.Button text='Postar' onClick={handleSubmit(handleEdit)} />
         </div>
       </Modal.Root>
-      
+
     </div>
   );
 };

@@ -9,21 +9,23 @@ import fetchData from '@/utils/fetchData';
 import Modal from '@/components/Modal';
 import DragImage from '@/components/DragImage';
 import CardPost from '@/components/CardPost';
+import Label from '@/components/Label';
+import FieldError from '@/components/FieldError';
 
 const ReactQuillEditor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
 const postSchema = z.object({
-  title: z.string().min(1, 'O campo título é obrigatório!').max(50, 'O campo título deve ter no maximo 50 caracteres.'),
+  title: z.string().min(1, 'O campo título é obrigatório!').max(100, 'O campo título deve ter no maximo 100 caracteres.'),
   content: z.string().min(1, 'O campo conteúdo é obrigatório!'),
   coverImage: z.string().optional()
 });
 
-type TPost = z.infer<typeof postSchema>
+type TPost = z.infer<typeof postSchema>;
 
 const CreateArticle = () => {
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch } = useForm<TPost>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<TPost>({
     resolver: zodResolver(postSchema),
   });
 
@@ -46,12 +48,14 @@ const CreateArticle = () => {
     console.log('New blog added successfully');
   };
 
+  const openModalAndSubmit = handleSubmit(() => setOpen(true));
+
   return (
     <div className='flex flex-col items-center justify-center bg-gray-100 p-4'>
       <div className='w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg'>
         <form onSubmit={handleSubmit(handlePost)} className='space-y-4'>
           <div className='flex flex-col'>
-            <label htmlFor='title' className='text-lg font-medium text-gray-700'>Blog title</label>
+            <Label text='Título' htmlFor='title' />
             <input
               id='title'
               {...register('title')}
@@ -60,13 +64,16 @@ const CreateArticle = () => {
               className='mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
               required
             />
+            {errors.title && <FieldError message={errors.title.message!} />}
           </div>
           <DragImage getCoverImage={getCoverImage} />
+          {errors.content && <FieldError message={errors.content.message!} />}
           <div className='flex flex-col'>
-            <label htmlFor='content' className='text-lg font-medium text-gray-700'>Blog body</label>
+            <Label text='Conteúdo' htmlFor='content' />
             <div className='mt-1 border border-gray-300 rounded-md'>
               <ReactQuillEditor getContent={getContent} />
             </div>
+            {errors.content && <FieldError message={errors.content.message!} />}
           </div>
           <div className='flex gap-4 mt-4'>
             <button
@@ -78,7 +85,7 @@ const CreateArticle = () => {
             </button>
             <button
               type='button'
-              onClick={() => setOpen(true)}
+              onClick={openModalAndSubmit}
               className='inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
             >
               Criar Post

@@ -1,13 +1,11 @@
-import { Typography } from '@mui/material';
-
 type FieldErrorProps = {
-  message: string
+  message: string;
 };
 
-export default function FieldError({ message }: FieldErrorProps) {
+const FieldError = ({ message }: FieldErrorProps) => {
   return (
-    <div>
-      <Typography sx={{ fontSize: '14px' }}>{message}</Typography>
-    </div>
+    <span className='text-red-500 text-sm'>{message}</span>
   );
-}
+};
+
+export default FieldError;

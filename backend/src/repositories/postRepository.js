@@ -2,7 +2,12 @@ import prisma from '../lib/prisma.js';
 
 export const showPosts = async () => {
 
-    const allPosts = await prisma.post.findMany();
+    const allPosts = await prisma.post.findMany({
+        take: 10, 
+        orderBy: {
+            dt_created: 'desc',
+        },
+    });
 
     return allPosts;
 

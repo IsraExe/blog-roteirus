@@ -1,8 +1,8 @@
-import { addPost, deletePost, showAllPosts, showOnePost, updatePost } from '../services/postService.js';
+import { addPost, deletePost, showPosts, showOnePost, updatePost } from '../services/postService.js';
 import { badRequestError } from '../utils/errorException.js';
 
 export const showAll = async (req, res) => {
-    const allPosts = await showAllPosts();
+    const allPosts = await showPosts();
 
     //TODO: PAGINATION
 

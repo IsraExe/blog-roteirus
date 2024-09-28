@@ -49,7 +49,7 @@ export default function SignUp() {
 
     const { response } = await fetchData({ method: 'POST', pathname: '/user/create', data });
 
-    if (response.ok) return router.push('/signIn?showModal=true');
+    if (response.ok) return router.push('/?showModal=true');
 
     if (response.status === 500) setSignUpError('Ocorreu um erro no servidor, tente novamente mais tarde.');
     if (response.status === 409) setSignUpError('Não foi possível registrar sua conta pois o email já existe!');
@@ -125,7 +125,6 @@ export default function SignUp() {
           </Box>
         </Box>
       </Box>
-      <Copyright />
     </Box>
   );
 }

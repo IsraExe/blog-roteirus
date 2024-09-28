@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Resizer from 'react-image-file-resizer';
+import Label from '../Label';
 
 type DragImageProps = {
   getCoverImage: (data: string) => void;
@@ -31,7 +32,7 @@ const DragImage = ({ getCoverImage, defaultImage }: DragImageProps) => {
 
   return (
     <div>
-      <label htmlFor='file_upload' className='block mb-2'>Foto do seu post</label>
+      <Label text='Foto do seu post' htmlFor='file_upload' />
       <fieldset
         className='flex justify-center items-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none'
         onClick={() => document.getElementById('file_upload')?.click()}

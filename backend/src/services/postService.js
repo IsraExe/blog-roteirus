@@ -3,11 +3,7 @@ import errorException from '../utils/errorException.js';
 import { createPost, excludePost, showPosts, showOne, editPost } from '../repositories/postRepository.js';
 import { SECRET, CLIENTID, REFRESHTOKEN } from '../config/constants.js';
 
-export const showAllPosts = async (id) => {
-    const posts = await showPosts(id);
-
-    return posts;
-};
+export { showPosts };
 
 export const showOnePost = async (id) => {
     const post = await showOne(id);
