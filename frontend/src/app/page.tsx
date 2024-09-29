@@ -19,7 +19,7 @@ export default function Home() {
 
   if (isLoading) return <Loading />;
 
-  const allBlogs = blogs.data;
+  const allBlogs = blogs!.data;
   
   return (
     <>

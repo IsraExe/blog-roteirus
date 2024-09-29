@@ -1,27 +1,32 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { CircularProgress } from '@mui/material';
+import fetchData from '@/utils/fetchData';
 import { PUBLIC_URLS } from '@/config';
-import useFetch from '@/hooks/useFetch';
 
-type AuthNavigationProps = {
+interface AuthNavigationProps {
   children: React.ReactNode;
 };
 
-export default function AuthNavigationProvider({ children }: AuthNavigationProps) {
+export default function AuthNavigation({ children }: AuthNavigationProps) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
 
   const isPublicUrl = PUBLIC_URLS.static.includes(pathname as string) || PUBLIC_URLS.dynamic.some(url => pathname.startsWith(url as string));
 
-  const { status } = useFetch({ pathname: '/auth', method: 'GET' });
-
   useEffect(() => {
-      if (isPublicUrl) return;      
-      if (status !== 200 && status) router.push('/login');
-      if (status === 200) setIsLoading(false);
-  }, [router, isPublicUrl, status]);
+    const checkAuth = async () => {
+      if (isPublicUrl) return;
+      
+      const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
+      
+      if (response.status !== 200) router.push('/login');
+      if (response.status === 200) setIsLoading(false);
+    };
+    
+    checkAuth();
+  }, [pathname, router, isPublicUrl]);
 
   return (
     <>

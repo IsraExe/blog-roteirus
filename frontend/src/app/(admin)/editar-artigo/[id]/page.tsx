@@ -42,14 +42,10 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
     resolver: zodResolver(postSchema),
   });
 
-  console.log(errors);
-
   const getContent = useCallback((data: string) => setValue('content', data), [setValue]);
   const getCoverImage = (data: string) => setValue('coverImage', data);
 
   const { responseData, isLoading } = useFetch<TPost>({ pathname: `/post/getOne/${id}`, method: 'GET' });
-
-  const { data } = responseData;
 
   const coverImage = watch('coverImage');
   const title = watch('title');
@@ -75,6 +71,8 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
   };
 
   if (isLoading) return <Loading />;
+
+  const { data } = responseData;
 
   return (
     <div className='flex flex-col items-center justify-center bg-gray-100 p-4'>

@@ -21,13 +21,18 @@ const Post = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const refDiv = useRef<HTMLDivElement | null>(null);
   const { responseData, isLoading } = useFetch<TPost>({ pathname: `/post/getOne/${id}`, method: 'GET' });
-  const { data } = responseData;
 
   useEffect(() => {
-    if (refDiv.current && data) refDiv.current.innerHTML = data.de_content;
-  }, [data]);
+
+    if (!responseData) return;
+
+    if (refDiv.current && responseData.data) refDiv.current.innerHTML = responseData.data.de_content;
+
+  }, [responseData]);
 
   if (isLoading) return <Loading />;
+
+  const { data } = responseData;
 
   return (
     <>
