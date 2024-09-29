@@ -9,39 +9,50 @@ type UseFetchProps = {
 };
 
 type FetchResponse<T> = {
-  responseData: T;
+  responseData: T | null;
   isLoading: boolean;
   status: number | null;
+  error: Error | null;
 };
 
-async function fetchData<T>({ pathname, data, method }: UseFetchProps): Promise<T> {
+type FetchResult<T> = {
+  data: T;
+  status: number;
+};
+
+async function fetchData<T>({ pathname, data, method }: UseFetchProps): Promise<FetchResult<T>> {
   const options: FetchOptions = {
     method: method,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `${localStorage.getItem('token')}`
     },
-    body: JSON.stringify(data),
     credentials: 'include',
   };
 
+  if (method !== 'GET' && data) {
+    options.body = JSON.stringify(data);
+  }
+
   const response = await fetch(`${SERVER_URL}${pathname}`, options);
+  const responseData: T = await response.json();
 
-  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-  return await response.json();
-
-};
+  return { data: responseData, status: response.status };
+}
 
 export default function useFetch<T>({ pathname, data, method }: UseFetchProps): FetchResponse<T> {
-
   const queryKey = [pathname, data, method];
 
-  const { data: pulledData, isLoading } = useQuery<T, Error>({
+  const { data: result, isLoading, error } = useQuery<FetchResult<T>, Error>({
     queryKey,
     queryFn: async () => await fetchData<T>({ pathname, data, method }),
     retry: false,
   });
 
-  return { responseData: pulledData as T, status: null, isLoading };
+  return { 
+    responseData: result ? result.data : null, 
+    status: result ? result.status : null, 
+    isLoading,
+    error
+  };
 }

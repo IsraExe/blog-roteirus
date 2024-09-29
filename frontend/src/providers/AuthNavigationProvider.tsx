@@ -4,7 +4,7 @@ import { CircularProgress } from '@mui/material';
 import { PUBLIC_URLS } from '@/config';
 import useFetch from '@/hooks/useFetch';
 
-interface AuthNavigationProps {
+type AuthNavigationProps = {
   children: React.ReactNode;
 };
 
@@ -18,12 +18,9 @@ export default function AuthNavigationProvider({ children }: AuthNavigationProps
   const { status } = useFetch({ pathname: '/auth', method: 'GET' });
 
   useEffect(() => {
-
-      if (isPublicUrl) return;
-      
-      if (status !== 200) router.push('/login');
+      if (isPublicUrl) return;      
+      if (status !== 200 && status) router.push('/login');
       if (status === 200) setIsLoading(false);
-
   }, [router, isPublicUrl, status]);
 
   return (
