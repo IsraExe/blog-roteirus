@@ -1,73 +1,47 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 import { FetchOptions } from '@/types';
 import { SERVER_URL } from '@/config';
 
 type UseFetchProps = {
-  pathname: string,
+  pathname: string;
   data?: { [key: string]: unknown };
-  method: string,
+  method: string;
 };
 
-interface FetchResponse<T> {
+type FetchResponse<T> = {
   responseData: T;
   isLoading: boolean;
+  status: number | null;
+};
+
+async function fetchData<T>({ pathname, data, method }: UseFetchProps): Promise<T> {
+  const options: FetchOptions = {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(data),
+    credentials: 'include',
+  };
+
+  const response = await fetch(`${SERVER_URL}${pathname}`, options);
+
+  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+  return await response.json();
+
 };
 
 export default function useFetch<T>({ pathname, data, method }: UseFetchProps): FetchResponse<T> {
-  const [pulledData, setPulledData] = useState<T>({} as T);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
-  const router = useRouter();
+  const queryKey = [pathname, data, method];
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+  const { data: pulledData, isLoading } = useQuery<T, Error>({
+    queryKey,
+    queryFn: async () => await fetchData<T>({ pathname, data, method }),
+    retry: false,
+  });
 
-    setLoading(true);
-
-    (async () => {
-      try {
-        const options: FetchOptions = {
-          method: method,
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${localStorage.getItem('token')}`
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
-          signal
-        };
-
-        const response = await fetch(`${SERVER_URL}${pathname}`, options);
-        const dataFetched = await response.json();
-
-        if ((response.status === 401 || response.status === 400)) return router.push('/signIn');
-
-        if (!response.ok) {
-          setError(`HTTP error! status: ${response.status}`);
-          setLoading(false);
-          return;
-        };
-
-        setPulledData(dataFetched);
-        setLoading(false);
-      } catch (err) {
-        if (err instanceof Error) {
-          if (err.name === 'AbortError') return;
-          setError(err.message);
-        } else {
-          setError('An unknown error occurred');
-        };
-        setLoading(false);
-      };
-    })();
-
-    return () => controller.abort();
-  }, [pathname, data, method, router]);
-
-  if (error) throw new Error(error);
-
-  return { responseData: pulledData, isLoading: loading };
-};
+  return { responseData: pulledData as T, status: null, isLoading };
+}

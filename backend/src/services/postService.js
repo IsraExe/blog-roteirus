@@ -55,8 +55,6 @@ const extractImages = async (content) => {
 
     const extractedImages = matches.map(({ extractedValue }) => extractedValue);
 
-    console.log(extractedImages)
-
     return { updatedContent: content, extractedImages };
 
 };

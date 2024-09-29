@@ -10,7 +10,6 @@ import { z } from 'zod';
 import { Button, Link, Grid, Box, Typography } from '@mui/material';
 import MovieIcon from '@mui/icons-material/Movie';
 
-import Copyright from '@/components/Footer';
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
 import fetchData from '@/utils/fetchData';
@@ -117,7 +116,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link color='inherit' href='/signIn' variant='body2'>
+                <Link color='inherit' href='/login' variant='body2'>
                   Já possui uma conta? Faça o login
                 </Link>
               </Grid>
