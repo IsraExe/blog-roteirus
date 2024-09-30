@@ -24,14 +24,14 @@ const Editor = ({ defaultValue, onChange }: EditorProps) => {
   const { quill, quillRef } = useQuill({ modules, theme: 'snow' });
 
   useEffect(() => {
+
     if (quill) {
       quill.clipboard.dangerouslyPasteHTML(defaultValue || '');
       quill.on('text-change', () => {
-        onChange(quill.root.innerHTML)
-        
+        onChange(quill.root.innerHTML);
       });
     };
-  }, [quill]);
+  }, [quill, defaultValue, onChange]);
 
   return (
     <div className='h-96 overflow-hidden'>
