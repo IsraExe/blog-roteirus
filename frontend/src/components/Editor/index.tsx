@@ -1,31 +1,43 @@
-import { useState, useEffect } from 'react';
-import ReactQuill from 'react-quill';
+import { useEffect } from 'react';
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
 import './editor.module.css';
-import 'react-quill/dist/quill.snow.css';
 
 const modules = {
   toolbar: [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'header': 1 }, { 'header': 2 }],
     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'size': ['small', false, 'large', 'huge'] }],
+    [{ 'color': [] }, { 'background': [] }],
     [{ 'align': [] }],
     ['link', 'image', 'video'],
   ],
 };
 
-const ReactQuillEditor = ({ defaultValue, getContent }: any) => {
-  const [content, setContent] = useState('');
+type EditorProps = {
+  defaultValue?: string;
+  onChange: (content: string) => void;
+};
 
-  useEffect(() => getContent(content), [getContent, content]);
+const Editor = ({ defaultValue, onChange }: EditorProps) => {
+  const { quill, quillRef } = useQuill({ modules, theme: 'snow' });
+
+  useEffect(() => {
+    if (quill) {
+      quill.clipboard.dangerouslyPasteHTML(defaultValue || '');
+      quill.on('text-change', () => {
+        onChange(quill.root.innerHTML)
+        
+      });
+    };
+  }, [quill]);
 
   return (
-    <div style={{ height: '30em' }}>
-      <ReactQuill defaultValue={defaultValue} modules={modules} theme='snow' onChange={setContent} style={{ height: '90%' }} />
+    <div className='h-96 overflow-hidden'>
+      <div ref={quillRef} className='h-full' />
     </div>
   );
 };
 
-export default ReactQuillEditor;
+export default Editor;

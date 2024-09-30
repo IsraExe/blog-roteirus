@@ -1,9 +1,9 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import z from 'zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import fetchData from '@/utils/fetchData';
 import Modal from '@/components/Modal';
@@ -12,12 +12,28 @@ import CardPost from '@/components/CardPost';
 import Label from '@/components/Label';
 import FieldError from '@/components/FieldError';
 
-const ReactQuillEditor = dynamic(() => import('@/components/Editor'), { ssr: false });
+const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
 
 const postSchema = z.object({
-  title: z.string().min(1, 'O campo título é obrigatório!').max(100, 'O campo título deve ter no maximo 100 caracteres.'),
-  content: z.string().min(1, 'O campo conteúdo é obrigatório!'),
-  coverImage: z.string().optional()
+  title: z.string().min(1, 'O campo título é obrigatório!').max(100, 'O campo título deve ter no maximo 100 caracteres.').trim(),
+  content: z.string({ required_error: 'O campo conteúdo é obrigatório!' }).trim()
+    .refine(data => {
+      const div = document.createElement('div');
+      div.innerHTML = data;
+
+      const innerText = div.textContent || div.innerText || '';
+
+      return innerText.length >= 1;
+    }, 'O campo conteúdo é obrigatório!')
+    .refine(data => {
+      const div = document.createElement('div');
+      div.innerHTML = data;
+
+      const innerText = div.textContent || div.innerText || '';
+
+      return innerText.length > 20;
+    }, 'O campo conteúdo deve ter no mínimo 20 caracteres!'),
+  coverImage: z.string({ required_error: 'O campo imagem de capa é obrigatório!' }).min(1, 'O campo imagem de capa é obrigatório!')
 });
 
 type TPost = z.infer<typeof postSchema>;
@@ -25,15 +41,11 @@ type TPost = z.infer<typeof postSchema>;
 const CreateArticle = () => {
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<TPost>({
+  const { register, handleSubmit, watch, formState: { errors }, control } = useForm<TPost>({
     resolver: zodResolver(postSchema),
   });
 
-  const getContent = useCallback((data: string) => setValue('content', data), [setValue]);
-
-  const getCoverImage = (data: string) => setValue('coverImage', data);
-
-  const coverImage = watch('coverImage'); 
+  const coverImage = watch('coverImage');
   const title = watch('title');
   const content = watch('content');
 
@@ -66,12 +78,24 @@ const CreateArticle = () => {
             />
             {errors.title && <FieldError message={errors.title.message!} />}
           </div>
-          <DragImage getCoverImage={getCoverImage} />
-          {errors.content && <FieldError message={errors.content.message!} />}
+          <Controller
+            name='coverImage'
+            control={control}
+            render={({ field }) => (
+              <DragImage onChange={field.onChange} />
+            )}
+          />
+          {errors.coverImage && <FieldError message={errors.coverImage.message!} />}
           <div className='flex flex-col'>
             <Label text='Conteúdo' htmlFor='content' />
             <div className='mt-1 border border-gray-300 rounded-md'>
-              <ReactQuillEditor getContent={getContent} />
+              <Controller
+                name='content'
+                control={control}
+                render={({ field }) => (
+                  <Editor onChange={field.onChange} />
+                )}
+              />
             </div>
             {errors.content && <FieldError message={errors.content.message!} />}
           </div>
@@ -93,7 +117,7 @@ const CreateArticle = () => {
           </div>
         </form>
 
-        <CardPost title={title} content={content} coverImage={coverImage} />
+        <CardPost title={title} content={content} coverImage={coverImage || '/logo_negative.png'} />
 
       </div>
 

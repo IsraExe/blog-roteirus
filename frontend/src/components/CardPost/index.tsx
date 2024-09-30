@@ -30,6 +30,7 @@ const CardPost = ({ id, title, content, coverImage }: CardPostProps) => {
             <picture className='mr-5'>
               <Image
                 src={coverImage || ''}
+                priority
                 alt={`Cover image for ${title}`}
                 className='rounded-md object-cover max-w-[300px] max-h-[200px] sm:max-w-[200px] sm:max-h-[150px]'
                 width={300}

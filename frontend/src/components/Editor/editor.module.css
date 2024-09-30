@@ -1,4 +1,4 @@
-.ql-toolbar {
+/* .ql-toolbar {
     border-radius: var(--radius-border-pattern-fields);
     margin-bottom: 5px;
     background-color: red;
@@ -12,4 +12,4 @@
 
 .ql-container:focus-within  {
     box-shadow: 0 0 0 2px var(--outline-color);
-}
+} */

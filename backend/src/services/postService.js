@@ -29,13 +29,15 @@ export const updatePost = async ({ id, title, content, coverImage }) => {
 
     const regex = /data:image\/(png|jpe?g|gif);base64,([^"]*)/gi;
     const base64Image = regex.exec(coverImage);
-    const coverImageAsLink = await generateImageLinks([base64Image[2]]);
+    const newCoverImageAsLink = base64Image && await generateImageLinks([base64Image[2]]);
+
+    const coverImageAsLink = newCoverImageAsLink ? newCoverImageAsLink[0] : coverImage;
 
     const { updatedContent, extractedImages } = await extractImages(content);
     const imageLinks = await generateImageLinks(extractedImages);
     const finalContent = replaceImagesWithLinks(updatedContent, imageLinks);
 
-    await editPost({ title, content: finalContent, id, coverImage: coverImageAsLink[0] });
+    await editPost({ title, content: finalContent, id, coverImage: coverImageAsLink });
 
 };
 

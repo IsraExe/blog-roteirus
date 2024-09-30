@@ -4,14 +4,17 @@ import Resizer from 'react-image-file-resizer';
 import Label from '../Label';
 
 type DragImageProps = {
-  getCoverImage: (data: string) => void;
+  onChange: (data: string) => void;
   defaultImage?: string;
 };
 
-const DragImage = ({ getCoverImage, defaultImage }: DragImageProps) => {
+const DragImage = ({ onChange, defaultImage }: DragImageProps) => {
   const [image, setImage] = useState<string | undefined>(defaultImage);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+    console.log('???')
+
     const uploadedFile = event.target.files?.[0];
     if (uploadedFile) {
       Resizer.imageFileResizer(
@@ -23,7 +26,7 @@ const DragImage = ({ getCoverImage, defaultImage }: DragImageProps) => {
         0, // rotation
         (uri) => {
           setImage(uri as string);
-          getCoverImage(uri as string);
+          onChange(uri as string);
         },
         'base64' // output type
       );
@@ -32,7 +35,7 @@ const DragImage = ({ getCoverImage, defaultImage }: DragImageProps) => {
 
   return (
     <div>
-      <Label text='Foto do seu post' htmlFor='file_upload' />
+      <Label text='Imagem de capa' htmlFor='file_upload' />
       <fieldset
         className='flex justify-center items-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none'
         onClick={() => document.getElementById('file_upload')?.click()}

@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useFetch from '@/hooks/useFetch';
@@ -27,10 +27,27 @@ type TPost = {
 };
 
 const postSchema = z.object({
-  title: z.string().min(1, 'O campo título é obrigatório!').max(50, 'O campo título deve ter no maximo 50 caracteres.'),
-  content: z.string().min(1, 'O campo conteúdo é obrigatório!'),
-  coverImage: z.string().optional()
+  title: z.string().min(1, 'O campo título é obrigatório!').max(100, 'O campo título deve ter no maximo 100 caracteres.').trim(),
+  content: z.string({ required_error: 'O campo conteúdo é obrigatório!' }).trim()
+    .refine(data => {
+      const div = document.createElement('div');
+      div.innerHTML = data;
+
+      const innerText = div.textContent || div.innerText || '';
+
+      return innerText.length >= 1;
+    }, 'O campo conteúdo é obrigatório!')
+    .refine(data => {
+      const div = document.createElement('div');
+      div.innerHTML = data;
+
+      const innerText = div.textContent || div.innerText || '';
+
+      return innerText.length > 20;
+    }, 'O campo conteúdo deve ter no mínimo 20 caracteres!'),
+  coverImage: z.string({ required_error: 'O campo imagem de capa é obrigatório!' }).min(1, 'O campo imagem de capa é obrigatório!')
 });
+
 
 type TPost2 = z.infer<typeof postSchema>;
 
@@ -38,12 +55,9 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<TPost2>({
+  const { register, handleSubmit, setValue, watch, formState: { errors }, control } = useForm<TPost2>({
     resolver: zodResolver(postSchema),
   });
-
-  const getContent = useCallback((data: string) => setValue('content', data), [setValue]);
-  const getCoverImage = (data: string) => setValue('coverImage', data);
 
   const { responseData, isLoading } = useFetch<TPost>({ pathname: `/post/getOne/${id}`, method: 'GET' });
 
@@ -74,6 +88,8 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
 
   const { data } = responseData;
 
+  const openModalAndSubmit = handleSubmit(() => setOpen(true));
+
   return (
     <div className='flex flex-col items-center justify-center bg-gray-100 p-4'>
       <div className='w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg'>
@@ -91,12 +107,26 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
             />
             {errors.title && <FieldError message={errors.title.message!} />}
           </div>
-          <DragImage getCoverImage={getCoverImage} defaultImage={data.cover_image} />
-          {errors.content && <FieldError message={errors.content.message!} />}
+          <Controller
+            name='coverImage'
+            control={control}
+            defaultValue={data.cover_image}
+            render={({ field }) => (
+              <DragImage onChange={field.onChange} defaultImage={data.cover_image} />
+            )}
+          />
+          {errors.coverImage && <FieldError message={errors.coverImage.message!} />}
           <div className='flex flex-col'>
             <Label text='Conteúdo' htmlFor='content' />
             <div className='mt-1 border border-gray-300 rounded-md'>
-              <Editor getContent={getContent} defaultValue={data.de_content} />
+            <Controller
+                name='content'
+                control={control}
+                defaultValue={data.de_content}
+                render={({ field }) => (
+                  <Editor onChange={field.onChange} defaultValue={data.de_content} />
+                )}
+              />
             </div>
             {errors.content && <FieldError message={errors.content.message!} />}
           </div>
@@ -110,7 +140,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
             </button>
             <button
               type='submit'
-              onClick={() => setOpen(true)}
+              onClick={openModalAndSubmit}
               className='inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
             >
               Atualizar Post
@@ -118,7 +148,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
           </div>
         </form>
 
-        <CardPost title={title} content={content} coverImage={coverImage} />
+        <CardPost title={data.nm_title} content={data.de_content} coverImage={data.cover_image} />
 
       </div>
 
