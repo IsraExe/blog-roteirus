@@ -13,8 +13,6 @@ const DragImage = ({ onChange, defaultImage }: DragImageProps) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
-    console.log('???');
-
     const uploadedFile = event.target.files?.[0];
     if (uploadedFile) {
       Resizer.imageFileResizer(

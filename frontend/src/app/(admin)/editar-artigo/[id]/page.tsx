@@ -148,7 +148,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
           </div>
         </form>
 
-        <CardPost title={data.nm_title} content={data.de_content} coverImage={data.cover_image} />
+        <CardPost title={title || data.nm_title} content={content || data.de_content} coverImage={coverImage || data.cover_image} />
 
       </div>
 
