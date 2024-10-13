@@ -1,9 +1,15 @@
 import { ImgurClient } from 'imgur';
 import errorException from '../utils/errorException.js';
-import { createPost, excludePost, showPosts, showOne, editPost } from '../repositories/postRepository.js';
+import { createPost, excludePost, showPosts, showOne, editPost, getTotalPostsCount } from '../repositories/postRepository.js';
 import { SECRET, CLIENTID, REFRESHTOKEN } from '../config/constants.js';
 
-export { showPosts };
+export const showAllPosts = async () => {
+    const allPosts = await showPosts();
+    const countAllPosts = await getTotalPostsCount();
+
+    return { allPosts, countAllPosts };
+};
+
 
 export const showOnePost = async (id) => {
     const post = await showOne(id);
@@ -12,7 +18,6 @@ export const showOnePost = async (id) => {
 };
 
 export const addPost = async ({ id, title, content, coverImage }) => {
-
     const regex = /data:image\/(png|jpe?g|gif);base64,([^"]*)/gi;
     const base64Image = regex.exec(coverImage);
     const coverImageAsLink = await generateImageLinks([base64Image[2]]);
@@ -27,7 +32,6 @@ export const addPost = async ({ id, title, content, coverImage }) => {
 };
 
 export const updatePost = async ({ id, title, content, coverImage }) => {
-
     const regex = /data:image\/(png|jpe?g|gif);base64,([^"]*)/gi;
     const base64Image = regex.exec(coverImage);
     const newCoverImageAsLink = base64Image && await generateImageLinks([base64Image[2]]);
@@ -41,13 +45,11 @@ export const updatePost = async ({ id, title, content, coverImage }) => {
     const postInformation = await editPost({ title, content: finalContent, id, coverImage: coverImageAsLink });
 
     return postInformation;
-
 };
 
 export const deletePost = async (id) => await excludePost(id);
 
 const extractImages = async (content) => {
-
     const regex = /src="data:image\/(png|jpe?g|gif);base64,([^"]*)"/gi;
     const matches = [];
     let match;
@@ -61,11 +63,9 @@ const extractImages = async (content) => {
     const extractedImages = matches.map(({ extractedValue }) => extractedValue);
 
     return { updatedContent: content, extractedImages };
-
 };
 
 const generateImageLinks  = async (imageBuffers) => {
-
     const client = new ImgurClient({
         clientId: CLIENTID,
         clientSecret: SECRET,
@@ -84,11 +84,9 @@ const generateImageLinks  = async (imageBuffers) => {
     }));
 
     return imageLinks;
-
 };
 
 const replaceImagesWithLinks  = (content, imageLinks) => {
-
     const regex = /src="data:image\/(png|jpe?g|gif);base64,([^"]*)"/gi;
     let updatedContent = content;
     let index = 0;
@@ -100,5 +98,4 @@ const replaceImagesWithLinks  = (content, imageLinks) => {
     });
 
     return updatedContent;
-
 };

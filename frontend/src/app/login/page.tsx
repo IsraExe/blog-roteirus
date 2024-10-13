@@ -20,7 +20,7 @@ const loginSchema = z.object({
 
 type TLoginSchema = z.infer<typeof loginSchema>;
 
-export default function login() {
+export default function Login() {
 
   const [loginError, setLoginError] = useState<string | null>(null);
 

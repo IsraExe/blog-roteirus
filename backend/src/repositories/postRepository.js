@@ -69,3 +69,10 @@ export const excludePost = async (id) => {
     })
 
 };
+
+export const getTotalPostsCount = async () => {
+
+    const totalPosts = await prisma.post.count();
+    return totalPosts;
+    
+};

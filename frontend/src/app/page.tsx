@@ -1,25 +1,30 @@
 'use client';
 import Head from 'next/head';
 import CardPost from '@/components/CardPost';
+import Pagination from '@/components/Pagination';
 import useFetch from '@/hooks/useFetch';
 import Loading from './loading';
 
 type TBlog = {
   data: {
-    id_post: number;
-    nm_title: string;
-    de_content: string;
-    cover_image: string;
-  }[];
+    allPosts: {
+      id_post: string;
+      nm_title: string;
+      de_content: string;
+      cover_image: string;
+    }[];
+    countAllPosts: number;
+  };
 };
 
 export default function Home() {
 
-  const { responseData: blogs, isLoading } = useFetch<TBlog>({ pathname: '/post/showAll', method: 'GET' });
+  const { responseData, isLoading } = useFetch<TBlog>({ pathname: '/post/showAll', method: 'GET' });
 
   if (isLoading) return <Loading />;
 
-  const allBlogs = blogs!.data;
+  const allBlogs = responseData.data.allPosts;
+  const totalPosts = responseData.data.countAllPosts;
 
   return (
     <>
@@ -44,6 +49,7 @@ export default function Home() {
       </Head>
 
       <div className='flex flex-col items-center justify-center mt-2'>
+        
         <div className='w-full max-w-4xl'>
           {allBlogs.map((blog: any) => (
             <CardPost
@@ -55,7 +61,11 @@ export default function Home() {
             />
           ))}
         </div>
+
+        <Pagination totalPosts={totalPosts} />
+
       </div>
+
     </>
   );
 
