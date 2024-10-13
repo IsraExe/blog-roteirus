@@ -1,9 +1,13 @@
 import prisma from '../lib/prisma.js';
 
-export const showPosts = async () => {
+export const showPosts = async (page) => {
+
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
 
     const allPosts = await prisma.post.findMany({
-        take: 10, 
+        take: pageSize,
+        skip: skip,
         orderBy: {
             dt_created: 'desc',
         },

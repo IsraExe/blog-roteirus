@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className='flex items-center mx-auto h-full max-w-4xl'>
         <div className='text-lg font-bold'>
           <Link href='/'>
-            <Image src='/logo_positive.png' alt='logo' width={50} height={50} />
+            <Image src='/logo_positive.png' alt='logo' width={50} height={50} priority />
           </Link>
         </div>
         <div className='flex-1 justify-end h-full self-end flex gap-2'>

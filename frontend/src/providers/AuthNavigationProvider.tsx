@@ -18,13 +18,13 @@ export default function AuthNavigation({ children }: AuthNavigationProps) {
   useEffect(() => {
     const checkAuth = async () => {
       if (isPublicUrl) return;
-      
+
       const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
-      
+
       if (response.status !== 200) router.push('/login');
       if (response.status === 200) setIsLoading(false);
     };
-    
+
     checkAuth();
   }, [pathname, router, isPublicUrl]);
 

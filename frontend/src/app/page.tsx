@@ -4,6 +4,7 @@ import CardPost from '@/components/CardPost';
 import Pagination from '@/components/Pagination';
 import useFetch from '@/hooks/useFetch';
 import Loading from './loading';
+import { useSearchParams } from 'next/navigation';
 
 type TBlog = {
   data: {
@@ -18,8 +19,10 @@ type TBlog = {
 };
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page') || 1;
 
-  const { responseData, isLoading } = useFetch<TBlog>({ pathname: '/post/showAll', method: 'GET' });
+  const { responseData, isLoading } = useFetch<TBlog>({ pathname: `/post/showAll?page=${page}`, method: 'GET' });
 
   if (isLoading) return <Loading />;
 

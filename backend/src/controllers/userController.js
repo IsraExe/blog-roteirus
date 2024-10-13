@@ -26,13 +26,13 @@ export const getUser = async (req, res, next) => {
 
 export const create = async (req, res, next) => {
 
-    const { name, email, password, idRole } = req.body;
+    const { name, email, password } = req.body;
 
-    verifyReqFields({ requiredFields: ['name', 'email', 'password', 'idRole'], fields: req.body });
+    verifyReqFields({ requiredFields: ['name', 'email', 'password'], fields: req.body });
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    await createUser(name, email, encryptedPassword, idRole);
+    await createUser(name, email, encryptedPassword);
 
     return res.status(201).send({ message: 'User created' });
 

@@ -3,13 +3,12 @@ import errorException from '../utils/errorException.js';
 import { createPost, excludePost, showPosts, showOne, editPost, getTotalPostsCount } from '../repositories/postRepository.js';
 import { SECRET, CLIENTID, REFRESHTOKEN } from '../config/constants.js';
 
-export const showAllPosts = async () => {
-    const allPosts = await showPosts();
+export const showAllPosts = async (page) => {
+    const allPosts = await showPosts(page);
     const countAllPosts = await getTotalPostsCount();
 
     return { allPosts, countAllPosts };
 };
-
 
 export const showOnePost = async (id) => {
     const post = await showOne(id);

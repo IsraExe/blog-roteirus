@@ -2,7 +2,9 @@ import { addPost, deletePost, showOnePost, updatePost, showAllPosts } from '../s
 import { badRequestError } from '../utils/errorException.js';
 
 export const showAll = async (req, res) => {
-    const allPosts = await showAllPosts();
+    const { page } = req.query;
+
+    const allPosts = await showAllPosts(page);
 
     return res.status(200).send({ data: allPosts });
 };
