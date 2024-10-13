@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import z from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -45,6 +46,8 @@ const CreateArticle = () => {
     resolver: zodResolver(postSchema),
   });
 
+  const router = useRouter();
+
   const coverImage = watch('coverImage');
   const title = watch('title');
   const content = watch('content');
@@ -56,8 +59,12 @@ const CreateArticle = () => {
 
   const handlePost = async (data: TPost) => {
     const { response } = await fetchData({ pathname: '/post/create', method: 'POST', data });
-    if (!response.ok) console.log('Error on post creation');
-    console.log('New blog added successfully');
+    if (!response.ok) return console.log('Error on post creation');
+
+    const { data: { id_post } } = await response.json();
+
+    setOpen(false);
+    router.push(`/post/${id_post}`);
   };
 
   const openModalAndSubmit = handleSubmit(() => setOpen(true));
@@ -131,6 +138,7 @@ const CreateArticle = () => {
 
     </div>
   );
+
 };
 
 export default CreateArticle;

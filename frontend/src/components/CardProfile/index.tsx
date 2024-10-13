@@ -3,7 +3,7 @@ import Image from 'next/image';
 type CardProfileProps = {
   username: string;
   bio: string;
-}
+};
 
 const CardProfile = ({ username, bio }: CardProfileProps) => {
 

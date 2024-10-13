@@ -20,7 +20,7 @@ export default function Home() {
   if (isLoading) return <Loading />;
 
   const allBlogs = blogs!.data;
-  
+
   return (
     <>
       <Head>
@@ -58,4 +58,5 @@ export default function Home() {
       </div>
     </>
   );
+
 };

@@ -13,16 +13,16 @@ import fetchData from '@/utils/fetchData';
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
 
-const signInSchema = z.object({
+const loginSchema = z.object({
   email: z.string().min(1, 'O campo email é obrigatório!').email('Email inválido!'),
   password: z.string().min(1, 'O campo senha é obrigatório!')
 });
 
-type TSignInSchema = z.infer<typeof signInSchema>;
+type TLoginSchema = z.infer<typeof loginSchema>;
 
-export default function SignIn() {
+export default function login() {
 
-  const [signInError, setSignInError] = useState<string | null>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const redirectFromSignUp = searchParams?.get('showModal');
@@ -35,7 +35,7 @@ export default function SignIn() {
     if (Boolean(redirectFromSignUp)) {
       notify();
       router.replace(pathname as string, undefined);
-    }
+    };
   }, [router, pathname, redirectFromSignUp]);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -44,11 +44,11 @@ export default function SignIn() {
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<TSignInSchema>({
-    resolver: zodResolver(signInSchema),
+  const { register, handleSubmit, formState: { errors } } = useForm<TLoginSchema>({
+    resolver: zodResolver(loginSchema),
   });
 
-  const handleSignIn = async (data: TSignInSchema) => {
+  const handlelogin = async (data: TLoginSchema) => {
     const { response } = await fetchData({ method: 'POST', pathname: '/user/login', data });
 
     if (response.ok) {
@@ -57,17 +57,17 @@ export default function SignIn() {
       return router.push('/');
     };
 
-    if (response.status === 500) setSignInError('Ocorreu um erro no servidor, tente novamente mais tarde.');
-    if (response.status === 401) setSignInError('Email e/ou senha incorreto(s)!');
+    if (response.status === 500) setLoginError('Ocorreu um erro no servidor, tente novamente mais tarde.');
+    if (response.status === 401) setLoginError('Email e/ou senha incorreto(s)!');
   };
 
   return (
     <div className='flex flex-col items-center justify-center bg-gray-100 h-full'>
       <div className='text-center mb-8'>
         <h1 className='text-4xl font-bold text-gray-900'>Roteirus - Login</h1>
-        {signInError && <p className='text-red-600 mt-2'>{signInError}</p>}
+        {loginError && <p className='text-red-600 mt-2'>{loginError}</p>}
       </div>
-      <form onSubmit={handleSubmit(handleSignIn)} className='w-full max-w-sm bg-white p-8 rounded-lg shadow-lg'>
+      <form onSubmit={handleSubmit(handlelogin)} className='w-full max-w-sm bg-white p-8 rounded-lg shadow-lg'>
         <div className='mb-4'>
           <InputField
             {...register('email')}
@@ -108,7 +108,7 @@ export default function SignIn() {
           Entrar
         </button>
         <div className='flex justify-end mt-4'>
-          <a href='/signUp' className='text-blue-600 hover:underline'>
+          <a href='/cadastre-se' className='text-blue-600 hover:underline'>
             Ainda não possui uma conta? Cadastra-se
           </a>
         </div>

@@ -21,8 +21,9 @@ export const addPost = async ({ id, title, content, coverImage }) => {
     const imageLinks = await generateImageLinks(extractedImages);
     const finalContent = replaceImagesWithLinks(updatedContent, imageLinks);
 
-    await createPost({ title, content: finalContent, id, coverImage: coverImageAsLink[0] });
+    const postInformation = await createPost({ title, content: finalContent, id, coverImage: coverImageAsLink[0] });
 
+    return postInformation;
 };
 
 export const updatePost = async ({ id, title, content, coverImage }) => {
@@ -37,7 +38,9 @@ export const updatePost = async ({ id, title, content, coverImage }) => {
     const imageLinks = await generateImageLinks(extractedImages);
     const finalContent = replaceImagesWithLinks(updatedContent, imageLinks);
 
-    await editPost({ title, content: finalContent, id, coverImage: coverImageAsLink });
+    const postInformation = await editPost({ title, content: finalContent, id, coverImage: coverImageAsLink });
+
+    return postInformation;
 
 };
 

@@ -8,7 +8,7 @@ const MyProfile = () => {
 
   const { responseData, isLoading } = useFetch<any>({ pathname: '/user/getUser', method: 'GET' });
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />;  
 
   const { data } = responseData;
 

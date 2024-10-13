@@ -23,9 +23,9 @@ export const create = async (req, res, next) => {
     
     if (!content) next(badRequestError('The content must be filled'))
 
-    await addPost({ id, title, content, coverImage });
+    const postInformation = await addPost({ id, title, content, coverImage });
 
-    return res.status(200).send({ message: 'Created!' });
+    return res.status(200).send({ data: postInformation });
 };
 
 export const edit = async (req, res, next) => {
@@ -33,9 +33,9 @@ export const edit = async (req, res, next) => {
 
     if (!content) next(badRequestError('The content must be filled'))
 
-    await updatePost({ id, title, content, coverImage });
+    const postInformation = await updatePost({ id, title, content, coverImage });
 
-    return res.status(200).send({ message: 'Created!' });
+    return res.status(200).send({ data: postInformation });
 };
 
 export const exclude = (req, res) => {

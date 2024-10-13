@@ -29,7 +29,6 @@ const cleanupLogs = () => {
         };
     });
 
-
 };
 
 cron.schedule(EVERY_DAY_CRON, () => cleanupLogs());

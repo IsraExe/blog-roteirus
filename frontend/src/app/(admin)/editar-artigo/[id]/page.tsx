@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { BiEditAlt } from 'react-icons/bi';
 import useFetch from '@/hooks/useFetch';
 import fetchData from '@/utils/fetchData';
-import { BiEditAlt } from 'react-icons/bi';
 import Loading from '@/app/loading';
 import Modal from '@/components/Modal';
 import DragImage from '@/components/DragImage';
@@ -48,16 +49,17 @@ const postSchema = z.object({
   coverImage: z.string({ required_error: 'O campo imagem de capa é obrigatório!' }).min(1, 'O campo imagem de capa é obrigatório!')
 });
 
-
 type TPost2 = z.infer<typeof postSchema>;
 
 const EditArticle = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors }, control } = useForm<TPost2>({
+  const { register, handleSubmit, watch, formState: { errors }, control } = useForm<TPost2>({
     resolver: zodResolver(postSchema),
   });
+
+  const router = useRouter();
 
   const { responseData, isLoading } = useFetch<TPost>({ pathname: `/post/getOne/${id}`, method: 'GET' });
 
@@ -81,7 +83,11 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
 
     if (!response.ok) console.log('Error on post creation');
 
-    console.log('Blog updated successfully');
+    const { data: { id_post } } = await response.json();
+
+    setOpen(false);
+    router.push(`/post/${id_post}`);
+
   };
 
   if (isLoading) return <Loading />;

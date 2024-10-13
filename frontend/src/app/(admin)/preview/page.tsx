@@ -11,7 +11,7 @@ const Preview = () => {
       const content = sessionStorage.getItem('content');
 
       if (content) containerRef.current.innerHTML = content;
-    }
+    };
   }, []);
 
   return (

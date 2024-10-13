@@ -27,14 +27,13 @@ const Editor = ({ defaultValue, onChange }: EditorProps) => {
 
     if (quill) {
       quill.clipboard.dangerouslyPasteHTML(defaultValue || '');
-      quill.on('text-change', () => {
-        onChange(quill.root.innerHTML);
-      });
+      quill.on('text-change', () => onChange(quill.root.innerHTML));
     };
+    
   }, [quill, defaultValue, onChange]);
 
   return (
-    <div className='h-96 overflow-hidden'>
+    <div className='h-96 mb-10'>
       <div ref={quillRef} className='h-full' />
     </div>
   );
