@@ -12,8 +12,9 @@ import MovieIcon from '@mui/icons-material/Movie';
 
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
-import fetchData from '@/utils/fetchData';
+import Label from '@/components/Label';
 
+import fetchData from '@/utils/fetchData';
 import styles from './page.module.css';
 
 const signUpSchema = z.object({
@@ -76,31 +77,31 @@ export default function SignUp() {
           <Box component='form' noValidate onSubmit={handleSubmit(handleSignUp)} mt={3}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
+                <Label text='Nome Completo' />
                 <InputField
                   {...register('name')}
-                  label='Nome Completo'
                 />
                 {errors.name && <FieldError message={errors.name.message!} />}
               </Grid>
               <Grid item xs={12}>
+                <Label text='Email' />
                 <InputField
                   {...register('email')}
-                  label='Email'
                 />
                 {errors.email && <FieldError message={errors.email.message!} />}
               </Grid>
               <Grid item xs={12}>
+                <Label text='Senha' />
                 <InputField
                   {...register('password')}
-                  label='Password'
                   type='password'
                 />
                 {errors.password && <FieldError message={errors.password.message!} />}
               </Grid>
               <Grid item xs={12}>
+                <Label text='Confirme sua senha' />
                 <InputField
                   {...register('confirmPassword')}
-                  label='Confirme sua Senha'
                   type='password'
                 />
                 {errors.confirmPassword && <FieldError message={errors.confirmPassword.message!} />}
@@ -126,4 +127,4 @@ export default function SignUp() {
       </Box>
     </Box>
   );
-}
+};

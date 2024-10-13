@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import fetchData from '@/utils/fetchData';
 
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
+import { useFormWithZod } from '@/hooks/useFormWithZod';
+
+import { FaRegEye } from 'react-icons/fa';
+import { FaRegEyeSlash } from 'react-icons/fa';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'O campo email é obrigatório!').email('Email inválido!'),
@@ -24,29 +24,11 @@ export default function Login() {
 
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  const searchParams = useSearchParams();
-  const redirectFromSignUp = searchParams?.get('showModal');
-
-  const notify = () => toast('Usuário cadastrado com sucesso!');
   const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (Boolean(redirectFromSignUp)) {
-      notify();
-      router.replace(pathname as string, undefined);
-    };
-  }, [router, pathname, redirectFromSignUp]);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault();
-
-  const { register, handleSubmit, formState: { errors } } = useForm<TLoginSchema>({
-    resolver: zodResolver(loginSchema),
-  });
 
   const handlelogin = async (data: TLoginSchema) => {
     const { response } = await fetchData({ method: 'POST', pathname: '/user/login', data });
@@ -61,49 +43,44 @@ export default function Login() {
     if (response.status === 401) setLoginError('Email e/ou senha incorreto(s)!');
   };
 
+  const { register, handleFormSubmit, errors } = useFormWithZod<TLoginSchema>({ schema: loginSchema, onSubmit: handlelogin });
+
   return (
     <div className='flex flex-col items-center justify-center bg-gray-100 h-full'>
       <div className='text-center mb-8'>
         <h1 className='text-4xl font-bold text-gray-900'>Roteirus - Login</h1>
         {loginError && <p className='text-red-600 mt-2'>{loginError}</p>}
       </div>
-      <form onSubmit={handleSubmit(handlelogin)} className='w-full max-w-sm bg-white p-8 rounded-lg shadow-lg'>
+      <form onSubmit={handleFormSubmit} className='w-full max-w-sm bg-white p-8 rounded-lg shadow-lg'>
         <div className='mb-4'>
+          <label className='block text-sm font-medium text-gray-700'>Email</label>
           <InputField
             {...register('email')}
-            label='Email'
-            className='w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50'
           />
           {errors.email && <FieldError message={errors.email.message!} />}
         </div>
-        <div className='mb-4'>
-          <label htmlFor='password' className='block text-gray-700 text-sm font-medium mb-1'>Senha</label>
+        <div>
+          <label className='block text-sm font-medium text-gray-700'>Senha</label>
           <div className='relative'>
-            <input
-              id='password'
-              type={showPassword ? 'text' : 'password'}
+            <InputField
               {...register('password')}
-              className='w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50'
-              autoComplete='off'
+              type={showPassword ? 'text' : 'password'}
             />
             <button
               type='button'
               onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              className='absolute inset-y-0 right-0 flex items-center pr-3'
+              className='absolute  inset-y-0 right-0 flex items-center pr-3'
             >
-              {showPassword ? (
-                <svg className='w-5 h-5 text-gray-500' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M12 8v4l2 2M12 4v.01M19.07 6.93a10.012 10.012 0 00-1.35-1.35M16 10h.01M7 10H6.99M4.93 6.93A10.012 10.012 0 002.68 8.28M10 16h.01M14 16h.01M16 18h.01M19.07 17.07a10.012 10.012 0 00-1.35 1.35M19 12h.01M3 12h.01M6 16h.01M7 8V8M16 4v.01M4.93 17.07A10.012 10.012 0 002.68 15.72M20 12h.01M8 12h.01M12 16h.01M4 4v.01M19 4v.01M12 20v.01M16 20v.01'></path></svg>
-              ) : (
-                <svg className='w-5 h-5 text-gray-500' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M12 8v4l2 2M12 4v.01M19.07 6.93a10.012 10.012 0 00-1.35-1.35M16 10h.01M7 10H6.99M4.93 6.93A10.012 10.012 0 002.68 8.28M10 16h.01M14 16h.01M16 18h.01M19.07 17.07a10.012 10.012 0 00-1.35 1.35M19 12h.01M3 12h.01M6 16h.01M7 8V8M16 4v.01M4.93 17.07A10.012 10.012 0 002.68 15.72M20 12h.01M8 12h.01M12 16h.01M4 4v.01M19 4v.01M12 20v.01M16 20v.01'></path></svg>
-              )}
+              {showPassword && <FaRegEyeSlash size={20} className='text-gray-500' />}
+              {!showPassword && <FaRegEye size={20} className='text-gray-500' />}
             </button>
           </div>
+
           {errors.password && <FieldError message={errors.password.message!} />}
         </div>
         <button
           type='submit'
-          className='w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className='mt-4 w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
         >
           Entrar
         </button>
@@ -113,7 +90,6 @@ export default function Login() {
           </a>
         </div>
       </form>
-      <ToastContainer />
     </div>
   );
 };
