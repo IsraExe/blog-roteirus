@@ -124,7 +124,7 @@ const CreateArticle = () => {
           </div>
         </form>
 
-        <CardPost title={title} content={content} coverImage={coverImage || '/logo_negative.png'} />
+        <CardPost title={title} content={content} coverImage={coverImage || '/logo_negative.png'} date={new Date().toISOString()} />
 
       </div>
 

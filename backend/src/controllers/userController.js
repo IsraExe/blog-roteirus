@@ -3,6 +3,7 @@ import prisma from '../lib/prisma.js';
 import verifyReqFields from '../utils/verifyReqFields.js';
 import { badRequestError, unauthorizedError } from '../utils/errorException.js';
 import { createUser, updateUser, viewUsers, deleteUser, findUserById } from '../repositories/userRepository.js';
+import { findPostsByUserId, getTotalPostsCount } from '../repositories/postRepository.js';
 import cookiesOptions from '../helpers/cookiesOptions.js';
 import createTokens from '../helpers/createTokens.js';
 
@@ -17,10 +18,13 @@ export const read = async (req, res, next) => {
 export const getUser = async (req, res, next) => {
 
     const { id } = req.metadata;
+    const { page } = req.query;
 
     const user = await findUserById(id);
+    const postsByUser = await findPostsByUserId(id, page);
+    const totalPostsByUser = await getTotalPostsCount(id);
 
-    return res.status(200).send({ data: user });
+    return res.status(200).send({ data: {...user, posts: postsByUser, totalPosts: totalPostsByUser } });
 
 };
 

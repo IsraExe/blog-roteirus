@@ -13,6 +13,7 @@ export const findUserById = async (id) => {
     });
 
     return user;
+    
 };
 
 export const createUser = async (name, email, password) => {

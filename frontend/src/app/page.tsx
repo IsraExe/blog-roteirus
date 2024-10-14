@@ -5,15 +5,11 @@ import Pagination from '@/components/Pagination';
 import useFetch from '@/hooks/useFetch';
 import Loading from './loading';
 import { useSearchParams } from 'next/navigation';
+import { TPost } from '@/types';
 
 type TBlog = {
   data: {
-    allPosts: {
-      id_post: string;
-      nm_title: string;
-      de_content: string;
-      cover_image: string;
-    }[];
+    allPosts: TPost[];
     countAllPosts: number;
   };
 };
@@ -40,7 +36,7 @@ export default function Home() {
             '@type': 'Blog',
             'name': 'Roteirus',
             'url': 'https://roteirus.com.br/',
-            'blogPost': allBlogs.map((blog: any) => ({
+            'blogPost': allBlogs.map((blog: TPost) => ({
               '@type': 'BlogPosting',
               'headline': blog.nm_title,
               'image': blog.cover_image,
@@ -54,13 +50,14 @@ export default function Home() {
       <div className='flex flex-col items-center justify-center mt-2'>
         
         <div className='w-full max-w-4xl'>
-          {allBlogs.map((blog: any) => (
+          {allBlogs.map((blog: TPost) => (
             <CardPost
               key={blog.id_post}
-              id={blog.id_post}
+              id={Number(blog.id_post)}
               title={blog.nm_title}
               content={blog.de_content}
               coverImage={blog.cover_image}
+              date={blog.dt_created}
             />
           ))}
         </div>

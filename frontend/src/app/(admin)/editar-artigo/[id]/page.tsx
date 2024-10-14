@@ -15,17 +15,9 @@ import DragImage from '@/components/DragImage';
 import CardPost from '@/components/CardPost';
 import Label from '@/components/Label';
 import FieldError from '@/components/FieldError';
+import { TPost } from '@/types';
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
-
-type TPost = {
-  data: {
-    de_content: string;
-    nm_title: string;
-    id_post: number;
-    cover_image: string;
-  };
-};
 
 const postSchema = z.object({
   title: z.string().min(1, 'O campo título é obrigatório!').max(100, 'O campo título deve ter no maximo 100 caracteres.').trim(),
@@ -61,7 +53,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
 
   const router = useRouter();
 
-  const { responseData, isLoading } = useFetch<TPost>({ pathname: `/post/getOne/${id}`, method: 'GET' });
+  const { responseData, isLoading } = useFetch<{data: TPost}>({ pathname: `/post/getOne/${id}`, method: 'GET' });
 
   const coverImage = watch('coverImage');
   const title = watch('title');
@@ -154,7 +146,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
           </div>
         </form>
 
-        <CardPost title={title || data.nm_title} content={content || data.de_content} coverImage={coverImage || data.cover_image} />
+        <CardPost title={title || data.nm_title} content={content || data.de_content} coverImage={coverImage || data.cover_image} date={data.dt_created} />
 
       </div>
 

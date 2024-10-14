@@ -28,7 +28,7 @@ const Navbar = () => {
   const menuList = getMenuList(pathname);
 
   return (
-    <nav className='fixed top-0 left-0 w-full mx-auto bg-gray-800 text-white h-16'>
+    <nav className='fixed top-0 left-0 w-full mx-auto bg-gray-800 text-white h-16 z-10'>
       <div className='flex items-center mx-auto h-full max-w-4xl'>
         <div className='text-lg font-bold'>
           <Link href='/'>

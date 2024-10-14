@@ -1,25 +1,66 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import useFetch from '@/hooks/useFetch';
 import Loading from '@/app/loading';
 import CardProfile from '@/components/CardProfile';
+import CardPost from '@/components/CardPost';
+import Pagination from '@/components/Pagination';
+import { TPost } from '@/types';
+
+type TUserResponse = {
+  data: {
+    de_bio: string;
+    nm_user: string;
+    posts: TPost[];
+    totalPosts: number;
+  };
+};
 
 const MyProfile = () => {
 
-  const { responseData, isLoading } = useFetch<any>({ pathname: '/user/getUser', method: 'GET' });
+  const searchParams = useSearchParams();
 
-  if (isLoading) return <Loading />;  
+  const page = searchParams.get('page') || 1;
 
-  const { data } = responseData;
+  const { responseData, isLoading } = useFetch<TUserResponse>({ pathname: `/user/getUser?page=${page}`, method: 'GET' });
+
+  if (isLoading) return <Loading />;
+
+  const { data: { de_bio, nm_user, posts, totalPosts } } = responseData;
 
   return (
 
-    <div>
-      <header className='mb-4 lg:mb-6 not-format'>
-        <CardProfile username={data.nm_user} bio={data.de_bio} />
-      </header>
+    <div className='flex flex-col items-center justify-center mt-2'>
+      <div className='w-full max-w-4xl'>
+        <header className='mb-4 lg:mb-6 not-format'>
+          <CardProfile username={nm_user} bio={de_bio} />
+        </header>
+
+        <div>
+          <h2 className='text-3xl font-extrabold leading-tight text-gray-500'>Meus Posts</h2>
+
+          <div className='w-full max-w-4xl'>
+            {posts.map((blog: TPost) => (
+              <CardPost
+                key={blog.id_post}
+                id={Number(blog.id_post)}
+                title={blog.nm_title}
+                content={blog.de_content}
+                coverImage={blog.cover_image}
+                date={blog.dt_created}
+              />
+            ))}
+
+          </div>
+          <Pagination totalPosts={totalPosts} />
+        </div>
+
+      </div>
     </div>
+
   );
+
 };
 
 export default MyProfile;

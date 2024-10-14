@@ -8,4 +8,12 @@ export interface FetchOptions {
     body?: string;
     credentials?: 'include';
     signal?: AbortSignal | undefined;
-}
+};
+
+export type TPost = {
+    id_post: string;
+    nm_title: string;
+    de_content: string;
+    cover_image: string;
+    dt_created: string;
+};

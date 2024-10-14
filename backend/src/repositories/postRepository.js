@@ -17,6 +17,24 @@ export const showPosts = async (page) => {
 
 };
 
+export const findPostsByUserId = async (userId, page) => {
+
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
+
+    const posts = await prisma.post.findMany({
+        where: {
+            id_user: Number(userId),
+        },
+        skip: skip,
+        take: pageSize,
+    });
+
+    return posts;
+    
+};
+
+
 export const showOne = async (id) => {
 
     const post = await prisma.post.findUnique({
@@ -74,9 +92,12 @@ export const excludePost = async (id) => {
 
 };
 
-export const getTotalPostsCount = async () => {
+export const getTotalPostsCount = async (idUser) => {
 
-    const totalPosts = await prisma.post.count();
+    const totalPosts = await prisma.post.count({
+        where: idUser ? { id_user: idUser } : {},
+    });
+    
     return totalPosts;
     
 };
