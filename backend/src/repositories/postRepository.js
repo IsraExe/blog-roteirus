@@ -86,9 +86,9 @@ export const excludePost = async (id) => {
 
     await prisma.post.delete({
         where: {
-            id_post: id
+            id_post: Number(id)
         }
-    })
+    });
 
 };
 

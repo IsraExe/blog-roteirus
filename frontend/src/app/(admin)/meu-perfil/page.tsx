@@ -51,7 +51,6 @@ const MyProfile = () => {
                 date={blog.dt_created}
               />
             ))}
-
           </div>
           <Pagination totalPosts={totalPosts} />
         </div>

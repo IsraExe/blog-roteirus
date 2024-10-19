@@ -1,7 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { formatDate } from '@/utils/formatDate';
+import { IoIosMore } from 'react-icons/io';
+import { MdEdit } from 'react-icons/md';
+import { FaTrash } from 'react-icons/fa';
+import fetchData from '@/utils/fetchData';
 
 type CardPostProps = {
   id?: number;
@@ -12,12 +17,22 @@ type CardPostProps = {
 };
 
 const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
+  const [isOptionsVisible, setIsOptionsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const router = useRouter();
+
+  const toggleOptions = (e: any) => {
+    e.preventDefault();
+    setIsOptionsVisible(!isOptionsVisible);
+  };
+
   const stripHtmlTags = (html: string) => {
     if (typeof document !== 'undefined') {
       const div = document.createElement('div');
       div.innerHTML = html;
       return div.textContent || div.innerText || '';
-    };
+    }
     return html.replace(/<[^>]*>/g, '');
   };
 
@@ -29,9 +44,11 @@ const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
 
   const formattedDate = formatDate(date);
 
+  if (!isVisible) return null;
+
   return (
-    <article className='mb-2'>
-      <Link href={id ? `/post/${id}` : '#'} className='text-blue-600 hover:underline'>
+    <article className='mb-2 grid grid-cols-[1fr_auto]'>
+      <Link href={id ? `/post/${id}` : '#'} className='text-blue-600 group flex-grow'>
         <div className='bg-white shadow-lg rounded-lg p-2 hover:shadow-xl transition-shadow duration-300'>
           <div className='flex flex-col sm:flex-row w-full'>
             <picture className='sm:mr-5 mb-2 sm:mb-0 flex-shrink-0'>
@@ -43,12 +60,43 @@ const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
                 height={120}
               />
             </picture>
-            <div className='flex-grow min-w-0 relative'>
-              <h2 className='text-2xl font-bold mb-2'>{title}</h2>
+            <div className='flex flex-col flex-grow min-w-0 relative'>
+              <h2 className='text-xl font-bold mb-2 group-hover:underline'>{title}</h2>
               <p className='text-gray-700 overflow-hidden'>
                 {truncateText({ text: content, length: 100 })}
               </p>
-              <time dateTime={date}>{formattedDate}</time>
+              <time dateTime={date} className='text-gray-400 self-end absolute bottom-0'>{formattedDate}</time>
+              <button
+                className='text-gray-400 self-end absolute top-0 right-0 shadow-md rounded-full p-1'
+                onClick={toggleOptions}
+              >
+                <IoIosMore className='text-center text-gray-500 hover:text-gray-900' />
+              </button>
+              {isOptionsVisible && (
+                <div className='absolute top-8 right-0 bg-white border rounded-lg shadow-md py-2 px-4'>
+                  <button
+                    className='flex items-center text-blue-600 hover:text-blue-800 mb-2'
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push(`/editar-artigo/${id}`);
+                    }}
+                  >
+                    <MdEdit className='mr-2' /> Editar
+                  </button>
+                  <button
+                    className='flex items-center text-red-600 hover:text-red-800'
+                    onClick={async (e) => {
+                      e.preventDefault();
+
+                      const { response } = await fetchData({ pathname: `/post/exclude/${id}`, method: 'DELETE' });
+
+                      if (response.ok) setIsVisible(false);
+                    }}
+                  >
+                    <FaTrash className='mr-2' /> Excluir
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

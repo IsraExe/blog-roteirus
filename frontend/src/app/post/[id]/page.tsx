@@ -3,24 +3,17 @@ import { useEffect, useRef } from 'react';
 import Loading from '@/app/loading';
 import useFetch from '@/hooks/useFetch';
 import CardProfile from '@/components/CardProfile';
+import { TPost } from '@/types';
 
-type TPost = {
-  data: {
-    de_content: string;
-    nm_title: string;
-    id_post: number;
-    user: {
-      nm_user: string;
-      de_bio: string;
-    }
-  };
+type TGetPostResponse = {
+  data: TPost;
 };
 
 const Post = ({ params }: { params: { id: string } }) => {
 
   const { id } = params;
   const refDiv = useRef<HTMLDivElement | null>(null);
-  const { responseData, isLoading } = useFetch<TPost>({ pathname: `/post/getOne/${id}`, method: 'GET' });
+  const { responseData, isLoading } = useFetch<TGetPostResponse>({ pathname: `/post/getOne/${id}`, method: 'GET' });
 
   useEffect(() => {
 
@@ -50,7 +43,6 @@ const Post = ({ params }: { params: { id: string } }) => {
 
             <div ref={refDiv} />
 
-            <a href={`/editar-artigo/${id}`}> Editar </a>
           </article>
         </div>
       </main>

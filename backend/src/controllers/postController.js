@@ -31,15 +31,17 @@ export const create = async (req, res, next) => {
 export const edit = async (req, res, next) => {
     const { title, content, id, coverImage } = req.body;
 
-    if (!content) next(badRequestError('The content must be filled'))
+    if (!content) next(badRequestError('The content must be filled'));
 
     const postInformation = await updatePost({ id, title, content, coverImage });
 
     return res.status(200).send({ data: postInformation });
 };
 
-export const exclude = (req, res) => {
-    const { id } = req.query; 
+export const exclude = (req, res, next) => {
+    const { id } = req.params; 
+
+    if (!id) next(badRequestError('The content must be filled'));
     
     deletePost(id);
 
