@@ -7,7 +7,7 @@ import { z } from 'zod';
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
 import Label from '@/components/Label';
-import fetchData from '@/utils/fetchData';
+import { fetchClient } from '@/utils/fetchClient';
 import { useFormWithZod } from '@/hooks/useFormWithZod';
 
 const signUpSchema = z.object({
@@ -32,7 +32,7 @@ export default function SignUp() {
   const router = useRouter();
 
   const handleSignUp = async (data: TSignUpSchema) => {
-    const { response } = await fetchData({ method: 'POST', pathname: '/user/create', data });
+    const { response } = await fetchClient({ method: 'POST', pathname: '/user/create', bodyContent: data });
 
     if (response.ok) return router.push('/?showModal=true');
 

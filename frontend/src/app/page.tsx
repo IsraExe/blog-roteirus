@@ -1,10 +1,10 @@
 'use client';
 import Head from 'next/head';
+import { useSearchParams } from 'next/navigation';
 import CardPost from '@/components/CardPost';
 import Pagination from '@/components/Pagination';
 import useFetch from '@/hooks/useFetch';
 import Loading from './loading';
-import { useSearchParams } from 'next/navigation';
 import { TPost } from '@/types';
 
 type TBlog = {

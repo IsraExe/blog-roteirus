@@ -20,7 +20,6 @@ async function fetchData<T>({ pathname, data, method }: UseFetchProps): Promise<
     method: method,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `${localStorage.getItem('token')}`
     },
     body: data ? JSON.stringify(data) : undefined,
     credentials: 'include',

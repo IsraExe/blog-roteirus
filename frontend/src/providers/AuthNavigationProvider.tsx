@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { CircularProgress } from '@mui/material';
-import fetchData from '@/utils/fetchData';
+import { fetchClient } from '@/utils/fetchClient';
 import { PUBLIC_URLS } from '@/config';
 
 interface AuthNavigationProps {
@@ -19,7 +19,7 @@ export default function AuthNavigation({ children }: AuthNavigationProps) {
     const checkAuth = async () => {
       if (isPublicUrl) return;
 
-      const { response } = await fetchData({ method: 'GET', pathname: '/auth' });
+      const { response } = await fetchClient({ method: 'GET', pathname: '/auth' });
 
       if (response.status !== 200) router.push('/login');
       if (response.status === 200) setIsLoading(false);

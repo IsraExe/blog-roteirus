@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import logger from './middlewares/logger.js';
 import errorHandler from './middlewares/errorHandler.js';
 import limiter from './middlewares/limiter.js';
+import dbDisconnect from './middlewares/dbDisconnect.js';
 
 import { userRoutes } from './routes/userRoutes.js';
 import { authRoutes } from './routes/authRoutes.js';
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors(CORS_OPTIONS));
 app.use(limiter);
 app.use(logger);
+app.use(dbDisconnect);
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);

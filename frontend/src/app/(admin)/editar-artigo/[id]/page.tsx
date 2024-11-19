@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BiEditAlt } from 'react-icons/bi';
 import useFetch from '@/hooks/useFetch';
-import fetchData from '@/utils/fetchData';
+import { fetchClient } from '@/utils/fetchClient';
 import Loading from '@/app/loading';
 import Modal from '@/components/Modal';
 import DragImage from '@/components/DragImage';
@@ -71,7 +71,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
       id: Number(id),
     };
 
-    const { response } = await fetchData({ pathname: '/post/edit', method: 'POST', data: updatedData });
+    const { response } = await fetchClient({ pathname: '/post/edit', method: 'POST', bodyContent: updatedData });
 
     if (!response.ok) console.log('Error on post creation');
 

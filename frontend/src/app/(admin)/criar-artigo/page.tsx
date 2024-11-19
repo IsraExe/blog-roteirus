@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import z from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import fetchData from '@/utils/fetchData';
+import { fetchClient } from '@/utils/fetchClient';
 import Modal from '@/components/Modal';
 import DragImage from '@/components/DragImage';
 import CardPost from '@/components/CardPost';
@@ -58,7 +58,7 @@ const CreateArticle = () => {
   };
 
   const handlePost = async (data: TPost) => {
-    const { response } = await fetchData({ pathname: '/post/create', method: 'POST', data });
+    const { response } = await fetchClient({ pathname: '/post/create', method: 'POST', bodyContent: data });
     if (!response.ok) return console.log('Error on post creation');
 
     const { data: { id_post } } = await response.json();

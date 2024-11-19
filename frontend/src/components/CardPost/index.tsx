@@ -6,7 +6,7 @@ import { formatDate } from '@/utils/formatDate';
 import { IoIosMore } from 'react-icons/io';
 import { MdEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
-import fetchData from '@/utils/fetchData';
+import { fetchClient } from '@/utils/fetchClient';
 
 type CardPostProps = {
   id?: number;
@@ -88,7 +88,7 @@ const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
                     onClick={async (e) => {
                       e.preventDefault();
 
-                      const { response } = await fetchData({ pathname: `/post/exclude/${id}`, method: 'DELETE' });
+                      const { response } = await fetchClient({ pathname: `/post/exclude/${id}`, method: 'DELETE' });
 
                       if (response.ok) setIsVisible(false);
                     }}

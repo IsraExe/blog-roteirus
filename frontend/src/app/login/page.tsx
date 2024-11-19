@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
-import fetchData from '@/utils/fetchData';
+import { fetchClient } from '@/utils/fetchClient';
 
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
@@ -31,7 +31,7 @@ export default function Login() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handlelogin = async (data: TLoginSchema) => {
-    const { response } = await fetchData({ method: 'POST', pathname: '/user/login', data });
+    const { response } = await fetchClient({ method: 'POST', pathname: '/user/login', bodyContent:data });
 
     if (response.ok) {
       const { token } = await response.json();
