@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -7,6 +7,7 @@ import { IoIosMore } from 'react-icons/io';
 import { MdEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
 import { fetchClient } from '@/utils/fetchClient';
+import Modal from '@/components/Modal';
 
 type CardPostProps = {
   id?: number;
@@ -14,15 +15,29 @@ type CardPostProps = {
   content: string;
   coverImage: string | undefined;
   date: string;
+  hasConfig?: boolean;
 };
 
-const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
+const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setOpen: (open: boolean) => void, handleExcludePost: any }) => {
+  return (
+    <Modal.Root open={open}>
+      <Modal.Info icon={() => <IoIosMore />} title='Deseja mesmo excluir este artigo?' information='Essa operação não pode ser desfeita' />
+      <div className='flex gap-4 mt-4'>
+        <Modal.Button text='Cancelar' onClick={() => setOpen(false)} />
+        <Modal.Button text='Excluir' onClick={handleExcludePost} />
+      </div>
+    </Modal.Root>
+  )
+};
+
+const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostProps) => {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const router = useRouter();
 
-  const toggleOptions = (e: any) => {
+  const toggleOptions = (e: MouseEvent) => {
     e.preventDefault();
     setIsOptionsVisible(!isOptionsVisible);
   };
@@ -32,7 +47,7 @@ const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
       const div = document.createElement('div');
       div.innerHTML = html;
       return div.textContent || div.innerText || '';
-    }
+    };
     return html.replace(/<[^>]*>/g, '');
   };
 
@@ -44,10 +59,19 @@ const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
 
   const formattedDate = formatDate(date);
 
+  const handleExcludePost = async (e: MouseEvent) => {
+    e.preventDefault();
+
+    const { response } = await fetchClient({ pathname: `/post/exclude/${id}`, method: 'DELETE' });
+
+    if (response.ok) setIsVisible(false);
+  };
+
   if (!isVisible) return null;
 
   return (
     <article className='mb-2 grid grid-cols-[1fr_auto]'>
+      <ModalDelete open={open} setOpen={setOpen} handleExcludePost={handleExcludePost} />
       <Link href={id ? `/post/${id}` : '#'} className='text-blue-600 group flex-grow'>
         <div className='bg-white shadow-lg rounded-lg p-2 hover:shadow-xl transition-shadow duration-300'>
           <div className='flex flex-col sm:flex-row w-full'>
@@ -66,12 +90,14 @@ const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
                 {truncateText({ text: content, length: 100 })}
               </p>
               <time dateTime={date} className='text-gray-400 self-end absolute bottom-0'>{formattedDate}</time>
-              <button
-                className='text-gray-400 self-end absolute top-0 right-0 shadow-md rounded-full p-1'
-                onClick={toggleOptions}
-              >
-                <IoIosMore className='text-center text-gray-500 hover:text-gray-900' />
-              </button>
+              {hasConfig && (
+                <button
+                  className='text-gray-400 self-end absolute top-0 right-0 shadow-md rounded-full p-1'
+                  onClick={toggleOptions}
+                >
+                  <IoIosMore className='text-center text-gray-500 hover:text-gray-900' />
+                </button>
+              )}
               {isOptionsVisible && (
                 <div className='absolute top-8 right-0 bg-white border rounded-lg shadow-md py-2 px-4'>
                   <button
@@ -85,12 +111,9 @@ const CardPost = ({ id, title, content, coverImage, date }: CardPostProps) => {
                   </button>
                   <button
                     className='flex items-center text-red-600 hover:text-red-800'
-                    onClick={async (e) => {
+                    onClick={(e) => {
                       e.preventDefault();
-
-                      const { response } = await fetchClient({ pathname: `/post/exclude/${id}`, method: 'DELETE' });
-
-                      if (response.ok) setIsVisible(false);
+                      setOpen(true)
                     }}
                   >
                     <FaTrash className='mr-2' /> Excluir

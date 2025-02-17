@@ -49,6 +49,7 @@ const MyProfile = () => {
                 content={blog.de_content}
                 coverImage={blog.cover_image}
                 date={blog.dt_created}
+                hasConfig
               />
             ))}
           </div>

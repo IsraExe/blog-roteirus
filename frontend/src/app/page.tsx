@@ -58,6 +58,7 @@ export default function Home() {
               content={blog.de_content}
               coverImage={blog.cover_image}
               date={blog.dt_created}
+              hasConfig={false}
             />
           ))}
         </div>
