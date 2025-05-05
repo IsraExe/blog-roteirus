@@ -7,7 +7,7 @@ import { findPostsByUserId, getTotalPostsCount } from '../repositories/postRepos
 import cookiesOptions from '../helpers/cookiesOptions.js';
 import createTokens from '../helpers/createTokens.js';
 
-export const read = async (req, res, next) => {
+export const read = async (req, res) => {
     
     const users = await viewUsers();
 
@@ -15,7 +15,7 @@ export const read = async (req, res, next) => {
 
 };
 
-export const getUser = async (req, res, next) => {
+export const getUser = async (req, res) => {
 
     const { id } = req.metadata;
     const { page } = req.query;
@@ -28,7 +28,7 @@ export const getUser = async (req, res, next) => {
 
 };
 
-export const create = async (req, res, next) => {
+export const create = async (req, res) => {
 
     const { name, email, password } = req.body;
 
@@ -36,13 +36,13 @@ export const create = async (req, res, next) => {
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    await createUser(name, email, encryptedPassword);
+    await createUser({ name, email, password: encryptedPassword, provider: 'local' });
 
     return res.status(201).send({ message: 'User created' });
 
 };
 
-export const update = async (req, res, next) => {
+export const update = async (req, res) => {
 
     const { id } = req.metadata;
     const { name, email, password } = req.body;
@@ -57,7 +57,7 @@ export const update = async (req, res, next) => {
 
 };
 
-export const exclude = async (req, res, next) => {
+export const exclude = async (req, res) => {
 
     const { id } = req.metadata;
 
@@ -72,7 +72,7 @@ export const exclude = async (req, res, next) => {
 
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
 
     const { email, password } = req.body;
 
@@ -80,14 +80,13 @@ export const login = async (req, res, next) => {
 
     const cookieOptions = cookiesOptions(host);
 
-    if (!email || !password) return next(badRequestError('Email and/or password is missing'));
+    if (!email || !password) throw badRequestError('Email and/or password is missing');
 
     const user = await prisma.user.findUnique({ where: { de_email: email } });
-
-    if (!user) return next(unauthorizedError('User and/or password invalid'));
+    if (!user) throw unauthorizedError('User and/or password invalid');
 
     const isValidPassword = await bcrypt.compare(password, user.de_password);
-    if (!isValidPassword) return next(unauthorizedError('User and/or password invalid'));   
+    if (!isValidPassword) throw unauthorizedError('User and/or password invalid');   
 
     const { token } = createTokens(user.id_user);
 
@@ -95,11 +94,11 @@ export const login = async (req, res, next) => {
 
     res.cookie('token', token, cookieOptions);
 
-    return res.status(200).send({ message: 'Login successfully', user: userDetails, token });
+    return res.status(200).send({ message: 'Login successfully', user: userDetails, token /* TODO: VERIFICAR PORQUE ENVIA O TOKEN */ });
 
 };
 
-export const logout = async (req, res, next) => {
+export const logout = async (req, res) => {
 
     const host = req.hostname;
     const domain = host === 'localhost' ? host : host.slice(host.indexOf('.'), host.length);

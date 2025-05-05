@@ -16,15 +16,16 @@ export const findUserById = async (id) => {
     
 };
 
-export const createUser = async (name, email, password) => {
+export const createUser = async ({ name, email, password, provider }) => {
 
-    const roleId = 1;
+    const roleId = 1; // usuário comum
 
     const user = await prisma.user.create({
         data: {
             nm_user: name,
             de_email: email,
             de_password: password,
+            auth_provider: provider,
             id_role: roleId, 
         },
         include: {

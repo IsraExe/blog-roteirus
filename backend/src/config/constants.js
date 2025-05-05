@@ -1,4 +1,4 @@
-const FRONTEND_URL = process.env.FRONTEND_URL;
+export const FRONTEND_URL = process.env.FRONTEND_URL;
 
 export const SERVER_PORT = process.env.SERVER_PORT;
 
@@ -7,6 +7,12 @@ export const CORS_OPTIONS = {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
+};
+
+export const SESSION_OPTIONS = {
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true
 };
 
 export const DB_ERROR_CODE = {

@@ -4,14 +4,16 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
+import { FaRegEye } from 'react-icons/fa';
+import { FaRegEyeSlash } from 'react-icons/fa';
+
 import { fetchClient } from '@/utils/fetchClient';
+import { useFormWithZod } from '@/hooks/useFormWithZod';
 
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
-import { useFormWithZod } from '@/hooks/useFormWithZod';
 
-import { FaRegEye } from 'react-icons/fa';
-import { FaRegEyeSlash } from 'react-icons/fa';
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const loginSchema = z.object({
   email: z.string().min(1, 'O campo email é obrigatório!').email('Email inválido!'),
@@ -31,7 +33,7 @@ export default function Login() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handlelogin = async (data: TLoginSchema) => {
-    const { response } = await fetchClient({ method: 'POST', pathname: '/user/login', bodyContent:data });
+    const { response } = await fetchClient({ method: 'POST', pathname: '/user/login', bodyContent: data });
 
     if (response.ok) {
       const { token } = await response.json();
@@ -84,12 +86,29 @@ export default function Login() {
         >
           Entrar
         </button>
-        <div className='flex justify-end mt-4'>
+        <div className='flex justify-end mt-2 text-xs'>
           <a href='/cadastre-se' className='text-blue-600 hover:underline'>
             Ainda não possui uma conta? Cadastra-se
           </a>
         </div>
+
+        <div className='w-full mt-4 flex items-center justify-center'>
+          <button
+            type='button'
+            onClick={() => window.location.href = `${SERVER_URL}/auth/google`}
+            className='flex items-center justify-center gap-3 px-5 py-2.5 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 shadow-md transition duration-150 w-full'
+          >
+            <img
+              src='https://developers.google.com/identity/images/g-logo.png'
+              alt='Google'
+              className='w-5 h-5'
+            />
+            Logar com Google
+          </button>
+
+        </div>
       </form>
+
     </div>
   );
 };
