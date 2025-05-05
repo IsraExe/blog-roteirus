@@ -1,15 +1,14 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { FRONTEND_URL } from '../config/constants.js';
+import { FRONTEND_URL, CALLBACK_URL } from '../config/constants.js';
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'https://api.roteirus.com.br/auth/google/callback', 
+  callbackURL: `${CALLBACK_URL}/auth/google/callback`, 
 }, (_, __, profile, done) => {
-  // Aqui você pode verificar ou criar o usuário no banco de dados
-//   console.log(profile);
-  return done(null, profile); // Salva a informação do usuário no req.user
+
+  return done(null, profile);
 }));
 
 // Serializa o usuário na sessão

@@ -2,6 +2,8 @@ export const FRONTEND_URL = process.env.FRONTEND_URL;
 
 export const SERVER_PORT = process.env.SERVER_PORT;
 
+export const CALLBACK_URL = process.env.CALLBACK_URL
+
 export const CORS_OPTIONS = {
     origin: [`${FRONTEND_URL}`],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
