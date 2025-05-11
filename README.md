@@ -14,7 +14,7 @@
 4. Starte o projeto escrevendo "npm run dev" no terminal.
 
 ### Informações importantes
-- Desenvolvido em node versão 20.15.0.
+- Desenvolvido em node versão 22.15.0.
 
 ## Tecnologias Utilizadas
 - **Node js**

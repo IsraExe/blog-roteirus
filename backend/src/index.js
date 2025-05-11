@@ -31,7 +31,6 @@ app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// app.set('trust proxy', 1);
 app.use(cors(CORS_OPTIONS));
 app.use(limiter);
 app.use(logger);
@@ -41,8 +40,6 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/role', roleRoutes);
 app.use('/post', postRoutes);
-
-// app.options('*', cors(CORS_OPTIONS));
 
 app.use((req, res) => res.status(404).send({ error: 'Not found route' }));
 
