@@ -29,9 +29,7 @@ const google = async (req, res) => {
     const name = userGoogle.displayName;
     const email = userGoogle.emails?.[0]?.value;
 
-    const user = await prisma.user.findUnique({ where: { de_email: email } });
-
-    if (!user) await createUser({ name, email, provider: 'google' });
+    const user = await prisma.user.findUnique({ where: { de_email: email } }) || await createUser({ name, email, provider: 'google' });
 
     const { token } = createTokens(user.id_user);
 
