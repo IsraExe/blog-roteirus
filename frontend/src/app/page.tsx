@@ -29,12 +29,13 @@ export default function Home() {
     <>
       <Head>
         <title>Roteirus</title>
-        <meta name='Roteirus' content='The blog to post your view point.' />
+        <meta name='Roteirus' content='Escreva. Compartilhe. Descubra.' />
         <script type='application/ld+json'>
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Blog',
             'name': 'Roteirus',
+            'description': 'Escreva. Compartilhe. Descubra.',
             'url': 'https://roteirus.com.br/',
             'blogPost': allBlogs.map((blog: TPost) => ({
               '@type': 'BlogPosting',

@@ -18,7 +18,7 @@ type CardPostProps = {
   hasConfig?: boolean;
 };
 
-const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setOpen: (open: boolean) => void, handleExcludePost: any }) => {
+const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setOpen: (open: boolean) => void, handleExcludePost: (e: MouseEvent) => void }) => {
   return (
     <Modal.Root open={open}>
       <Modal.Info icon={() => <IoIosMore />} title='Deseja mesmo excluir este artigo?' information='Essa operação não pode ser desfeita' />
@@ -27,7 +27,7 @@ const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setO
         <Modal.Button text='Excluir' onClick={handleExcludePost} />
       </div>
     </Modal.Root>
-  )
+  );
 };
 
 const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostProps) => {
@@ -113,7 +113,7 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
                     className='flex items-center text-red-600 hover:text-red-800'
                     onClick={(e) => {
                       e.preventDefault();
-                      setOpen(true)
+                      setOpen(true);
                     }}
                   >
                     <FaTrash className='mr-2' /> Excluir
