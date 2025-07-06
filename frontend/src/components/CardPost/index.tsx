@@ -8,6 +8,7 @@ import { MdEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
 import { fetchClient } from '@/utils/fetchClient';
 import Modal from '@/components/Modal';
+import { cn } from '@/utils/cn';
 
 type CardPostProps = {
   id?: number;
@@ -30,26 +31,26 @@ const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setO
   );
 };
 
+const stripHtmlTags = (html: string) => {
+  if (typeof document !== 'undefined') {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  };
+  return html.replace(/<[^>]*>/g, '');
+};
+
+const truncateText = ({ text, length }: { text: string; length: number }) => {
+  const plainText = stripHtmlTags(text);
+  if (plainText.length <= length) return plainText;
+  return `${plainText.substring(0, length)}...`;
+};
+
 const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
-
-  const stripHtmlTags = (html: string) => {
-    if (typeof document !== 'undefined') {
-      const div = document.createElement('div');
-      div.innerHTML = html;
-      return div.textContent || div.innerText || '';
-    };
-    return html.replace(/<[^>]*>/g, '');
-  };
-
-  const truncateText = ({ text, length }: { text: string; length: number }) => {
-    const plainText = stripHtmlTags(text);
-    if (plainText.length <= length) return plainText;
-    return `${plainText.substring(0, length)}...`;
-  };
 
   const formattedDate = formatDate(date);
 
@@ -78,17 +79,20 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
                 height={120}
               />
             </picture>
-            <div className='flex flex-col flex-grow min-w-0 relative'>
+
+            <div className={cn('flex flex-col flex-grow min-w-0 relative', hasConfig && 'pr-10')}>
+
               <h2 className='text-xl font-bold mb-2 group-hover:underline'>{title}</h2>
               <p className='text-gray-700 overflow-hidden'>
                 {truncateText({ text: content, length: 100 })}
               </p>
-              <time dateTime={date} className='text-gray-400 self-end absolute bottom-0'>{formattedDate}</time>
-            </div>
 
-            {hasConfig && (
-              <div className='w-8 bg-white rounded-md shadow-lg ml-1 py-1 flex flex-col items-center gap-2'>
-                <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full'>
+              <time dateTime={date} className='text-gray-400 self-end sm:absolute bottom-0 hidden sm:block'>{formattedDate}</time>
+
+              <div
+                className={cn('w-fit sm:w-8 sm:h-full bg-white rounded-md shadow-lg ml-1 py-1 sm:flex sm:flex-col items-center gap-3 sm:absolute top-0 right-0 px-2 sm:px-0', !hasConfig && 'hidden')}
+              >
+                <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full sm:mr-0 mr-2'>
                   <MdEdit
                     className='cursor-pointer text-blue-600 hover:text-blue-800'
                     onClick={(e) => {
@@ -108,10 +112,9 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
                   />
                 </button>
 
-
+                <time dateTime={date} className={cn('text-gray-400 self-end sm:hidden bottom-0 ml-10')}>{formattedDate}</time>
               </div>
-            )}
-
+            </div>
           </div>
         </div>
       </Link>
