@@ -31,16 +31,10 @@ const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setO
 };
 
 const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostProps) => {
-  const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
-
-  const toggleOptions = (e: MouseEvent) => {
-    e.preventDefault();
-    setIsOptionsVisible(!isOptionsVisible);
-  };
 
   const stripHtmlTags = (html: string) => {
     if (typeof document !== 'undefined') {
@@ -90,37 +84,34 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
                 {truncateText({ text: content, length: 100 })}
               </p>
               <time dateTime={date} className='text-gray-400 self-end absolute bottom-0'>{formattedDate}</time>
-              {hasConfig && (
-                <button
-                  className='text-gray-400 self-end absolute top-0 right-0 shadow-md rounded-full p-1'
-                  onClick={toggleOptions}
-                >
-                  <IoIosMore className='text-center text-gray-500 hover:text-gray-900' />
-                </button>
-              )}
-              {isOptionsVisible && (
-                <div className='absolute top-8 right-0 bg-white border rounded-lg shadow-md py-2 px-4'>
-                  <button
-                    className='flex items-center text-blue-600 hover:text-blue-800 mb-2'
+            </div>
+
+            {hasConfig && (
+              <div className='w-8 bg-white rounded-md shadow-lg ml-1 py-1 flex flex-col items-center gap-2'>
+                <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full'>
+                  <MdEdit
+                    className='cursor-pointer text-blue-600 hover:text-blue-800'
                     onClick={(e) => {
                       e.preventDefault();
                       router.push(`/editar-artigo/${id}`);
                     }}
-                  >
-                    <MdEdit className='mr-2' /> Editar
-                  </button>
-                  <button
-                    className='flex items-center text-red-600 hover:text-red-800'
+                  />
+                </button>
+
+                <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full'>
+                  <FaTrash
+                    className='cursor-pointer text-red-600 hover:text-red-800'
                     onClick={(e) => {
                       e.preventDefault();
                       setOpen(true);
                     }}
-                  >
-                    <FaTrash className='mr-2' /> Excluir
-                  </button>
-                </div>
-              )}
-            </div>
+                  />
+                </button>
+
+
+              </div>
+            )}
+
           </div>
         </div>
       </Link>

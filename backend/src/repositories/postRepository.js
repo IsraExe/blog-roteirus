@@ -26,9 +26,13 @@ export const findPostsByUserId = async (userId, page) => {
         where: {
             id_user: Number(userId),
         },
+        orderBy: {
+            dt_created: 'desc',
+        },
         skip: skip,
         take: pageSize,
     });
+    
 
     return posts;
     

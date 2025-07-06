@@ -1,5 +1,6 @@
 import { useSearchParams } from 'next/navigation';
 import { useSetSearchParams } from '@/hooks/useSetSearchParams';
+import { cn } from '@/utils/cn';
 
 const Pagination = ({ totalPosts }: { totalPosts: number }) => {
   const searchParams = useSearchParams();
@@ -22,7 +23,7 @@ const Pagination = ({ totalPosts }: { totalPosts: number }) => {
   const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
   return (
-    <div className='mb-2'>
+    <div className={cn('mb-2', totalPages === 1 && 'hidden')}>
       <nav aria-label='Page navigation all blogs list'>
         <ul className='flex items-center -space-x-px h-8 text-sm'>
           <li>
