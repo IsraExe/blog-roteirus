@@ -1,6 +1,5 @@
 import { useSearchParams } from 'next/navigation';
 import { useSetSearchParams } from '@/hooks/useSetSearchParams';
-import { cn } from '@/utils/cn';
 
 const Pagination = ({ totalPosts }: { totalPosts: number }) => {
   const searchParams = useSearchParams();

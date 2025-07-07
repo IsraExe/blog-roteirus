@@ -47,7 +47,7 @@ export const update = async (req, res) => {
     const { id } = req.metadata;
     const { name, email, password } = req.body;
 
-    verifyReqFields({requiredFields: ['name', 'email', 'password'], fields: req.body});
+    verifyReqFields({ requiredFields: ['name', 'email', 'password'], fields: req.body });
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 

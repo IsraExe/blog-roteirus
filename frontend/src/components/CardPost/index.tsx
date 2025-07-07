@@ -2,13 +2,13 @@ import { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { formatDate } from '@/utils/formatDate';
 import { IoIosMore } from 'react-icons/io';
 import { MdEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
 import { fetchClient } from '@/utils/fetchClient';
-import Modal from '@/components/Modal';
+import { formatDate } from '@/utils/formatDate';
 import { cn } from '@/utils/cn';
+import Modal from '@/components/Modal';
 
 type CardPostProps = {
   id?: number;
@@ -63,8 +63,6 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
   };
 
   if (!isVisible) return null;
-
-  console.log(hasConfig)
 
   return (
     <article className='mb-2 grid grid-cols-[1fr_auto]'>

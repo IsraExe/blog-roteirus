@@ -11,6 +11,15 @@ const config: Config = {
       outfit: ['Outfit', 'sans-serif'],
     },
     extend: {
+      keyframes: {
+        'spin-once': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
+      animation: {
+        'spin-once': 'spin-once 1s linear',
+      },
       fontFamily: {
         outfit: ['Outfit', 'sans-serif'],
       },

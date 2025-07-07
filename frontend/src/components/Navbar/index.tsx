@@ -13,7 +13,7 @@ const getMenuList = (pathname: string) => {
     },
     {
       href: '/criar-artigo',
-      label: 'Criar review',
+      label: 'Escreva',
       active: pathname.includes('/criar-artigo'),
     },
     {
