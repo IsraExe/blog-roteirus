@@ -22,8 +22,10 @@ const Pagination = ({ totalPosts }: { totalPosts: number }) => {
   const startPage = Math.max(1, Math.min(currentPage - halfVisible, totalPages - maxVisiblePages + 1));
   const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
+  if (totalPages === 1 || !totalPosts) return null;
+
   return (
-    <div className={cn('mb-2', totalPages === 1 && 'hidden')}>
+    <div className='mb-2'>
       <nav aria-label='Page navigation all blogs list'>
         <ul className='flex items-center -space-x-px h-8 text-sm'>
           <li>

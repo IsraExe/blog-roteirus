@@ -64,6 +64,8 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
 
   if (!isVisible) return null;
 
+  console.log(hasConfig)
+
   return (
     <article className='mb-2 grid grid-cols-[1fr_auto]'>
       <ModalDelete open={open} setOpen={setOpen} handleExcludePost={handleExcludePost} />
@@ -80,7 +82,7 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
               />
             </picture>
 
-            <div className={cn('flex flex-col flex-grow min-w-0 relative', hasConfig && 'pr-10')}>
+            <div className={cn('flex flex-col flex-grow min-w-0 relative', hasConfig && 'sm:pr-10')}>
 
               <h2 className='text-xl font-bold mb-2 group-hover:underline'>{title}</h2>
               <p className='text-gray-700 overflow-hidden'>
@@ -90,29 +92,31 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
               <time dateTime={date} className='text-gray-400 self-end sm:absolute bottom-0 hidden sm:block'>{formattedDate}</time>
 
               <div
-                className={cn('w-fit sm:w-8 sm:h-full bg-white rounded-md shadow-lg ml-1 py-1 sm:flex sm:flex-col items-center gap-3 sm:absolute top-0 right-0 px-2 sm:px-0', !hasConfig && 'hidden')}
+                className={cn('w-full sm:w-8 sm:h-full bg-white rounded-md shadow-lg ml-1 py-1 sm:absolute top-0 right-0 px-2 sm:px-0 flex sm:justify-center justify-between', !hasConfig && 'sm:hidden')}
               >
-                <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full sm:mr-0 mr-2'>
-                  <MdEdit
-                    className='cursor-pointer text-blue-600 hover:text-blue-800'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      router.push(`/editar-artigo/${id}`);
-                    }}
-                  />
-                </button>
+                <div className={cn(!hasConfig ? 'hidden' : 'sm:flex sm:flex-col items-center gap-3')}>
+                  <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full sm:mr-0 mr-2'>
+                    <MdEdit
+                      className='cursor-pointer text-blue-600 hover:text-blue-800'
+                      onClick={(e) => {
+                        e.preventDefault();
+                        router.push(`/editar-artigo/${id}`);
+                      }}
+                    />
+                  </button>
 
-                <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full'>
-                  <FaTrash
-                    className='cursor-pointer text-red-600 hover:text-red-800'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpen(true);
-                    }}
-                  />
-                </button>
+                  <button className='cursor-pointer bg-gray-200 shadow-lg p-1 rounded-full'>
+                    <FaTrash
+                      className='cursor-pointer text-red-600 hover:text-red-800'
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setOpen(true);
+                      }}
+                    />
+                  </button>
+                </div>
 
-                <time dateTime={date} className={cn('text-gray-400 self-end sm:hidden bottom-0 ml-10')}>{formattedDate}</time>
+                <time dateTime={date} className={cn('text-gray-400 self-end sm:hidden bottom-0 ')}>{formattedDate}</time> 
               </div>
             </div>
           </div>
