@@ -17,7 +17,7 @@ type CardPostProps = {
   coverImage: string | undefined;
   date: string;
   hasConfig?: boolean;
-  slug: string;
+  slug?: string;
 };
 
 const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setOpen: (open: boolean) => void, handleExcludePost: (e: MouseEvent) => void }) => {

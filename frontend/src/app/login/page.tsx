@@ -12,6 +12,7 @@ import { useFormWithZod } from '@/hooks/useFormWithZod';
 
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
+import Image from 'next/image';
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -98,10 +99,11 @@ export default function Login() {
             onClick={() => window.location.href = `${SERVER_URL}/auth/google`}
             className='flex items-center justify-center gap-3 px-5 py-2.5 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 shadow-md transition duration-150 w-full'
           >
-            <img
+            <Image
               src='https://developers.google.com/identity/images/g-logo.png'
               alt='Google'
-              className='w-5 h-5'
+              width={20}
+              height={20}
             />
             Logar com Google
           </button>
