@@ -10,13 +10,13 @@ export const showAllPosts = async (page) => {
     return { allPosts, countAllPosts };
 };
 
-export const showOnePost = async (id) => {
-    const post = await showOne(id);
+export const showOnePost = async (slug) => {
+    const post = await showOne(slug);
 
     return post;
 };
 
-export const addPost = async ({ id, title, content, coverImage }) => {
+export const addPost = async ({ id, title, content, coverImage, slug }) => {
     const regex = /data:image\/(png|jpe?g|gif);base64,([^"]*)/gi;
     const base64Image = regex.exec(coverImage);
     const coverImageAsLink = await generateImageLinks([base64Image[2]]);
@@ -25,7 +25,7 @@ export const addPost = async ({ id, title, content, coverImage }) => {
     const imageLinks = await generateImageLinks(extractedImages);
     const finalContent = replaceImagesWithLinks(updatedContent, imageLinks);
 
-    const postInformation = await createPost({ title, content: finalContent, id, coverImage: coverImageAsLink[0] });
+    const postInformation = await createPost({ title, content: finalContent, id, coverImage: coverImageAsLink[0], slug });
 
     return postInformation;
 };

@@ -29,21 +29,30 @@ model role {
 }
 
 model post {
-  id_post     Int       @id @default(autoincrement())
+  id_post     Int         @id @default(autoincrement())
   nm_title    String
   de_content  String
-  dt_created  DateTime  @default(now())
-  dt_updated  DateTime  @updatedAt
+  dt_created  DateTime    @default(now())
+  dt_updated  DateTime    @updatedAt
   id_user     Int
-  de_status   Int       @default(0)
+  de_status   Int         @default(0)
   id_category Int?
   cover_image String
+  slug        String?
   comments    comment[]
   likes       like[]
   media       media[]
-  category    category? @relation("CategoryPosts", fields: [id_category], references: [id_category])
-  user        user      @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
-  tags        tag[]     @relation("TagPosts")
+  old_slugs   old_slugs[]
+  category    category?   @relation("CategoryPosts", fields: [id_category], references: [id_category])
+  user        user        @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+  tags        tag[]       @relation("TagPosts")
+}
+
+model old_slugs {
+  id_old_slug Int     @id @default(autoincrement())
+  old_slug    String?
+  id_post     Int?
+  post        post?   @relation(fields: [id_post], references: [id_post], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model category {

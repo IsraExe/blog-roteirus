@@ -39,12 +39,13 @@ const DragImage = ({ onChange, defaultImage }: DragImageProps) => {
         onClick={() => document.getElementById('file_upload')?.click()}
       >
         <div className='flex flex-col items-center space-y-2'>
-          {!image && <p>Upload your image here</p>}
+          {!image && <p>Escolha uma imagem para a capa</p>}
           {image && <Image src={image} alt='Uploaded' className='w-full h-auto rounded-md' width={200} height={200} />}
         </div>
         <input
           id='file_upload'
           type='file'
+          accept='image/*'
           name='file_upload'
           className='hidden'
           onChange={handleFileChange}

@@ -9,11 +9,11 @@ type TGetPostResponse = {
   data: TPost;
 };
 
-const Post = ({ params }: { params: { id: string } }) => {
+const Post = ({ params }: { params: { slug: string } }) => {
 
-  const { id } = params;
+  const { slug } = params;
   const refDiv = useRef<HTMLDivElement | null>(null);
-  const { responseData, isLoading } = useFetch<TGetPostResponse>({ pathname: `/post/getOne/${id}`, method: 'GET' });
+  const { responseData, isLoading } = useFetch<TGetPostResponse>({ pathname: `/post/getOne/${slug}`, method: 'GET' });
 
   useEffect(() => {
 

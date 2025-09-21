@@ -5,7 +5,7 @@ import auth from '../middlewares/auth.js';
 const router = express.Router();
 
 router.get('/showAll', showAll);
-router.get('/getOne/:id', getOne);
+router.get('/getOne/:slug', getOne);
 router.post('/create', auth, create);
 router.post('/edit', edit);
 router.delete('/exclude/:id', auth, exclude)

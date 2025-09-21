@@ -39,11 +39,11 @@ export const findPostsByUserId = async (userId, page) => {
 };
 
 
-export const showOne = async (id) => {
+export const showOne = async (slug) => {
 
-    const post = await prisma.post.findUnique({
+    const post = await prisma.post.findFirst({
         where: {
-            id_post: Number(id)
+            slug: slug
         },
         include: {
             user: true,
@@ -54,14 +54,15 @@ export const showOne = async (id) => {
     
 };
 
-export const createPost = async ({ title, content, id, coverImage }) => {
+export const createPost = async ({ title, content, id, coverImage, slug }) => {
     
     const newPost = await prisma.post.create({
         data: {
             nm_title: title,
             de_content: content,
             id_user: id,
-            cover_image: coverImage
+            cover_image: coverImage,
+            slug
         }
     });
 

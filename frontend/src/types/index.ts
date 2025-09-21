@@ -16,6 +16,7 @@ export type TPost = {
     de_content: string;
     cover_image: string;
     dt_created: string;
+    slug: string;
     user: {
         nm_user: string;
         de_bio: string;

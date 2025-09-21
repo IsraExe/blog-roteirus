@@ -17,6 +17,7 @@ type CardPostProps = {
   coverImage: string | undefined;
   date: string;
   hasConfig?: boolean;
+  slug: string;
 };
 
 const ModalDelete = ({ open, setOpen, handleExcludePost }: { open: boolean, setOpen: (open: boolean) => void, handleExcludePost: (e: MouseEvent) => void }) => {
@@ -46,7 +47,7 @@ const truncateText = ({ text, length }: { text: string; length: number }) => {
   return `${plainText.substring(0, length)}...`;
 };
 
-const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostProps) => {
+const CardPost = ({ id, title, content, coverImage, date, hasConfig, slug }: CardPostProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [open, setOpen] = useState(false);
 
@@ -67,7 +68,7 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig }: CardPostP
   return (
     <article className='mb-2 grid grid-cols-[1fr_auto]'>
       <ModalDelete open={open} setOpen={setOpen} handleExcludePost={handleExcludePost} />
-      <Link href={id ? `/post/${id}` : '#'} className='text-blue-600 group flex-grow'>
+      <Link href={slug ? `/post/${slug}` : '#'} className='text-blue-600 group flex-grow'>
         <div className='bg-white shadow-lg rounded-lg p-2 hover:shadow-xl transition-shadow duration-300'>
           <div className='flex flex-col sm:flex-row w-full'>
             <picture className='sm:mr-5 mb-2 sm:mb-0 flex-shrink-0'>

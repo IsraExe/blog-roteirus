@@ -42,7 +42,7 @@ export default function Home() {
               'headline': blog.nm_title,
               'image': blog.cover_image,
               'articleBody': blog.de_content,
-              'url': `https://roteirus.com.br/${blog.id_post}`,
+              'url': `https://roteirus.com.br/${blog.slug}`,
             }))
           })}
         </script>
@@ -59,6 +59,7 @@ export default function Home() {
               content={blog.de_content}
               coverImage={blog.cover_image}
               date={blog.dt_created}
+              slug={blog.slug}
               hasConfig={false}
             />
           ))}

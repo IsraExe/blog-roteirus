@@ -10,9 +10,9 @@ export const showAll = async (req, res) => {
 };
 
 export const getOne = async (req, res) => {
-    const { id } = req.params;
+    const { slug } = req.params;
 
-    const post = await showOnePost(id);
+    const post = await showOnePost(slug);
 
     return res.status(200).send({ data: post })
 };
@@ -20,10 +20,12 @@ export const getOne = async (req, res) => {
 export const create = async (req, res, next) => {
     const { id } = req.metadata;
     const { title, content, coverImage } = req.body;
+
+    const slug = title.toLowerCase().replace(/\s+/g, '-');
     
     if (!content) next(badRequestError('The content must be filled'))
 
-    const postInformation = await addPost({ id, title, content, coverImage });
+    const postInformation = await addPost({ id, title, content, coverImage, slug });
 
     return res.status(200).send({ data: postInformation });
 };
