@@ -43,8 +43,8 @@ const postSchema = z.object({
 
 type TPost2 = z.infer<typeof postSchema>;
 
-const EditArticle = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const EditArticle = ({ params }: { params: { slug: string } }) => {
+  const { slug } = params;
   const [open, setOpen] = useState(false);
 
   const { register, handleSubmit, watch, formState: { errors }, control } = useForm<TPost2>({
@@ -53,7 +53,7 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
 
   const router = useRouter();
 
-  const { responseData, isLoading } = useFetch<{data: TPost}>({ pathname: `/post/getOne/${id}`, method: 'GET' });
+  const { responseData, isLoading } = useFetch<{ data: TPost }>({ pathname: `/post/getOne/${slug}`, method: 'GET' });
 
   const coverImage = watch('coverImage');
   const title = watch('title');
@@ -66,19 +66,21 @@ const EditArticle = ({ params }: { params: { id: string } }) => {
 
   const handleEdit = async (data: TPost2) => {
 
+    const { data: { id_post } } = responseData;
+
     const updatedData = {
       ...data,
-      id: Number(id),
+      id: Number(id_post),
     };
 
     const { response } = await fetchClient({ pathname: '/post/edit', method: 'POST', bodyContent: updatedData });
 
     if (!response.ok) console.log('Error on post creation');
 
-    const { data: { id_post } } = await response.json();
+    const { data: { slug } } = await response.json();
 
     setOpen(false);
-    router.push(`/post/${id_post}`);
+    router.push(`/post/${slug}`);
 
   };
 

@@ -4,6 +4,7 @@ import Loading from '@/app/loading';
 import useFetch from '@/hooks/useFetch';
 import CardProfile from '@/components/CardProfile';
 import { TPost } from '@/types';
+import { useRouter } from 'next/navigation';
 
 type TGetPostResponse = {
   data: TPost;
@@ -15,17 +16,23 @@ const Post = ({ params }: { params: { slug: string } }) => {
   const refDiv = useRef<HTMLDivElement | null>(null);
   const { responseData, isLoading } = useFetch<TGetPostResponse>({ pathname: `/post/getOne/${slug}`, method: 'GET' });
 
+  const router = useRouter();
+
   useEffect(() => {
 
-    if (!responseData) return;
-
+    if (!responseData?.data) return;
+    
+    if (slug !== responseData.data.slug) return router.push(`/post/${responseData.data.slug}`);
+    
     if (refDiv.current && responseData.data) refDiv.current.innerHTML = responseData.data.de_content;
-
-  }, [responseData]);
-
+    
+  }, [responseData, slug, router]);
+  
   if (isLoading) return <Loading />;
-
+  
   const { data } = responseData;
+  
+  if (!isLoading && !responseData?.data) return <div className='flex justify-center items-center h-screen'>Post não encontrado</div>;
 
   return (
     <>
@@ -34,10 +41,10 @@ const Post = ({ params }: { params: { slug: string } }) => {
           <article className='mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert'>
             <header className='mb-4 lg:mb-6 not-format'>
 
-              <CardProfile username={data.user.nm_user} bio={data.user.de_bio} />
+              <CardProfile username={data?.user?.nm_user} bio={data?.user?.de_bio} />
 
               <h1 className='mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white'>
-                {data.nm_title}
+                {data?.nm_title}
               </h1>
             </header>
 

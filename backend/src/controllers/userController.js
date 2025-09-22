@@ -94,7 +94,7 @@ export const login = async (req, res) => {
 
     res.cookie('token', token, cookieOptions);
 
-    return res.status(200).send({ message: 'Login successfully', user: userDetails, token /* TODO: VERIFICAR PORQUE ENVIA O TOKEN */ });
+    return res.status(200).send({ message: 'Login successfully', user: userDetails });
 
 };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
@@ -12,7 +13,6 @@ import { useFormWithZod } from '@/hooks/useFormWithZod';
 
 import InputField from '@/components/InputField';
 import FieldError from '@/components/FieldError';
-import Image from 'next/image';
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -36,11 +36,7 @@ export default function Login() {
   const handlelogin = async (data: TLoginSchema) => {
     const { response } = await fetchClient({ method: 'POST', pathname: '/user/login', bodyContent: data });
 
-    if (response.ok) {
-      const { token } = await response.json();
-      localStorage.setItem('token', token);
-      return router.push('/');
-    };
+    if (response.ok) return router.push('/');
 
     if (response.status === 500) setLoginError('Ocorreu um erro no servidor, tente novamente mais tarde.');
     if (response.status === 401) setLoginError('Email e/ou senha incorreto(s)!');

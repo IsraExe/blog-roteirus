@@ -7,6 +7,11 @@ const nextConfig = {
                 hostname: 'i.imgur.com',
                 port: '',
             },
+            {
+                protocol: 'https',
+                hostname: 'developers.google.com',
+                port: '',
+            },
         ],
     }
 };

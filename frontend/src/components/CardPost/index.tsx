@@ -99,7 +99,7 @@ const CardPost = ({ id, title, content, coverImage, date, hasConfig, slug }: Car
                       className='cursor-pointer text-blue-600 hover:text-blue-800'
                       onClick={(e) => {
                         e.preventDefault();
-                        router.push(`/editar-artigo/${id}`);
+                        router.push(`/editar-artigo/${slug}`);
                       }}
                     />
                   </button>

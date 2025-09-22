@@ -35,7 +35,9 @@ export const edit = async (req, res, next) => {
 
     if (!content) next(badRequestError('The content must be filled'));
 
-    const postInformation = await updatePost({ id, title, content, coverImage });
+    const slug = title.toLowerCase().replace(/\s+/g, '-');
+
+    const postInformation = await updatePost({ id, title, content, coverImage, slug });
 
     return res.status(200).send({ data: postInformation });
 };
